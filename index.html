@@ -415,7 +415,7 @@
         <div class="sidebar">
             <div class="stats">
                 <div class="stat">
-                    <div class="stat-number">134</div>
+                    <div class="stat-number">142</div>
                     <div class="stat-label">Задач</div>
                 </div>
                 <div class="stat">
@@ -430,7 +430,7 @@
             </div>
             
             <div class="problem-list-container">
-                <div class="problem-list-title">Все задачи (134)</div>
+                <div class="problem-list-title">Все задачи (142)</div>
                 <div class="problem-list" id="problem-list">
                     <!-- Список задач будет сгенерирован JavaScript -->
                 </div>
@@ -1819,6 +1819,86 @@
     "category": "Design",
     "difficulty": "Hard",
     "filename": "134_lru_cache.cpp"
+  },
+  {
+    "id": 135,
+    "title": "Candy",
+    "description": "Распределить конфеты детям по рейтингам, чтобы ребенок с более высоким рейтингом получал больше конфет, чем соседи.",
+    "idea": "Два прохода слева направо и справа налево.",
+    "code": "class Solution {\npublic:\n    int candy(vector<int>& ratings) {\n        int n = ratings.size();\n        vector<int> candies(n, 1);\n        \n        // Слева направо\n        for (int i = 1; i < n; i++) {\n            if (ratings[i] > ratings[i - 1]) {\n                candies[i] = candies[i - 1] + 1;\n            }\n        }\n        \n        // Справа налево\n        for (int i = n - 2; i >= 0; i--) {\n            if (ratings[i] > ratings[i + 1]) {\n                candies[i] = max(candies[i], candies[i + 1] + 1);\n            }\n        }\n        \n        return accumulate(candies.begin(), candies.end(), 0);\n    }\n};```\n### 136. Single Number\nОписание: Найти единственное число, которое встречается один раз в массиве, где все остальные встречаются дважды.\nИдея: Использовать XOR - одинаковые числа аннулируют друг друга.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "135_candy.cpp"
+  },
+  {
+    "id": 137,
+    "title": "Single Number II",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        int ones = 0, twos = 0;\n        \n        for (int num : nums) {\n            ones = (ones ^ num) & ~twos;\n            twos = (twos ^ num) & ~ones;\n        }\n        \n        return ones;\n    }\n};```\n### 138. Copy List with Random Pointer\nОписание: Скопировать связный список, где каждый узел имеет указатель на случайный узел.\nИдея: Использовать хэш-таблицу для отображения оригинальных узлов на копии.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "137_single_number_ii.cpp"
+  },
+  {
+    "id": 139,
+    "title": "Word Break",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        unordered_set<string> dict(wordDict.begin(), wordDict.end());\n        int n = s.length();\n        vector<bool> dp(n + 1, false);\n        dp[0] = true;\n        \n        for (int i = 1; i <= n; i++) {\n            for (int j = 0; j < i; j++) {\n                if (dp[j] && dict.count(s.substr(j, i - j))) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        \n        return dp[n];\n    }\n};```\n### 140. Word Break II\nОписание: Вернуть все возможные разбиения строки на слова из словаря.\nИдея: DFS с мемоизацией.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "139_word_break.cpp"
+  },
+  {
+    "id": 141,
+    "title": "Linked List Cycle",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        ListNode *slow = head, *fast = head;\n        \n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n            \n            if (slow == fast) {\n                return true;\n            }\n        }\n        \n        return false;\n    }\n};```\n### 142. Linked List Cycle II\nОписание: Найти узел, с которого начинается цикл в связном списке.\nИдея: Алгоритм черепахи и зайца с дополнительной логикой.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "141_linked_list_cycle.cpp"
+  },
+  {
+    "id": 143,
+    "title": "Reorder List",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    void reorderList(ListNode* head) {\n        if (!head || !head->next) return;\n        \n        // Находим середину\n        ListNode *slow = head, *fast = head;\n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        \n        // Переворачиваем вторую половину\n        ListNode *prev = nullptr, *curr = slow, *next;\n        while (curr) {\n            next = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = next;\n        }\n        \n        // Сливаем два списка\n        ListNode *first = head, *second = prev;\n        while (second->next) {\n            ListNode* temp1 = first->next;\n            ListNode* temp2 = second->next;\n            \n            first->next = second;\n            second->next = temp1;\n            \n            first = temp1;\n            second = temp2;\n        }\n    }\n};```\n### 144. Binary Tree Preorder Traversal\nОписание: Вернуть префиксный обход бинарного дерева.\nИдея: Рекурсивный или итеративный обход.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "143_reorder_list.cpp"
+  },
+  {
+    "id": 145,
+    "title": "Binary Tree Postorder Traversal",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    vector<int> postorderTraversal(TreeNode* root) {\n        vector<int> result;\n        if (!root) return result;\n        \n        stack<TreeNode*> st;\n        st.push(root);\n        \n        while (!st.empty()) {\n            TreeNode* node = st.top();\n            st.pop();\n            result.insert(result.begin(), node->val);\n            \n            if (node->left) st.push(node->left);\n            if (node->right) st.push(node->right);\n        }\n        \n        return result;\n    }\n};```\n### 146. LRU Cache\nОписание: Реализовать кэш с политикой вытеснения Least Recently Used.\nИдея: Используем хэш-таблицу и двусвязный список для быстрого доступа и перемещения.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "145_binary_tree_postorder_traversal.cpp"
+  },
+  {
+    "id": 147,
+    "title": "Insertion Sort List",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    ListNode* insertionSortList(ListNode* head) {\n        if (!head || !head->next) return head;\n        \n        ListNode* dummy = new ListNode(0);\n        ListNode* curr = head;\n        \n        while (curr) {\n            ListNode* prev = dummy;\n            ListNode* next = curr->next;\n            \n            // Находим позицию для вставки\n            while (prev->next && prev->next->val < curr->val) {\n                prev = prev->next;\n            }\n            \n            // Вставляем узел\n            curr->next = prev->next;\n            prev->next = curr;\n            \n            curr = next;\n        }\n        \n        return dummy->next;\n    }\n};```\n### 148. Sort List\nОписание: Отсортировать связный список за O(n log n).\nИдея: Сортировка слиянием.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "147_insertion_sort_list.cpp"
+  },
+  {
+    "id": 149,
+    "title": "Max Points on a Line",
+    "description": "",
+    "idea": "",
+    "code": "class Solution {\npublic:\n    int maxPoints(vector<vector<int>>& points) {\n        int n = points.size();\n        if (n <= 2) return n;\n        \n        int maxPoints = 2;\n        \n        for (int i = 0; i < n; i++) {\n            unordered_map<double, int> slopeCount;\n            int same = 1;\n            \n            for (int j = i + 1; j < n; j++) {\n                int x1 = points[i][0], y1 = points[i][1];\n                int x2 = points[j][0], y2 = points[j][1];\n                \n                if (x1 == x2 && y1 == y2) {\n                    same++;\n                    continue;\n                }\n                \n                double slope;\n                if (x1 == x2) {\n                    slope = DBL_MAX; // вертикальная линия\n                } else {\n                    slope = (double)(y2 - y1) / (double)(x2 - x1);\n                }\n                \n                slopeCount[slope]++;\n            }\n            \n            int currentMax = same;\n            for (auto& [slope, count] : slopeCount) {\n                currentMax = max(currentMax, count + same);\n            }\n            \n            maxPoints = max(maxPoints, currentMax);\n        }\n        \n        return maxPoints;\n    }\n};```\n### 150. Evaluate Reverse Polish Notation\nОписание: Вычислить выражение в обратной польской записи.\nИдея: Использовать стек для хранения операндов.\n",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "149_max_points_on_a_line.cpp"
   }
 ];
         

@@ -3590,3 +3590,534 @@ public:
 };
 ```
 
+### 135. Candy
+**Описание**: Распределить конфеты детям по рейтингам, чтобы ребенок с более высоким рейтингом получал больше конфет, чем соседи.
+**Идея**: Два прохода слева направо и справа налево.
+
+```cpp
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n = ratings.size();
+        vector<int> candies(n, 1);
+        
+        // Слева направо
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                candies[i] = candies[i - 1] + 1;
+            }
+        }
+        
+        // Справа налево
+        for (int i = n - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies[i] = max(candies[i], candies[i + 1] + 1);
+            }
+        }
+        
+        return accumulate(candies.begin(), candies.end(), 0);
+    }
+};```
+### 136. Single Number
+Описание: Найти единственное число, которое встречается один раз в массиве, где все остальные встречаются дважды.
+Идея: Использовать XOR - одинаковые числа аннулируют друг друга.
+
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int result = 0;
+        for (int num : nums) {
+            result ^= num;
+        }
+        return result;
+    }
+};```
+### 137. Single Number II
+Описание: Найти единственное число, которое встречается один раз в массиве, где все остальные встречаются трижды.
+Идея: Подсчет битов по модулю 3.
+
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ones = 0, twos = 0;
+        
+        for (int num : nums) {
+            ones = (ones ^ num) & ~twos;
+            twos = (twos ^ num) & ~ones;
+        }
+        
+        return ones;
+    }
+};```
+### 138. Copy List with Random Pointer
+Описание: Скопировать связный список, где каждый узел имеет указатель на случайный узел.
+Идея: Использовать хэш-таблицу для отображения оригинальных узлов на копии.
+
+```cpp
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head) return nullptr;
+        
+        unordered_map<Node*, Node*> mapping;
+        
+        // Создаем копии узлов
+        Node* curr = head;
+        while (curr) {
+            mapping[curr] = new Node(curr->val);
+            curr = curr->next;
+        }
+        
+        // Устанавливаем связи
+        curr = head;
+        while (curr) {
+            mapping[curr]->next = mapping[curr->next];
+            mapping[curr]->random = mapping[curr->random];
+            curr = curr->next;
+        }
+        
+        return mapping[head];
+    }
+};```
+### 139. Word Break
+Описание: Определить, можно ли разбить строку на слова из словаря.
+Идея: Динамическое программирование.
+
+```cpp
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
+        int n = s.length();
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && dict.count(s.substr(j, i - j))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        
+        return dp[n];
+    }
+};```
+### 140. Word Break II
+Описание: Вернуть все возможные разбиения строки на слова из словаря.
+Идея: DFS с мемоизацией.
+
+```cpp
+class Solution {
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
+        unordered_map<int, vector<string>> memo;
+        return dfs(s, 0, dict, memo);
+    }
+    
+private:
+    vector<string> dfs(string& s, int start, unordered_set<string>& dict, 
+                       unordered_map<int, vector<string>>& memo) {
+        if (memo.count(start)) return memo[start];
+        
+        vector<string> result;
+        if (start == s.length()) {
+            result.push_back("");
+            return result;
+        }
+        
+        for (int end = start + 1; end <= s.length(); end++) {
+            string word = s.substr(start, end - start);
+            if (dict.count(word)) {
+                vector<string> sublist = dfs(s, end, dict, memo);
+                for (string sub : sublist) {
+                    result.push_back(word + (sub.empty() ? "" : " " + sub));
+                }
+            }
+        }
+        
+        memo[start] = result;
+        return result;
+    }
+};```
+### 141. Linked List Cycle
+Описание: Определить, есть ли цикл в связном списке.
+Идея: Алгоритм черепахи и зайца.
+
+```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+        
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            if (slow == fast) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+};```
+### 142. Linked List Cycle II
+Описание: Найти узел, с которого начинается цикл в связном списке.
+Идея: Алгоритм черепахи и зайца с дополнительной логикой.
+
+```cpp
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+        
+        // Находим точку встречи
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            if (slow == fast) {
+                // Находим начало цикла
+                slow = head;
+                while (slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;
+            }
+        }
+        
+        return nullptr;
+    }
+};```
+### 143. Reorder List
+Описание: Переупорядочить список: L0 → Ln → L1 → Ln-1 → ...
+Идея: Найти середину, перевернуть вторую половину, слить.
+
+```cpp
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (!head || !head->next) return;
+        
+        // Находим середину
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        // Переворачиваем вторую половину
+        ListNode *prev = nullptr, *curr = slow, *next;
+        while (curr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        // Сливаем два списка
+        ListNode *first = head, *second = prev;
+        while (second->next) {
+            ListNode* temp1 = first->next;
+            ListNode* temp2 = second->next;
+            
+            first->next = second;
+            second->next = temp1;
+            
+            first = temp1;
+            second = temp2;
+        }
+    }
+};```
+### 144. Binary Tree Preorder Traversal
+Описание: Вернуть префиксный обход бинарного дерева.
+Идея: Рекурсивный или итеративный обход.
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if (!root) return result;
+        
+        stack<TreeNode*> st;
+        st.push(root);
+        
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            result.push_back(node->val);
+            
+            if (node->right) st.push(node->right);
+            if (node->left) st.push(node->left);
+        }
+        
+        return result;
+    }
+};```
+### 145. Binary Tree Postorder Traversal
+Описание: Вернуть постфиксный обход бинарного дерева.
+Идея: Рекурсивный или итеративный обход.
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if (!root) return result;
+        
+        stack<TreeNode*> st;
+        st.push(root);
+        
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            result.insert(result.begin(), node->val);
+            
+            if (node->left) st.push(node->left);
+            if (node->right) st.push(node->right);
+        }
+        
+        return result;
+    }
+};```
+### 146. LRU Cache
+Описание: Реализовать кэш с политикой вытеснения Least Recently Used.
+Идея: Используем хэш-таблицу и двусвязный список для быстрого доступа и перемещения.
+
+```cpp
+class LRUCache {
+private:
+    struct Node {
+        int key;
+        int value;
+        Node* prev;
+        Node* next;
+        Node(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}
+    };
+    
+    int capacity;
+    unordered_map<int, Node*> cache;
+    Node* head;
+    Node* tail;
+    
+    void addToHead(Node* node) {
+        node->next = head->next;
+        node->prev = head;
+        head->next->prev = node;
+        head->next = node;
+    }
+    
+    void removeNode(Node* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+    
+    void moveToHead(Node* node) {
+        removeNode(node);
+        addToHead(node);
+    }
+    
+    Node* removeTail() {
+        Node* node = tail->prev;
+        removeNode(node);
+        return node;
+    }
+    
+public:
+    LRUCache(int capacity) : capacity(capacity) {
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if (!cache.count(key)) return -1;
+        
+        Node* node = cache[key];
+        moveToHead(node);
+        return node->value;
+    }
+    
+    void put(int key, int value) {
+        if (cache.count(key)) {
+            Node* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        } else {
+            Node* newNode = new Node(key, value);
+            cache[key] = newNode;
+            addToHead(newNode);
+            
+            if (cache.size() > capacity) {
+                Node* tailNode = removeTail();
+                cache.erase(tailNode->key);
+                delete tailNode;
+            }
+        }
+    }
+};```
+### 147. Insertion Sort List
+Описание: Отсортировать связный список методом вставки.
+Идея: Построить новый список, вставляя каждый элемент в правильную позицию.
+
+```cpp
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        if (!head || !head->next) return head;
+        
+        ListNode* dummy = new ListNode(0);
+        ListNode* curr = head;
+        
+        while (curr) {
+            ListNode* prev = dummy;
+            ListNode* next = curr->next;
+            
+            // Находим позицию для вставки
+            while (prev->next && prev->next->val < curr->val) {
+                prev = prev->next;
+            }
+            
+            // Вставляем узел
+            curr->next = prev->next;
+            prev->next = curr;
+            
+            curr = next;
+        }
+        
+        return dummy->next;
+    }
+};```
+### 148. Sort List
+Описание: Отсортировать связный список за O(n log n).
+Идея: Сортировка слиянием.
+
+```cpp
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if (!head || !head->next) return head;
+        
+        // Находим середину
+        ListNode *slow = head, *fast = head, *prev = nullptr;
+        while (fast && fast->next) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        prev->next = nullptr;
+        
+        // Сортируем каждую половину
+        ListNode* l1 = sortList(head);
+        ListNode* l2 = sortList(slow);
+        
+        // Сливаем отсортированные списки
+        return merge(l1, l2);
+    }
+    
+private:
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        ListNode* dummy = new ListNode(0);
+        ListNode* curr = dummy;
+        
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                curr->next = l1;
+                l1 = l1->next;
+            } else {
+                curr->next = l2;
+                l2 = l2->next;
+            }
+            curr = curr->next;
+        }
+        
+        if (l1) curr->next = l1;
+        if (l2) curr->next = l2;
+        
+        return dummy->next;
+    }
+};```
+### 149. Max Points on a Line
+Описание: Найти максимальное количество точек, лежащих на одной прямой.
+Идея: Для каждой точки вычисляем углы с другими точками.
+
+```cpp
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        if (n <= 2) return n;
+        
+        int maxPoints = 2;
+        
+        for (int i = 0; i < n; i++) {
+            unordered_map<double, int> slopeCount;
+            int same = 1;
+            
+            for (int j = i + 1; j < n; j++) {
+                int x1 = points[i][0], y1 = points[i][1];
+                int x2 = points[j][0], y2 = points[j][1];
+                
+                if (x1 == x2 && y1 == y2) {
+                    same++;
+                    continue;
+                }
+                
+                double slope;
+                if (x1 == x2) {
+                    slope = DBL_MAX; // вертикальная линия
+                } else {
+                    slope = (double)(y2 - y1) / (double)(x2 - x1);
+                }
+                
+                slopeCount[slope]++;
+            }
+            
+            int currentMax = same;
+            for (auto& [slope, count] : slopeCount) {
+                currentMax = max(currentMax, count + same);
+            }
+            
+            maxPoints = max(maxPoints, currentMax);
+        }
+        
+        return maxPoints;
+    }
+};```
+### 150. Evaluate Reverse Polish Notation
+Описание: Вычислить выражение в обратной польской записи.
+Идея: Использовать стек для хранения операндов.
+
+```cpp
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        
+        for (const string& token : tokens) {
+            if (token == "+" || token == "-" || token == "*" || token == "/") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                
+                if (token == "+") st.push(a + b);
+                else if (token == "-") st.push(a - b);
+                else if (token == "*") st.push(a * b);
+                else if (token == "/") st.push(a / b);
+            } else {
+                st.push(stoi(token));
+            }
+        }
+        
+        return st.top();
+    }
+};
+```
+
