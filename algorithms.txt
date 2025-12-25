@@ -1,0 +1,3592 @@
+нет скрипт который считает txt файл с этим содержимым
+Конечно! Вот полный перевод всех задач на C++ с подробными текстовыми описаниями:
+
+## Linked List
+
+### 1. Linked List Cycle
+**Описание**: Определить, содержит ли связный список цикл.
+**Идея**: Используем алгоритм "Черепаха и Заяц" - два указателя, один движется в 2 раза быстрее. Если есть цикл, они встретятся.
+
+```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if (!head) return false;
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) return true;
+        }
+        return false;
+    }
+};
+```
+
+### 2. Reverse Linked List
+**Описание**: Развернуть односвязный список.
+**Идея**: Итеративно меняем указатели направления. Храним предыдущий, текущий и следующий узлы.
+
+```cpp
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode *prev = nullptr, *curr = head;
+        while (curr) {
+            ListNode *next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+};
+```
+
+### 3. Delete Node in a Linked List
+**Описание**: Удалить узел (не хвостовой) имея доступ только к этому узлу.
+**Идея**: Копируем значение следующего узла в текущий, затем пропускаем следующий узел.
+
+```cpp
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        node->next = node->next->next;
+    }
+};
+```
+
+### 4. Merge Two Sorted Lists
+**Описание**: Объединить два отсортированных связных списка в один отсортированный.
+**Идея**: Сравниваем узлы из обоих списков и строим новый список, выбирая меньший элемент на каждом шаге.
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode dummy(0);
+        ListNode *tail = &dummy;
+        
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                tail->next = l1;
+                l1 = l1->next;
+            } else {
+                tail->next = l2;
+                l2 = l2->next;
+            }
+            tail = tail->next;
+        }
+        tail->next = l1 ? l1 : l2;
+        return dummy.next;
+    }
+};
+```
+
+### 5. Intersection of Two Linked Lists
+**Описание**: Найти узел пересечения двух связных списков.
+**Идея**: Два указателя проходят оба списка. Когда один достигает конца, он переходит к началу другого списка.
+
+```cpp
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *a = headA, *b = headB;
+        while (a != b) {
+            a = a ? a->next : headB;
+            b = b ? b->next : headA;
+        }
+        return a;
+    }
+};
+```
+
+### 6. Linked List Cycle II
+**Описание**: Найти узел, с которого начинается цикл в связном списке.
+**Идея**: Сначала находим точку встречи быстрого и медленного указателей, затем перемещаем один указатель в начало и двигаем оба с одинаковой скоростью.
+
+```cpp
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if (!head) return nullptr;
+        ListNode *slow = head, *fast = head;
+        
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                slow = head;
+                while (slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;
+            }
+        }
+        return nullptr;
+    }
+};
+```
+
+### 7. Palindrome Linked List
+**Описание**: Проверить, является ли связный список палиндромом.
+**Идея**: Находим середину списка, разворачиваем вторую половину и сравниваем с первой.
+
+```cpp
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if (!head || !head->next) return true;
+        
+        // Находим середину
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        // Разворачиваем вторую половину
+        ListNode *prev = nullptr, *curr = slow;
+        while (curr) {
+            ListNode *next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        // Сравниваем две половины
+        ListNode *left = head, *right = prev;
+        while (right) {
+            if (left->val != right->val) return false;
+            left = left->next;
+            right = right->next;
+        }
+        return true;
+    }
+};
+```
+
+### 8. Remove Linked List Elements
+**Описание**: Удалить все узлы с заданным значением из связного списка.
+**Идея**: Используем фиктивный узел для обработки случая, когда нужно удалить голову списка.
+
+```cpp
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode *curr = &dummy;
+        
+        while (curr->next) {
+            if (curr->next->val == val) {
+                curr->next = curr->next->next;
+            } else {
+                curr = curr->next;
+            }
+        }
+        return dummy.next;
+    }
+};
+```
+
+### 9. Remove Duplicates from Sorted List
+**Описание**: Удалить дубликаты из отсортированного связного списка.
+**Идея**: Проходим по списку и пропускаем узлы с одинаковыми значениями.
+
+```cpp
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *curr = head;
+        while (curr && curr->next) {
+            if (curr->val == curr->next->val) {
+                curr->next = curr->next->next;
+            } else {
+                curr = curr->next;
+            }
+        }
+        return head;
+    }
+};
+```
+
+### 10. Remove Duplicates from Sorted List II
+**Описание**: Удалить все узлы, которые имеют дубликаты, оставив только уникальные элементы.
+**Идея**: Используем фиктивный узел и отслеживаем предыдущий узел для полного удаления дубликатов.
+
+```cpp
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode *prev = &dummy, *curr = head;
+        
+        while (curr) {
+            while (curr->next && curr->val == curr->next->val) {
+                curr = curr->next;
+            }
+            if (prev->next == curr) {
+                prev = prev->next;
+            } else {
+                prev->next = curr->next;
+            }
+            curr = curr->next;
+        }
+        return dummy.next;
+    }
+};
+```
+
+### 11. Swap Nodes in Pairs
+**Описание**: Поменять местами каждые два соседних узла в связном списке.
+**Идея**: Используем фиктивный узел и меняем пары узлов, обновляя указатели.
+
+```cpp
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode *curr = &dummy;
+        
+        while (curr->next && curr->next->next) {
+            ListNode *first = curr->next;
+            ListNode *second = curr->next->next;
+            
+            first->next = second->next;
+            second->next = first;
+            curr->next = second;
+            
+            curr = curr->next->next;
+        }
+        return dummy.next;
+    }
+};
+```
+
+### 12. Remove Nth Node From End of List
+**Описание**: Удалить n-й узел с конца связного списка.
+**Идея**: Два указателя с разницей в n шагов. Когда первый достигает конца, второй находится перед узлом для удаления.
+
+```cpp
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode *first = &dummy, *second = &dummy;
+        
+        for (int i = 0; i <= n; i++) {
+            first = first->next;
+        }
+        
+        while (first) {
+            first = first->next;
+            second = second->next;
+        }
+        
+        second->next = second->next->next;
+        return dummy.next;
+    }
+};
+```
+
+## Trees
+
+### 13. Binary Tree Preorder Traversal
+**Описание**: Вернуть preorder обход бинарного дерева.
+**Идея**: Используем стек для имитации рекурсии. Обрабатываем корень, затем правого и левого потомков.
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root) st.push(root);
+        
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            result.push_back(node->val);
+            
+            if (node->right) st.push(node->right);
+            if (node->left) st.push(node->left);
+        }
+        return result;
+    }
+};
+```
+
+### 14. BST Iterator
+**Описание**: Реализовать итератор для бинарного дерева поиска.
+**Идея**: Используем стек для хранения левых потомков. При вызове next() возвращаем следующий наименьший элемент.
+
+```cpp
+class BSTIterator {
+    stack<TreeNode*> st;
+    
+    void pushLeft(TreeNode* node) {
+        while (node) {
+            st.push(node);
+            node = node->left;
+        }
+    }
+    
+public:
+    BSTIterator(TreeNode* root) {
+        pushLeft(root);
+    }
+    
+    int next() {
+        TreeNode* node = st.top();
+        st.pop();
+        pushLeft(node->right);
+        return node->val;
+    }
+    
+    bool hasNext() {
+        return !st.empty();
+    }
+};
+```
+
+### 15. Binary Tree Inorder Traversal
+**Описание**: Вернуть inorder обход бинарного дерева.
+**Идея**: Итеративный обход с использованием стека. Сначала идем до самого левого узла.
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+        
+        while (curr || !st.empty()) {
+            while (curr) {
+                st.push(curr);
+                curr = curr->left;
+            }
+            curr = st.top();
+            st.pop();
+            result.push_back(curr->val);
+            curr = curr->right;
+        }
+        return result;
+    }
+};
+```
+
+### 16. Symmetric Tree
+**Описание**: Проверить, является ли бинарное дерево симметричным.
+**Идея**: Рекурсивно сравниваем левое и правое поддеревья зеркально.
+
+```cpp
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
+        return isMirror(root->left, root->right);
+    }
+    
+    bool isMirror(TreeNode* left, TreeNode* right) {
+        if (!left && !right) return true;
+        if (!left || !right) return false;
+        return (left->val == right->val) &&
+               isMirror(left->left, right->right) &&
+               isMirror(left->right, right->left);
+    }
+};
+```
+
+### 17. Balanced Binary Tree
+**Описание**: Проверить, является ли бинарное дерево сбалансированным.
+**Идея**: Рекурсивно проверяем высоты поддеревьев. Если разница больше 1, возвращаем -1.
+
+```cpp
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        return checkHeight(root) != -1;
+    }
+    
+    int checkHeight(TreeNode* node) {
+        if (!node) return 0;
+        
+        int left = checkHeight(node->left);
+        if (left == -1) return -1;
+        
+        int right = checkHeight(node->right);
+        if (right == -1) return -1;
+        
+        if (abs(left - right) > 1) return -1;
+        return max(left, right) + 1;
+    }
+};
+```
+
+### 18. Closest Binary Search Tree Value
+**Описание**: Найти значение в BST, наиболее близкое к целевому.
+**Идея**: Используем свойства BST для навигации, обновляя ближайшее значение на каждом шаге.
+
+```cpp
+class Solution {
+public:
+    int closestValue(TreeNode* root, double target) {
+        int closest = root->val;
+        while (root) {
+            if (abs(root->val - target) < abs(closest - target)) {
+                closest = root->val;
+            }
+            root = target < root->val ? root->left : root->right;
+        }
+        return closest;
+    }
+};
+```
+
+### 19. Binary Tree Postorder Traversal
+**Описание**: Вернуть postorder обход бинарного дерева.
+**Идея**: Модифицированный preorder обход (корень-право-лево) с последующим разворотом результата.
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root) st.push(root);
+        
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            result.push_back(node->val);
+            
+            if (node->left) st.push(node->left);
+            if (node->right) st.push(node->right);
+        }
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
+```
+
+### 20. Maximum Depth of Binary Tree
+**Описание**: Найти максимальную глубину бинарного дерева.
+**Идея**: Рекурсивно находим максимальную глубину левого и правого поддеревьев.
+
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        return max(maxDepth(root->left), maxDepth(root->right)) + 1;
+    }
+};
+```
+
+### 21. Invert Binary Tree
+**Описание**: Инвертировать бинарное дерево.
+**Идея**: Рекурсивно меняем местами левое и правое поддеревья для каждого узла.
+
+```cpp
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return nullptr;
+        
+        TreeNode* temp = root->left;
+        root->left = invertTree(root->right);
+        root->right = invertTree(temp);
+        
+        return root;
+    }
+};
+```
+
+### 22. Same Tree
+**Описание**: Проверить, идентичны ли два бинарных дерева.
+**Идея**: Рекурсивно сравниваем структуры и значения узлов.
+
+```cpp
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (!p && !q) return true;
+        if (!p || !q) return false;
+        return (p->val == q->val) &&
+               isSameTree(p->left, q->left) &&
+               isSameTree(p->right, q->right);
+    }
+};
+```
+
+### 23. Lowest Common Ancestor of BST
+**Описание**: Найти наименьшего общего предка двух узлов в BST.
+**Идея**: Используем свойства BST - LCA находится между значениями двух узлов.
+
+```cpp
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        while (root) {
+            if (p->val < root->val && q->val < root->val) {
+                root = root->left;
+            } else if (p->val > root->val && q->val > root->val) {
+                root = root->right;
+            } else {
+                return root;
+            }
+        }
+        return nullptr;
+    }
+};
+```
+
+### 24. Lowest Common Ancestor of Binary Tree
+**Описание**: Найти наименьшего общего предка двух узлов в бинарном дереве.
+**Идея**: Рекурсивный поиск. Если оба узла найдены в разных поддеревьях, текущий узел - LCA.
+
+```cpp
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root || root == p || root == q) return root;
+        
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        
+        if (left && right) return root;
+        return left ? left : right;
+    }
+};
+```
+
+### 25. Unique Binary Search Trees
+**Описание**: Посчитать количество уникальных BST для n узлов.
+**Идея**: Числа Каталана. Динамическое программирование: dp[i] = Σ(dp[j-1] * dp[i-j]).
+
+```cpp
+class Solution {
+public:
+    int numTrees(int n) {
+        vector<int> dp(n + 1, 0);
+        dp[0] = dp[1] = 1;
+        
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                dp[i] += dp[j - 1] * dp[i - j];
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
+### 26. Unique Binary Search Trees II
+**Описание**: Сгенерировать все уникальные BST для n узлов.
+**Идея**: Рекурсивная генерация всех возможных BST для каждого корня.
+
+```cpp
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        if (n == 0) return {};
+        return generate(1, n);
+    }
+    
+    vector<TreeNode*> generate(int start, int end) {
+        vector<TreeNode*> trees;
+        if (start > end) {
+            trees.push_back(nullptr);
+            return trees;
+        }
+        
+        for (int i = start; i <= end; i++) {
+            vector<TreeNode*> leftTrees = generate(start, i - 1);
+            vector<TreeNode*> rightTrees = generate(i + 1, end);
+            
+            for (TreeNode* left : leftTrees) {
+                for (TreeNode* right : rightTrees) {
+                    TreeNode* root = new TreeNode(i);
+                    root->left = left;
+                    root->right = right;
+                    trees.push_back(root);
+                }
+            }
+        }
+        return trees;
+    }
+};
+```
+
+### 27. Path Sum
+**Описание**: Проверить, существует ли путь от корня к листу с заданной суммой.
+**Идея**: Рекурсивно проверяем сумму, вычитая значение текущего узла.
+
+```cpp
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (!root) return false;
+        if (!root->left && !root->right) return root->val == targetSum;
+        
+        int newSum = targetSum - root->val;
+        return hasPathSum(root->left, newSum) || hasPathSum(root->right, newSum);
+    }
+};
+```
+
+### 28. Binary Tree Maximum Path Sum
+**Описание**: Найти максимальную сумму пути в бинарном дереве.
+**Идея**: Для каждого узла вычисляем максимальную сумму через этот узел и обновляем глобальный максимум.
+
+```cpp
+class Solution {
+    int maxSum;
+public:
+    int maxPathSum(TreeNode* root) {
+        maxSum = INT_MIN;
+        maxGain(root);
+        return maxSum;
+    }
+    
+    int maxGain(TreeNode* node) {
+        if (!node) return 0;
+        
+        int leftGain = max(maxGain(node->left), 0);
+        int rightGain = max(maxGain(node->right), 0);
+        
+        int priceNewPath = node->val + leftGain + rightGain;
+        maxSum = max(maxSum, priceNewPath);
+        
+        return node->val + max(leftGain, rightGain);
+    }
+};
+```
+
+### 29. Binary Tree Level Order Traversal
+**Описание**: Вернуть level order обход бинарного дерева.
+**Идея**: BFS с использованием очереди. На каждом уровне обрабатываем все узлы.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if (!root) return result;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while (!q.empty()) {
+            int size = q.size();
+            vector<int> level;
+            
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                level.push_back(node->val);
+                
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+            result.push_back(level);
+        }
+        return result;
+    }
+};
+```
+
+### 30. Validate Binary Search Tree
+**Описание**: Проверить, является ли бинарное дерево BST.
+**Идея**: Рекурсивная проверка с передачей минимального и максимального допустимых значений.
+
+```cpp
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return validate(root, LONG_MIN, LONG_MAX);
+    }
+    
+    bool validate(TreeNode* node, long minVal, long maxVal) {
+        if (!node) return true;
+        if (node->val <= minVal || node->val >= maxVal) return false;
+        
+        return validate(node->left, minVal, node->val) &&
+               validate(node->right, node->val, maxVal);
+    }
+};
+```
+
+### 31. Minimum Depth of Binary Tree
+**Описание**: Найти минимальную глубину бинарного дерева.
+**Идея**: Рекурсивно находим минимальную глубину, учитывая случай, когда одно из поддеревьев отсутствует.
+
+```cpp
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root) return 0;
+        if (!root->left) return minDepth(root->right) + 1;
+        if (!root->right) return minDepth(root->left) + 1;
+        return min(minDepth(root->left), minDepth(root->right)) + 1;
+    }
+};
+```
+
+### 32. Convert Sorted Array to Binary Search Tree
+**Описание**: Преобразовать отсортированный массив в сбалансированное BST.
+**Идея**: Рекурсивно выбираем середину массива как корень и строим левое и правое поддеревья.
+
+```cpp
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return buildBST(nums, 0, nums.size() - 1);
+    }
+    
+    TreeNode* buildBST(vector<int>& nums, int left, int right) {
+        if (left > right) return nullptr;
+        
+        int mid = left + (right - left) / 2;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = buildBST(nums, left, mid - 1);
+        root->right = buildBST(nums, mid + 1, right);
+        
+        return root;
+    }
+};
+```
+
+### 33. Flatten Binary Tree to Linked List
+**Описание**: Преобразовать бинарное дерево в связный список на месте.
+**Идея**: Модифицированный preorder обход. Для каждого узла находим самый правый узел в левом поддереве.
+
+```cpp
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        TreeNode* curr = root;
+        while (curr) {
+            if (curr->left) {
+                TreeNode* rightmost = curr->left;
+                while (rightmost->right) {
+                    rightmost = rightmost->right;
+                }
+                rightmost->right = curr->right;
+                curr->right = curr->left;
+                curr->left = nullptr;
+            }
+            curr = curr->right;
+        }
+    }
+};
+```
+
+### 34. Construct Binary Tree from Preorder and Inorder
+**Описание**: Построить бинарное дерево из preorder и inorder обходов.
+**Идея**: Preorder дает корень, inorder позволяет разделить левое и правое поддеревья.
+
+```cpp
+class Solution {
+    unordered_map<int, int> inorderMap;
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        for (int i = 0; i < inorder.size(); i++) {
+            inorderMap[inorder[i]] = i;
+        }
+        return build(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);
+    }
+    
+    TreeNode* build(vector<int>& preorder, int preStart, int preEnd,
+                   vector<int>& inorder, int inStart, int inEnd) {
+        if (preStart > preEnd || inStart > inEnd) return nullptr;
+        
+        TreeNode* root = new TreeNode(preorder[preStart]);
+        int inRoot = inorderMap[root->val];
+        int numsLeft = inRoot - inStart;
+        
+        root->left = build(preorder, preStart + 1, preStart + numsLeft,
+                          inorder, inStart, inRoot - 1);
+        root->right = build(preorder, preStart + numsLeft + 1, preEnd,
+                           inorder, inRoot + 1, inEnd);
+        return root;
+    }
+};
+```
+
+### 35. Binary Tree Paths
+**Описание**: Вернуть все пути от корня к листьям в бинарном дереве.
+**Идея**: Рекурсивный DFS с накоплением текущего пути.
+
+```cpp
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> result;
+        if (root) dfs(root, "", result);
+        return result;
+    }
+    
+    void dfs(TreeNode* node, string path, vector<string>& result) {
+        if (!node->left && !node->right) {
+            result.push_back(path + to_string(node->val));
+            return;
+        }
+        
+        if (node->left) dfs(node->left, path + to_string(node->val) + "->", result);
+        if (node->right) dfs(node->right, path + to_string(node->val) + "->", result);
+    }
+};
+```
+
+### 36. Recover Binary Search Tree
+**Описание**: Восстановить BST, в котором два узла поменяны местами.
+**Идея**: Inorder traversal для нахождения двух неправильно расположенных узлов.
+
+```cpp
+class Solution {
+    TreeNode *first = nullptr, *second = nullptr, *prev = nullptr;
+public:
+    void recoverTree(TreeNode* root) {
+        inorder(root);
+        swap(first->val, second->val);
+    }
+    
+    void inorder(TreeNode* node) {
+        if (!node) return;
+        
+        inorder(node->left);
+        
+        if (prev && prev->val > node->val) {
+            if (!first) first = prev;
+            second = node;
+        }
+        prev = node;
+        
+        inorder(node->right);
+    }
+};
+```
+
+### 37. Path Sum II
+**Описание**: Найти все пути от корня к листу с заданной суммой.
+**Идея**: Рекурсивный DFS с backtracking для накопления путей.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> result;
+        vector<int> path;
+        dfs(root, targetSum, path, result);
+        return result;
+    }
+    
+    void dfs(TreeNode* node, int sum, vector<int>& path, vector<vector<int>>& result) {
+        if (!node) return;
+        
+        path.push_back(node->val);
+        sum -= node->val;
+        
+        if (!node->left && !node->right && sum == 0) {
+            result.push_back(path);
+        }
+        
+        dfs(node->left, sum, path, result);
+        dfs(node->right, sum, path, result);
+        
+        path.pop_back();
+    }
+};
+```
+
+### 38. Binary Tree Level Order Traversal II
+**Описание**: Вернуть level order обход снизу вверх.
+**Идея**: BFS как обычно, затем разворачиваем результат.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> result;
+        if (!root) return result;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while (!q.empty()) {
+            int size = q.size();
+            vector<int> level;
+            
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                level.push_back(node->val);
+                
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+            result.push_back(level);
+        }
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
+```
+
+### 39. Kth Smallest Element in BST
+**Описание**: Найти k-й наименьший элемент в BST.
+**Идея**: Inorder traversal до k-го элемента.
+
+```cpp
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+        
+        while (curr || !st.empty()) {
+            while (curr) {
+                st.push(curr);
+                curr = curr->left;
+            }
+            curr = st.top();
+            st.pop();
+            if (--k == 0) return curr->val;
+            curr = curr->right;
+        }
+        return -1;
+    }
+};
+```
+
+### 40. Construct Binary Tree from Inorder and Postorder
+**Описание**: Построить бинарное дерево из inorder и postorder обходов.
+**Идея**: Postorder дает корень с конца, inorder позволяет разделить поддеревья.
+
+```cpp
+class Solution {
+    unordered_map<int, int> inorderMap;
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        for (int i = 0; i < inorder.size(); i++) {
+            inorderMap[inorder[i]] = i;
+        }
+        return build(inorder, 0, inorder.size() - 1,
+                    postorder, 0, postorder.size() - 1);
+    }
+    
+    TreeNode* build(vector<int>& inorder, int inStart, int inEnd,
+                   vector<int>& postorder, int postStart, int postEnd) {
+        if (inStart > inEnd || postStart > postEnd) return nullptr;
+        
+        TreeNode* root = new TreeNode(postorder[postEnd]);
+        int inRoot = inorderMap[root->val];
+        int numsLeft = inRoot - inStart;
+        
+        root->left = build(inorder, inStart, inRoot - 1,
+                          postorder, postStart, postStart + numsLeft - 1);
+        root->right = build(inorder, inRoot + 1, inEnd,
+                           postorder, postStart + numsLeft, postEnd - 1);
+        return root;
+    }
+};
+```
+
+### 41. Binary Tree Right Side View
+**Описание**: Вернуть значения узлов, видимых с правой стороны бинарного дерева.
+**Идея**: BFS, берем последний элемент каждого уровня.
+
+```cpp
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> result;
+        if (!root) return result;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while (!q.empty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if (i == size - 1) result.push_back(node->val);
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+        }
+        return result;
+    }
+};
+```
+
+### 42. Sum Root to Leaf Numbers
+**Описание**: Найти сумму всех чисел, образованных путями от корня к листьям.
+**Идея**: Рекурсивное накопление числа при обходе дерева.
+
+```cpp
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return dfs(root, 0);
+    }
+    
+    int dfs(TreeNode* node, int currentSum) {
+        if (!node) return 0;
+        
+        currentSum = currentSum * 10 + node->val;
+        if (!node->left && !node->right) return currentSum;
+        
+        return dfs(node->left, currentSum) + dfs(node->right, currentSum);
+    }
+};
+```
+
+### 43. Binary Tree Zigzag Level Order Traversal
+**Описание**: Вернуть zigzag level order обход (слева направо, затем справа налево).
+**Идея**: BFS с чередованием направления заполнения уровня.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if (!root) return result;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        bool leftToRight = true;
+        
+        while (!q.empty()) {
+            int size = q.size();
+            vector<int> level(size);
+            
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                
+                int index = leftToRight ? i : size - 1 - i;
+                level[index] = node->val;
+                
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+            result.push_back(level);
+            leftToRight = !leftToRight;
+        }
+        return result;
+    }
+};
+```
+
+### 44. House Robber III
+**Описание**: Максимизировать сумму ограбления домов, расположенных в виде бинарного дерева.
+**Идея**: Динамическое программирование на дереве. Для каждого узла считаем два случая: грабим или не грабим.
+
+```cpp
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        auto result = dfs(root);
+        return max(result.first, result.second);
+    }
+    
+    pair<int, int> dfs(TreeNode* node) {
+        if (!node) return {0, 0};
+        
+        auto left = dfs(node->left);
+        auto right = dfs(node->right);
+        
+        int rob = node->val + left.second + right.second;
+        int notRob = max(left.first, left.second) + max(right.first, right.second);
+        
+        return {rob, notRob};
+    }
+};
+```
+
+### 45. Inorder Successor in BST
+**Описание**: Найти inorder преемника заданного узла в BST.
+**Идея**: Используем свойства BST для навигации к преемнику.
+
+```cpp
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        TreeNode* successor = nullptr;
+        
+        while (root) {
+            if (p->val < root->val) {
+                successor = root;
+                root = root->left;
+            } else {
+                root = root->right;
+            }
+        }
+        return successor;
+    }
+};
+```
+
+### 46. Binary Tree Longest Consecutive Sequence
+**Описание**: Найти длину самой длинной последовательной последовательности в бинарном дереве.
+**Идея**: Рекурсивный обход с отслеживанием текущей последовательности.
+
+```cpp
+class Solution {
+public:
+    int longestConsecutive(TreeNode* root) {
+        return dfs(root, nullptr, 0);
+    }
+    
+    int dfs(TreeNode* node, TreeNode* parent, int length) {
+        if (!node) return length;
+        
+        length = (parent && node->val == parent->val + 1) ? length + 1 : 1;
+        return max(length, max(dfs(node->left, node, length),
+                              dfs(node->right, node, length)));
+    }
+};
+```
+
+### 47. Verify Preorder Sequence in BST
+**Описание**: Проверить, является ли массив корректным preorder обходом BST.
+**Идея**: Используем стек для проверки BST свойств при preorder обходе.
+
+```cpp
+class Solution {
+public:
+    bool verifyPreorder(vector<int>& preorder) {
+        stack<int> st;
+        int lowerBound = INT_MIN;
+        
+        for (int val : preorder) {
+            if (val < lowerBound) return false;
+            
+            while (!st.empty() && val > st.top()) {
+                lowerBound = st.top();
+                st.pop();
+            }
+            st.push(val);
+        }
+        return true;
+    }
+};
+```
+
+### 48. Binary Tree Upside Down
+**Описание**: Перевернуть бинарное дерево вверх ногами.
+**Идея**: Итеративное изменение указателей для разворота дерева.
+
+```cpp
+class Solution {
+public:
+    TreeNode* upsideDownBinaryTree(TreeNode* root) {
+        TreeNode *curr = root, *prev = nullptr, *next = nullptr, *temp = nullptr;
+        
+        while (curr) {
+            next = curr->left;
+            curr->left = temp;
+            temp = curr->right;
+            curr->right = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+};
+```
+
+### 49. Count Univalue Subtrees
+**Описание**: Посчитать количество унивальных поддеревьев (все узлы имеют одинаковое значение).
+**Идея**: Рекурсивная проверка унивальности для каждого поддерева.
+
+```cpp
+class Solution {
+public:
+    int countUnivalSubtrees(TreeNode* root) {
+        int count = 0;
+        isUnival(root, count);
+        return count;
+    }
+    
+    bool isUnival(TreeNode* node, int& count) {
+        if (!node) return true;
+        
+        bool left = isUnival(node->left, count);
+        bool right = isUnival(node->right, count);
+        
+        if (left && right) {
+            if (node->left && node->left->val != node->val) return false;
+            if (node->right && node->right->val != node->val) return false;
+            count++;
+            return true;
+        }
+        return false;
+    }
+};
+```
+
+### 50. Serialize and Deserialize Binary Tree
+**Описание**: Сериализовать и десериализовать бинарное дерево.
+**Идея**: Preorder обход с маркерами для null узлов.
+
+```cpp
+class Codec {
+public:
+    string serialize(TreeNode* root) {
+        if (!root) return "#";
+        return to_string(root->val) + "," + serialize(root->left) + "," + serialize(root->right);
+    }
+
+    TreeNode* deserialize(string data) {
+        stringstream ss(data);
+        return deserializeHelper(ss);
+    }
+    
+    TreeNode* deserializeHelper(stringstream& ss) {
+        string val;
+        getline(ss, val, ',');
+        if (val == "#") return nullptr;
+        
+        TreeNode* root = new TreeNode(stoi(val));
+        root->left = deserializeHelper(ss);
+        root->right = deserializeHelper(ss);
+        return root;
+    }
+};
+```
+
+Это первая часть перевода (50 задач). Продолжить с остальными задачами?
+
+Продолжаю с остальными задачами:
+
+## Graphs
+
+### 51. Number of Connected Components in Undirected Graph
+**Описание**: Подсчитать количество связных компонент в неориентированном графе.
+**Идея**: Используем Union-Find алгоритм для объединения компонент.
+
+```cpp
+class Solution {
+public:
+    int countComponents(int n, vector<vector<int>>& edges) {
+        vector<int> parent(n);
+        for (int i = 0; i < n; i++) parent[i] = i;
+        
+        int components = n;
+        for (auto& edge : edges) {
+            int root1 = find(parent, edge[0]);
+            int root2 = find(parent, edge[1]);
+            if (root1 != root2) {
+                parent[root1] = root2;
+                components--;
+            }
+        }
+        return components;
+    }
+    
+    int find(vector<int>& parent, int x) {
+        while (parent[x] != x) {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+};
+```
+
+### 52. Course Schedule
+**Описание**: Проверить, можно ли завершить все курсы с учетом предварительных требований.
+**Идея**: Проверка ацикличности ориентированного графа с помощью топологической сортировки.
+
+```cpp
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses);
+        vector<int> indegree(numCourses, 0);
+        
+        for (auto& pre : prerequisites) {
+            graph[pre[1]].push_back(pre[0]);
+            indegree[pre[0]]++;
+        }
+        
+        queue<int> q;
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) q.push(i);
+        }
+        
+        int count = 0;
+        while (!q.empty()) {
+            int course = q.front();
+            q.pop();
+            count++;
+            
+            for (int neighbor : graph[course]) {
+                if (--indegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+        return count == numCourses;
+    }
+};
+```
+
+### 53. Graph Valid Tree
+**Описание**: Проверить, образуют ли ребра валидное дерево.
+**Идея**: Дерево должно быть связным и не иметь циклов, с n-1 ребрами.
+
+```cpp
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        if (edges.size() != n - 1) return false;
+        
+        vector<vector<int>> graph(n);
+        for (auto& edge : edges) {
+            graph[edge[0]].push_back(edge[1]);
+            graph[edge[1]].push_back(edge[0]);
+        }
+        
+        vector<bool> visited(n, false);
+        if (hasCycle(graph, visited, 0, -1)) return false;
+        
+        for (bool v : visited) {
+            if (!v) return false;
+        }
+        return true;
+    }
+    
+    bool hasCycle(vector<vector<int>>& graph, vector<bool>& visited, int node, int parent) {
+        visited[node] = true;
+        for (int neighbor : graph[node]) {
+            if (!visited[neighbor]) {
+                if (hasCycle(graph, visited, neighbor, node)) return true;
+            } else if (neighbor != parent) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+```
+
+### 54. Course Schedule II
+**Описание**: Найти порядок прохождения курсов с учетом предварительных требований.
+**Идея**: Топологическая сортировка с возвратом порядка.
+
+```cpp
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses);
+        vector<int> indegree(numCourses, 0);
+        
+        for (auto& pre : prerequisites) {
+            graph[pre[1]].push_back(pre[0]);
+            indegree[pre[0]]++;
+        }
+        
+        queue<int> q;
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) q.push(i);
+        }
+        
+        vector<int> result;
+        while (!q.empty()) {
+            int course = q.front();
+            q.pop();
+            result.push_back(course);
+            
+            for (int neighbor : graph[course]) {
+                if (--indegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+        
+        if (result.size() != numCourses) return {};
+        return result;
+    }
+};
+```
+
+### 55. Number of Islands
+**Описание**: Подсчитать количество островов в двумерной сетке.
+**Идея**: DFS для поиска связных компонент из '1'.
+
+```cpp
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if (grid.empty()) return 0;
+        
+        int count = 0;
+        int m = grid.size(), n = grid[0].size();
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    dfs(grid, i, j, m, n);
+                }
+            }
+        }
+        return count;
+    }
+    
+    void dfs(vector<vector<char>>& grid, int i, int j, int m, int n) {
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != '1') return;
+        
+        grid[i][j] = '0'; // Помечаем как посещенный
+        
+        dfs(grid, i + 1, j, m, n);
+        dfs(grid, i - 1, j, m, n);
+        dfs(grid, i, j + 1, m, n);
+        dfs(grid, i, j - 1, m, n);
+    }
+};
+```
+
+## Heaps
+
+### 56. Merge K Sorted Lists
+**Описание**: Объединить k отсортированных связных списков в один отсортированный.
+**Идея**: Используем минимальную кучу (min-heap) для эффективного выбора наименьшего элемента.
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        auto cmp = [](ListNode* a, ListNode* b) { return a->val > b->val; };
+        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
+        
+        for (ListNode* list : lists) {
+            if (list) pq.push(list);
+        }
+        
+        ListNode dummy(0);
+        ListNode* tail = &dummy;
+        
+        while (!pq.empty()) {
+            ListNode* node = pq.top();
+            pq.pop();
+            tail->next = node;
+            tail = tail->next;
+            
+            if (node->next) pq.push(node->next);
+        }
+        return dummy.next;
+    }
+};
+```
+
+### 57. Kth Largest Element in an Array
+**Описание**: Найти k-й наибольший элемент в массиве.
+**Идея**: Используем минимальную кучу размера k для отслеживания k наибольших элементов.
+
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+        
+        for (int num : nums) {
+            pq.push(num);
+            if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+        return pq.top();
+    }
+};
+```
+
+## Arrays
+
+### 58. Two Sum II - Input Array Is Sorted
+**Описание**: Найти индексы двух чисел в отсортированном массиве, дающих в сумме target.
+**Идея**: Два указателя с начала и конца массива.
+
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int left = 0, right = numbers.size() - 1;
+        
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+            if (sum == target) {
+                return {left + 1, right + 1};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return {};
+    }
+};
+```
+
+### 59. Two Sum III - Data Structure Design
+**Описание**: Реализовать структуру данных, поддерживающую добавление чисел и поиск пар с заданной суммой.
+**Идея**: Используем хэш-таблицу для быстрого поиска.
+
+```cpp
+class TwoSum {
+    unordered_map<int, int> numCount;
+public:
+    TwoSum() {}
+    
+    void add(int number) {
+        numCount[number]++;
+    }
+    
+    bool find(int value) {
+        for (auto& [num, count] : numCount) {
+            int complement = value - num;
+            if (complement != num) {
+                if (numCount.count(complement)) return true;
+            } else {
+                if (count > 1) return true;
+            }
+        }
+        return false;
+    }
+};
+```
+
+### 60. Contains Duplicate
+**Описание**: Проверить, содержит ли массив дубликаты.
+**Идея**: Используем множество для отслеживания уникальных элементов.
+
+```cpp
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> seen;
+        for (int num : nums) {
+            if (seen.count(num)) return true;
+            seen.insert(num);
+        }
+        return false;
+    }
+};
+```
+
+### 61. Rotate Array
+**Описание**: Сдвинуть массив вправо на k шагов.
+**Идея**: Три реверса: весь массив, первые k элементов, остальные элементы.
+
+```cpp
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k %= n;
+        
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin() + k);
+        reverse(nums.begin() + k, nums.end());
+    }
+};
+```
+
+### 62. 3Sum Smaller
+**Описание**: Найти количество троек с суммой меньше target.
+**Идея**: Сортируем массив и используем два указателя для каждой позиции i.
+
+```cpp
+class Solution {
+public:
+    int threeSumSmaller(vector<int>& nums, int target) {
+        if (nums.size() < 3) return 0;
+        
+        sort(nums.begin(), nums.end());
+        int count = 0;
+        
+        for (int i = 0; i < nums.size() - 2; i++) {
+            int left = i + 1, right = nums.size() - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum < target) {
+                    count += right - left;
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return count;
+    }
+};
+```
+
+### 63. 3Sum Closest
+**Описание**: Найти тройку с суммой, наиболее близкой к target.
+**Идея**: Сортируем массив и используем два указателя, отслеживая минимальную разницу.
+
+```cpp
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int closestSum = nums[0] + nums[1] + nums[2];
+        
+        for (int i = 0; i < nums.size() - 2; i++) {
+            int left = i + 1, right = nums.size() - 1;
+            
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (abs(sum - target) < abs(closestSum - target)) {
+                    closestSum = sum;
+                }
+                
+                if (sum < target) {
+                    left++;
+                } else if (sum > target) {
+                    right--;
+                } else {
+                    return sum;
+                }
+            }
+        }
+        return closestSum;
+    }
+};
+```
+
+### 64. 3Sum
+**Описание**: Найти все уникальные тройки с нулевой суммой.
+**Идея**: Сортируем массив и для каждого элемента используем два указателя.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> result;
+        sort(nums.begin(), nums.end());
+        
+        for (int i = 0; i < nums.size(); i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            
+            int left = i + 1, right = nums.size() - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                
+                if (sum == 0) {
+                    result.push_back({nums[i], nums[left], nums[right]});
+                    
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return result;
+    }
+};
+```
+
+### 65. Two Sum
+**Описание**: Найти индексы двух чисел, дающих в сумме target.
+**Идея**: Используем хэш-таблицу для хранения чисел и их индексов.
+
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> numMap;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            int complement = target - nums[i];
+            if (numMap.count(complement)) {
+                return {numMap[complement], i};
+            }
+            numMap[nums[i]] = i;
+        }
+        return {};
+    }
+};
+```
+
+### 66. Plus One
+**Описание**: Увеличить число, представленное массивом цифр, на 1.
+**Идея**: Обрабатываем перенос с конца массива.
+
+```cpp
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        
+        digits.insert(digits.begin(), 1);
+        return digits;
+    }
+};
+```
+
+### 67. Best Time to Buy and Sell Stock
+**Описание**: Найти максимальную прибыль от одной транзакции покупки/продажи акций.
+**Идея**: Отслеживаем минимальную цену и максимальную прибыль.
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minPrice = INT_MAX;
+        int maxProfit = 0;
+        
+        for (int price : prices) {
+            minPrice = min(minPrice, price);
+            maxProfit = max(maxProfit, price - minPrice);
+        }
+        return maxProfit;
+    }
+};
+```
+
+### 68. Shortest Word Distance
+**Описание**: Найти минимальное расстояние между двумя словами в массиве.
+**Идея**: Отслеживаем последние позиции обоих слов и вычисляем минимальную разницу.
+
+```cpp
+class Solution {
+public:
+    int shortestDistance(vector<string>& words, string word1, string word2) {
+        int pos1 = -1, pos2 = -1;
+        int minDist = INT_MAX;
+        
+        for (int i = 0; i < words.size(); i++) {
+            if (words[i] == word1) {
+                pos1 = i;
+            } else if (words[i] == word2) {
+                pos2 = i;
+            }
+            
+            if (pos1 != -1 && pos2 != -1) {
+                minDist = min(minDist, abs(pos1 - pos2));
+            }
+        }
+        return minDist;
+    }
+};
+```
+
+### 69. Move Zeroes
+**Описание**: Переместить все нули в конец массива, сохраняя порядок ненулевых элементов.
+**Идея**: Два указателя: один для текущей позиции, другой для поиска ненулевых элементов.
+
+```cpp
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int nonZeroPos = 0;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] != 0) {
+                swap(nums[nonZeroPos++], nums[i]);
+            }
+        }
+    }
+};
+```
+
+### 70. Contains Duplicate II
+**Описание**: Проверить, есть ли дубликаты на расстоянии не более k.
+**Идея**: Используем скользящее окно с хэш-таблицей.
+
+```cpp
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int, int> numIndex;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            if (numIndex.count(nums[i]) && i - numIndex[nums[i]] <= k) {
+                return true;
+            }
+            numIndex[nums[i]] = i;
+        }
+        return false;
+    }
+};
+```
+
+### 71. Majority Element
+**Описание**: Найти элемент, встречающийся более n/2 раз.
+**Идея**: Алгоритм Бойера-Мура для поиска majority элемента.
+
+```cpp
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = nums[0];
+        int count = 1;
+        
+        for (int i = 1; i < nums.size(); i++) {
+            if (count == 0) {
+                candidate = nums[i];
+                count = 1;
+            } else if (nums[i] == candidate) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        return candidate;
+    }
+};
+```
+
+### 72. Remove Duplicates from Sorted Array
+**Описание**: Удалить дубликаты из отсортированного массива на месте.
+**Идея**: Два указателя: один для уникальных элементов, другой для обхода массива.
+
+```cpp
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        
+        int uniquePos = 0;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] != nums[uniquePos]) {
+                nums[++uniquePos] = nums[i];
+            }
+        }
+        return uniquePos + 1;
+    }
+};
+```
+
+### 73. Nested List Weight Sum
+**Описание**: Вычислить взвешенную сумму вложенного списка целых чисел.
+**Идея**: Рекурсивный DFS с передачей текущей глубины.
+
+```cpp
+class Solution {
+public:
+    int depthSum(vector<NestedInteger>& nestedList) {
+        return dfs(nestedList, 1);
+    }
+    
+    int dfs(vector<NestedInteger>& nestedList, int depth) {
+        int sum = 0;
+        for (auto& ni : nestedList) {
+            if (ni.isInteger()) {
+                sum += ni.getInteger() * depth;
+            } else {
+                sum += dfs(ni.getList(), depth + 1);
+            }
+        }
+        return sum;
+    }
+};
+```
+
+### 74. Nested List Weight Sum II
+**Описание**: Вычислить взвешенную сумму с весами от листьев к корню.
+**Идея**: Сначала находим максимальную глубину, затем вычисляем сумму с обратными весами.
+
+```cpp
+class Solution {
+public:
+    int depthSumInverse(vector<NestedInteger>& nestedList) {
+        int maxDepth = getMaxDepth(nestedList);
+        return dfs(nestedList, maxDepth);
+    }
+    
+    int getMaxDepth(vector<NestedInteger>& nestedList) {
+        int maxDepth = 1;
+        for (auto& ni : nestedList) {
+            if (!ni.isInteger()) {
+                maxDepth = max(maxDepth, 1 + getMaxDepth(ni.getList()));
+            }
+        }
+        return maxDepth;
+    }
+    
+    int dfs(vector<NestedInteger>& nestedList, int depth) {
+        int sum = 0;
+        for (auto& ni : nestedList) {
+            if (ni.isInteger()) {
+                sum += ni.getInteger() * depth;
+            } else {
+                sum += dfs(ni.getList(), depth - 1);
+            }
+        }
+        return sum;
+    }
+};
+```
+
+### 75. Remove Element
+**Описание**: Удалить все вхождения элемента из массива на месте.
+**Идея**: Два указателя: один для текущей позиции, другой для обхода массива.
+
+```cpp
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int newPos = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] != val) {
+                nums[newPos++] = nums[i];
+            }
+        }
+        return newPos;
+    }
+};
+```
+
+### 76. Intersection of Two Arrays II
+**Описание**: Найти пересечение двух массивов с учетом кратности элементов.
+**Идея**: Сортируем оба массива и используем два указателя.
+
+```cpp
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
+        
+        vector<int> result;
+        int i = 0, j = 0;
+        
+        while (i < nums1.size() && j < nums2.size()) {
+            if (nums1[i] == nums2[j]) {
+                result.push_back(nums1[i]);
+                i++;
+                j++;
+            } else if (nums1[i] < nums2[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return result;
+    }
+};
+```
+
+### 77. Merge Sorted Arrays
+**Описание**: Объединить два отсортированных массива в первый массив.
+**Идея**: Заполняем с конца, чтобы не перезаписывать элементы.
+
+```cpp
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m - 1, j = n - 1, k = m + n - 1;
+        
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+        
+        while (j >= 0) {
+            nums1[k--] = nums2[j--];
+        }
+    }
+};
+```
+
+### 78. Reverse Vowels of a String
+**Описание**: Развернуть только гласные в строке.
+**Идея**: Два указателя с начала и конца, меняем гласные местами.
+
+```cpp
+class Solution {
+public:
+    string reverseVowels(string s) {
+        unordered_set<char> vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+        int left = 0, right = s.size() - 1;
+        
+        while (left < right) {
+            while (left < right && !vowels.count(s[left])) left++;
+            while (left < right && !vowels.count(s[right])) right--;
+            
+            if (left < right) {
+                swap(s[left], s[right]);
+                left++;
+                right--;
+            }
+        }
+        return s;
+    }
+};
+```
+
+### 79. Intersection of Two Arrays
+**Описание**: Найти пересечение двух массивов (уникальные элементы).
+**Идея**: Используем два множества для хранения уникальных элементов.
+
+```cpp
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> set1(nums1.begin(), nums1.end());
+        unordered_set<int> result;
+        
+        for (int num : nums2) {
+            if (set1.count(num)) {
+                result.insert(num);
+            }
+        }
+        return vector<int>(result.begin(), result.end());
+    }
+};
+```
+
+### 80. Container With Most Water
+**Описание**: Найти контейнер с максимальной площадью.
+**Идея**: Два указателя с начала и конца, двигаем тот, который ограничивает высоту.
+
+```cpp
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int left = 0, right = height.size() - 1;
+        int maxArea = 0;
+        
+        while (left < right) {
+            int area = min(height[left], height[right]) * (right - left);
+            maxArea = max(maxArea, area);
+            
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return maxArea;
+    }
+};
+```
+
+### 81. Product of Array Except Self
+**Описание**: Вычислить массив, где каждый элемент - произведение всех элементов кроме себя.
+**Идея**: Используем префиксные и постфиксные произведения.
+
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> result(n, 1);
+        
+        // Префиксное произведение
+        int prefix = 1;
+        for (int i = 0; i < n; i++) {
+            result[i] = prefix;
+            prefix *= nums[i];
+        }
+        
+        // Постфиксное произведение
+        int postfix = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            result[i] *= postfix;
+            postfix *= nums[i];
+        }
+        
+        return result;
+    }
+};
+```
+
+### 82. Trapping Rain Water
+**Описание**: Вычислить количество воды, которое может задержаться между столбцами.
+**Идея**: Для каждого столбца вычисляем min(макс_слева, макс_справа) - высота_столбца.
+
+```cpp
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        if (n == 0) return 0;
+        
+        vector<int> leftMax(n), rightMax(n);
+        
+        leftMax[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = max(leftMax[i - 1], height[i]);
+        }
+        
+        rightMax[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            rightMax[i] = max(rightMax[i + 1], height[i]);
+        }
+        
+        int water = 0;
+        for (int i = 0; i < n; i++) {
+            water += min(leftMax[i], rightMax[i]) - height[i];
+        }
+        return water;
+    }
+};
+```
+
+### 83. Maximum Subarray
+**Описание**: Найти подмассив с максимальной суммой.
+**Идея**: Алгоритм Кадане - отслеживаем текущую сумму и максимальную сумму.
+
+```cpp
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxSum = nums[0];
+        int currentSum = nums[0];
+        
+        for (int i = 1; i < nums.size(); i++) {
+            currentSum = max(nums[i], currentSum + nums[i]);
+            maxSum = max(maxSum, currentSum);
+        }
+        return maxSum;
+    }
+};
+```
+
+### 84. Best Time to Buy and Sell Stock II
+**Описание**: Максимизировать прибыль от многократных транзакций.
+**Идея**: Суммируем все возрастающие разницы между соседними днями.
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.size(); i++) {
+            if (prices[i] > prices[i - 1]) {
+                profit += prices[i] - prices[i - 1];
+            }
+        }
+        return profit;
+    }
+};
+```
+
+### 85. Find Minimum in Rotated Sorted Array
+**Описание**: Найти минимальный элемент в rotated sorted array.
+**Идея**: Модифицированный бинарный поиск.
+
+```cpp
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+};
+```
+
+### 86. Pascal's Triangle
+**Описание**: Сгенерировать треугольник Паскаля до n-й строки.
+**Идея**: Каждое число равно сумме двух чисел над ним.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> triangle;
+        
+        for (int i = 0; i < numRows; i++) {
+            vector<int> row(i + 1, 1);
+            
+            for (int j = 1; j < i; j++) {
+                row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
+            }
+            
+            triangle.push_back(row);
+        }
+        return triangle;
+    }
+};
+```
+
+### 87. Pascal's Triangle II
+**Описание**: Вернуть k-ю строку треугольника Паскаля.
+**Идея**: Генерируем строку итеративно, используя только O(k) памяти.
+
+```cpp
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> row(rowIndex + 1, 1);
+        
+        for (int i = 1; i <= rowIndex; i++) {
+            for (int j = i - 1; j > 0; j--) {
+                row[j] = row[j] + row[j - 1];
+            }
+        }
+        return row;
+    }
+};
+```
+
+### 88. Summary Ranges
+**Описание**: Суммировать отсортированный массив в диапазоны.
+**Идея**: Проходим по массиву и формируем диапазоны из последовательных чисел.
+
+```cpp
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> result;
+        int n = nums.size();
+        
+        for (int i = 0; i < n; i++) {
+            int start = nums[i];
+            
+            while (i + 1 < n && nums[i + 1] == nums[i] + 1) {
+                i++;
+            }
+            
+            if (start == nums[i]) {
+                result.push_back(to_string(start));
+            } else {
+                result.push_back(to_string(start) + "->" + to_string(nums[i]));
+            }
+        }
+        return result;
+    }
+};
+```
+
+### 89. Missing Number
+**Описание**: Найти пропущенное число в массиве [0, n].
+**Идея**: Используем XOR или сумму арифметической прогрессии.
+
+```cpp
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int expectedSum = n * (n + 1) / 2;
+        int actualSum = 0;
+        
+        for (int num : nums) {
+            actualSum += num;
+        }
+        
+        return expectedSum - actualSum;
+    }
+};
+```
+
+## Strings
+
+### 90. Valid Anagram
+**Описание**: Проверить, являются ли строки анаграммами.
+**Идея**: Считаем частоты символов или сортируем строки.
+
+```cpp
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) return false;
+        
+        vector<int> count(26, 0);
+        for (char c : s) count[c - 'a']++;
+        for (char c : t) {
+            if (--count[c - 'a'] < 0) return false;
+        }
+        return true;
+    }
+};
+```
+
+### 91. Valid Palindrome
+**Описание**: Проверить, является ли строка палиндромом, игнорируя не-буквенно-цифровые символы.
+**Идея**: Два указателя с фильтрацией символов.
+
+```cpp
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int left = 0, right = s.length() - 1;
+        
+        while (left < right) {
+            while (left < right && !isalnum(s[left])) left++;
+            while (left < right && !isalnum(s[right])) right--;
+            
+            if (tolower(s[left]) != tolower(s[right])) return false;
+            
+            left++;
+            right--;
+        }
+        return true;
+    }
+};
+```
+
+### 92. Word Pattern
+**Описание**: Проверить, соответствует ли строка шаблону.
+**Идея**: Используем два хэша для взаимно-однозначного соответствия.
+
+```cpp
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        unordered_map<char, string> charToWord;
+        unordered_map<string, char> wordToChar;
+        
+        stringstream ss(s);
+        string word;
+        int i = 0;
+        
+        while (ss >> word) {
+            if (i >= pattern.length()) return false;
+            
+            char c = pattern[i];
+            
+            if (charToWord.count(c) && charToWord[c] != word) return false;
+            if (wordToChar.count(word) && wordToChar[word] != c) return false;
+            
+            charToWord[c] = word;
+            wordToChar[word] = c;
+            i++;
+        }
+        
+        return i == pattern.length();
+    }
+};
+```
+
+### 93. Valid Parentheses
+**Описание**: Проверить валидность скобочной последовательности.
+**Идея**: Используем стек для отслеживания открывающих скобок.
+
+```cpp
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        unordered_map<char, char> pairs = {
+            {')', '('}, {']', '['}, {'}', '{'}
+        };
+        
+        for (char c : s) {
+            if (pairs.count(c)) {
+                if (st.empty() || st.top() != pairs[c]) return false;
+                st.pop();
+            } else {
+                st.push(c);
+            }
+        }
+        return st.empty();
+    }
+};
+```
+
+### 94. Isomorphic Strings
+**Описание**: Проверить, являются ли строки изоморфными.
+**Идея**: Проверяем взаимно-однозначное соответствие символов.
+
+```cpp
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> sToT;
+        unordered_map<char, char> tToS;
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c1 = s[i], c2 = t[i];
+            
+            if (sToT.count(c1) && sToT[c1] != c2) return false;
+            if (tToS.count(c2) && tToS[c2] != c1) return false;
+            
+            sToT[c1] = c2;
+            tToS[c2] = c1;
+        }
+        return true;
+    }
+};
+```
+
+### 95. Reverse String
+**Описание**: Развернуть строку на месте.
+**Идея**: Два указателя с начала и конца.
+
+```cpp
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int left = 0, right = s.size() - 1;
+        while (left < right) {
+            swap(s[left++], s[right--]);
+        }
+    }
+};
+```
+
+## Bit Manipulation
+
+### 96. Sum of Two Integers
+**Описание**: Сложить два целых числа без использования + и -.
+**Идея**: Используем побитовые операции XOR для суммы и AND для переноса.
+
+```cpp
+class Solution {
+public:
+    int getSum(int a, int b) {
+        while (b != 0) {
+            int carry = a & b;
+            a = a ^ b;
+            b = (unsigned)carry << 1;
+        }
+        return a;
+    }
+};
+```
+
+### 97. Single Number
+**Описание**: Найти единственное число, встречающееся один раз в массиве.
+**Идея**: XOR всех чисел - дубликаты уничтожатся.
+
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int result = 0;
+        for (int num : nums) result ^= num;
+        return result;
+    }
+};
+```
+
+### 98. Single Number II
+**Описание**: Найти единственное число, встречающееся один раз, остальные - три раза.
+**Идея**: Считаем количество единиц в каждом бите по модулю 3.
+
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ones = 0, twos = 0;
+        for (int num : nums) {
+            ones = (ones ^ num) & ~twos;
+            twos = (twos ^ num) & ~ones;
+        }
+        return ones;
+    }
+};
+```
+
+### 99. Single Number III
+**Описание**: Найти два числа, встречающихся по одному разу.
+**Идея**: Находим различающий бит и разделяем числа на две группы.
+
+```cpp
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        long diff = 0;
+        for (int num : nums) diff ^= num;
+        
+        diff &= -diff; // Находим младший установленный бит
+        
+        vector<int> result(2, 0);
+        for (int num : nums) {
+            if (num & diff) {
+                result[0] ^= num;
+            } else {
+                result[1] ^= num;
+            }
+        }
+        return result;
+    }
+};
+```
+
+## Maths
+
+### 100. Reverse Integer
+**Описание**: Развернуть цифры целого числа.
+**Идея**: Поразрядно извлекаем цифры и проверяем переполнение.
+
+```cpp
+class Solution {
+public:
+    int reverse(int x) {
+        int result = 0;
+        
+        while (x != 0) {
+            int digit = x % 10;
+            x /= 10;
+            
+            if (result > INT_MAX/10 || (result == INT_MAX/10 && digit > 7)) return 0;
+            if (result < INT_MIN/10 || (result == INT_MIN/10 && digit < -8)) return 0;
+            
+            result = result * 10 + digit;
+        }
+        return result;
+    }
+};
+```
+
+Это основные задачи из вашего списка. Продолжить с оставшимися задачами из разделов Matrix и Design?
+
+
+Продолжаю с оставшимися задачами:
+
+## Maths (продолжение)
+
+### 101. Palindrome Number
+**Описание**: Проверить, является ли целое число палиндромом.
+**Идея**: Разворачиваем половину числа и сравниваем с оставшейся половиной.
+
+```cpp
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+        
+        int reversed = 0;
+        while (x > reversed) {
+            reversed = reversed * 10 + x % 10;
+            x /= 10;
+        }
+        
+        return x == reversed || x == reversed / 10;
+    }
+};
+```
+
+### 102. Pow(x, n)
+**Описание**: Вычислить x в степени n.
+**Идея**: Используем быстрое возведение в степень через двоичное разложение.
+
+```cpp
+class Solution {
+public:
+    double myPow(double x, int n) {
+        long long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        
+        double result = 1.0;
+        double current = x;
+        
+        for (long long i = N; i > 0; i /= 2) {
+            if (i % 2 == 1) {
+                result *= current;
+            }
+            current *= current;
+        }
+        return result;
+    }
+};
+```
+
+### 103. Subsets
+**Описание**: Найти все подмножества множества.
+**Идея**: Используем битовые маски или backtracking.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        int n = nums.size();
+        int total = 1 << n;
+        
+        for (int mask = 0; mask < total; mask++) {
+            vector<int> subset;
+            for (int i = 0; i < n; i++) {
+                if (mask & (1 << i)) {
+                    subset.push_back(nums[i]);
+                }
+            }
+            result.push_back(subset);
+        }
+        return result;
+    }
+};
+```
+
+### 104. Subsets II
+**Описание**: Найти все уникальные подмножества множества с дубликатами.
+**Идея**: Сортируем и используем backtracking, пропуская дубликаты.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> result;
+        vector<int> current;
+        backtrack(nums, 0, current, result);
+        return result;
+    }
+    
+    void backtrack(vector<int>& nums, int start, vector<int>& current, vector<vector<int>>& result) {
+        result.push_back(current);
+        
+        for (int i = start; i < nums.size(); i++) {
+            if (i > start && nums[i] == nums[i - 1]) continue;
+            
+            current.push_back(nums[i]);
+            backtrack(nums, i + 1, current, result);
+            current.pop_back();
+        }
+    }
+};
+```
+
+### 105. Fraction to Recurring Decimal
+**Описание**: Преобразовать дробь в строку с периодической дробью.
+**Идея**: Используем хэш-таблицу для отслеживания остатков и выявления циклов.
+
+```cpp
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) return "0";
+        
+        string result;
+        // Знак
+        if (numerator < 0 ^ denominator < 0) {
+            result += '-';
+        }
+        
+        long num = labs(numerator);
+        long den = labs(denominator);
+        
+        // Целая часть
+        result += to_string(num / den);
+        long remainder = num % den;
+        if (remainder == 0) return result;
+        
+        // Дробная часть
+        result += '.';
+        unordered_map<long, int> remainderPos;
+        
+        while (remainder != 0) {
+            if (remainderPos.count(remainder)) {
+                result.insert(remainderPos[remainder], "(");
+                result += ')';
+                break;
+            }
+            
+            remainderPos[remainder] = result.size();
+            remainder *= 10;
+            result += to_string(remainder / den);
+            remainder %= den;
+        }
+        
+        return result;
+    }
+};
+```
+
+### 106. Excel Sheet Column Number
+**Описание**: Преобразовать название столбца Excel в число.
+**Идея**: Рассматриваем как число в 26-ричной системе счисления.
+
+```cpp
+class Solution {
+public:
+    int titleToNumber(string columnTitle) {
+        int result = 0;
+        for (char c : columnTitle) {
+            result = result * 26 + (c - 'A' + 1);
+        }
+        return result;
+    }
+};
+```
+
+### 107. Excel Sheet Column Title
+**Описание**: Преобразовать число в название столбца Excel.
+**Идея**: Обратное преобразование из 26-ричной системы с учетом того, что нет нуля.
+
+```cpp
+class Solution {
+public:
+    string convertToTitle(int columnNumber) {
+        string result;
+        
+        while (columnNumber > 0) {
+            columnNumber--;
+            result = char('A' + columnNumber % 26) + result;
+            columnNumber /= 26;
+        }
+        
+        return result;
+    }
+};
+```
+
+### 108. Factorial Trailing Zeroes
+**Описание**: Найти количество нулей в конце n!.
+**Идея**: Считаем количество множителей 5 (так как 2 всегда больше).
+
+```cpp
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int count = 0;
+        while (n > 0) {
+            n /= 5;
+            count += n;
+        }
+        return count;
+    }
+};
+```
+
+### 109. Happy Number
+**Описание**: Проверить, является ли число "счастливым".
+**Идея**: Используем алгоритм Флойда для обнаружения циклов.
+
+```cpp
+class Solution {
+public:
+    bool isHappy(int n) {
+        int slow = n, fast = getNext(n);
+        
+        while (fast != 1 && slow != fast) {
+            slow = getNext(slow);
+            fast = getNext(getNext(fast));
+        }
+        
+        return fast == 1;
+    }
+    
+    int getNext(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int digit = n % 10;
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
+    }
+};
+```
+
+### 110. Count Primes
+**Описание**: Подсчитать количество простых чисел меньше n.
+**Идея**: Решето Эратосфена.
+
+```cpp
+class Solution {
+public:
+    int countPrimes(int n) {
+        if (n <= 2) return 0;
+        
+        vector<bool> isPrime(n, true);
+        isPrime[0] = isPrime[1] = false;
+        
+        for (int i = 2; i * i < n; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j < n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime[i]) count++;
+        }
+        return count;
+    }
+};
+```
+
+### 111. Plus One
+**Описание**: Увеличить число, представленное массивом цифр, на 1.
+**Идея**: Обрабатываем перенос с конца массива.
+
+```cpp
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        
+        digits.insert(digits.begin(), 1);
+        return digits;
+    }
+};
+```
+
+### 112. Divide Two Integers
+**Описание**: Разделить два целых числа без использования умножения, деления и mod.
+**Идея**: Используем побитовые сдвиги для ускорения деления.
+
+```cpp
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if (dividend == INT_MIN && divisor == -1) return INT_MAX;
+        
+        long dvd = labs(dividend), dvs = labs(divisor);
+        int sign = (dividend < 0) ^ (divisor < 0) ? -1 : 1;
+        
+        long result = 0;
+        while (dvd >= dvs) {
+            long temp = dvs, multiple = 1;
+            while (dvd >= (temp << 1)) {
+                temp <<= 1;
+                multiple <<= 1;
+            }
+            dvd -= temp;
+            result += multiple;
+        }
+        
+        return sign * result;
+    }
+};
+```
+
+### 113. Multiply Strings
+**Описание**: Умножить два числа, представленных как строки.
+**Идея**: Имитируем умножение в столбик.
+
+```cpp
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        if (num1 == "0" || num2 == "0") return "0";
+        
+        int m = num1.size(), n = num2.size();
+        vector<int> result(m + n, 0);
+        
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int product = (num1[i] - '0') * (num2[j] - '0');
+                int sum = product + result[i + j + 1];
+                
+                result[i + j + 1] = sum % 10;
+                result[i + j] += sum / 10;
+            }
+        }
+        
+        string strResult;
+        for (int num : result) {
+            if (!(strResult.empty() && num == 0)) {
+                strResult += to_string(num);
+            }
+        }
+        
+        return strResult.empty() ? "0" : strResult;
+    }
+};
+```
+
+### 114. Max Points on a Line
+**Описание**: Найти максимальное количество точек на одной прямой.
+**Идея**: Для каждой точки считаем угловые коэффициенты с другими точками.
+
+```cpp
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        if (n <= 2) return n;
+        
+        int maxPoints = 1;
+        
+        for (int i = 0; i < n; i++) {
+            unordered_map<string, int> slopeCount;
+            int duplicate = 1;
+            
+            for (int j = i + 1; j < n; j++) {
+                int x1 = points[i][0], y1 = points[i][1];
+                int x2 = points[j][0], y2 = points[j][1];
+                
+                if (x1 == x2 && y1 == y2) {
+                    duplicate++;
+                    continue;
+                }
+                
+                int dx = x2 - x1, dy = y2 - y1;
+                int g = gcd(dx, dy);
+                
+                string slope = to_string(dy / g) + "/" + to_string(dx / g);
+                slopeCount[slope]++;
+            }
+            
+            maxPoints = max(maxPoints, duplicate);
+            for (auto& [slope, count] : slopeCount) {
+                maxPoints = max(maxPoints, count + duplicate);
+            }
+        }
+        
+        return maxPoints;
+    }
+    
+    int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+};
+```
+
+### 115. Product of Array Except Self
+**Описание**: Вычислить массив, где каждый элемент - произведение всех элементов кроме себя.
+**Идея**: Используем префиксные и постфиксные произведения.
+
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> result(n, 1);
+        
+        // Префиксное произведение
+        int prefix = 1;
+        for (int i = 0; i < n; i++) {
+            result[i] = prefix;
+            prefix *= nums[i];
+        }
+        
+        // Постфиксное произведение
+        int postfix = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            result[i] *= postfix;
+            postfix *= nums[i];
+        }
+        
+        return result;
+    }
+};
+```
+
+### 116. Power of Three
+**Описание**: Проверить, является ли число степенью тройки.
+**Идея**: Используем математическое свойство или цикл деления.
+
+```cpp
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        if (n <= 0) return false;
+        
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+        
+        return n == 1;
+    }
+};
+```
+
+### 117. Integer Break
+**Описание**: Разбить число на сумму натуральных чисел с максимальным произведением.
+**Идея**: Используем математическое свойство - предпочтительны тройки.
+
+```cpp
+class Solution {
+public:
+    int integerBreak(int n) {
+        if (n <= 3) return n - 1;
+        
+        int product = 1;
+        while (n > 4) {
+            product *= 3;
+            n -= 3;
+        }
+        
+        return product * n;
+    }
+};
+```
+
+### 118. Power of Four
+**Описание**: Проверить, является ли число степенью четверки.
+**Идея**: Проверяем, что число степень двойки и (num-1) делится на 3.
+
+```cpp
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        return n > 0 && (n & (n - 1)) == 0 && (n - 1) % 3 == 0;
+    }
+};
+```
+
+### 119. Add Digits
+**Описание**: Сложить цифры числа до получения одной цифры.
+**Идея**: Используем математическое свойство цифрового корня.
+
+```cpp
+class Solution {
+public:
+    int addDigits(int num) {
+        if (num == 0) return 0;
+        return 1 + (num - 1) % 9;
+    }
+};
+```
+
+### 120. Ugly Number
+**Описание**: Проверить, является ли число "уродливым" (делится только на 2, 3, 5).
+**Идея**: Последовательно делим на 2, 3, 5 пока возможно.
+
+```cpp
+class Solution {
+public:
+    bool isUgly(int n) {
+        if (n <= 0) return false;
+        
+        while (n % 2 == 0) n /= 2;
+        while (n % 3 == 0) n /= 3;
+        while (n % 5 == 0) n /= 5;
+        
+        return n == 1;
+    }
+};
+```
+
+### 121. Ugly Number II
+**Описание**: Найти n-е уродливое число.
+**Идея**: Используем три указателя для генерации уродливых чисел.
+
+```cpp
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        vector<int> ugly(n);
+        ugly[0] = 1;
+        
+        int i2 = 0, i3 = 0, i5 = 0;
+        
+        for (int i = 1; i < n; i++) {
+            int next2 = ugly[i2] * 2;
+            int next3 = ugly[i3] * 3;
+            int next5 = ugly[i5] * 5;
+            
+            int nextUgly = min({next2, next3, next5});
+            ugly[i] = nextUgly;
+            
+            if (nextUgly == next2) i2++;
+            if (nextUgly == next3) i3++;
+            if (nextUgly == next5) i5++;
+        }
+        
+        return ugly[n - 1];
+    }
+};
+```
+
+### 122. Super Ugly Number
+**Описание**: Найти n-е супер-уродливое число (делится только на заданные простые числа).
+**Идея**: Обобщение предыдущего алгоритма на k указателей.
+
+```cpp
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        vector<int> ugly(n);
+        ugly[0] = 1;
+        
+        int k = primes.size();
+        vector<int> pointers(k, 0);
+        
+        for (int i = 1; i < n; i++) {
+            int minVal = INT_MAX;
+            for (int j = 0; j < k; j++) {
+                minVal = min(minVal, ugly[pointers[j]] * primes[j]);
+            }
+            ugly[i] = minVal;
+            
+            for (int j = 0; j < k; j++) {
+                if (ugly[pointers[j]] * primes[j] == minVal) {
+                    pointers[j]++;
+                }
+            }
+        }
+        
+        return ugly[n - 1];
+    }
+};
+```
+
+### 123. Find K Pairs with Smallest Sums
+**Описание**: Найти k пар с наименьшими суммами из двух массивов.
+**Идея**: Используем минимальную кучу для хранения кандидатов.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<vector<int>> result;
+        if (nums1.empty() || nums2.empty() || k == 0) return result;
+        
+        auto cmp = [&](const pair<int, int>& a, const pair<int, int>& b) {
+            return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second];
+        };
+        
+        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);
+        
+        for (int i = 0; i < min(k, (int)nums1.size()); i++) {
+            pq.push({i, 0});
+        }
+        
+        while (k-- > 0 && !pq.empty()) {
+            auto [i, j] = pq.top();
+            pq.pop();
+            result.push_back({nums1[i], nums2[j]});
+            
+            if (j + 1 < nums2.size()) {
+                pq.push({i, j + 1});
+            }
+        }
+        
+        return result;
+    }
+};
+```
+
+### 124. Self Crossing
+**Описание**: Проверить, пересекает ли путь сам себя.
+**Идея**: Анализируем возможные случаи пересечения.
+
+```cpp
+class Solution {
+public:
+    bool isSelfCrossing(vector<int>& x) {
+        int n = x.size();
+        if (n <= 3) return false;
+        
+        for (int i = 3; i < n; i++) {
+            // Case 1: Fourth line crosses first line
+            if (x[i] >= x[i - 2] && x[i - 1] <= x[i - 3]) return true;
+            
+            // Case 2: Fifth line meets first line
+            if (i >= 4 && x[i - 1] == x[i - 3] && x[i] + x[i - 4] >= x[i - 2]) return true;
+            
+            // Case 3: Sixth line crosses first line
+            if (i >= 5 && x[i - 2] >= x[i - 4] && 
+                x[i] + x[i - 4] >= x[i - 2] && 
+                x[i - 1] <= x[i - 3] && 
+                x[i - 1] + x[i - 5] >= x[i - 3]) return true;
+        }
+        
+        return false;
+    }
+};
+```
+
+### 125. Paint Fence
+**Описание**: Посчитать количество способов покрасить n столбов k цветами без 3+ одинаковых подряд.
+**Идея**: Динамическое программирование с двумя состояниями.
+
+```cpp
+class Solution {
+public:
+    int numWays(int n, int k) {
+        if (n == 0) return 0;
+        if (n == 1) return k;
+        
+        int same = k;     // Последние два столба одинаковые
+        int diff = k * (k - 1); // Последние два столба разные
+        
+        for (int i = 3; i <= n; i++) {
+            int temp = diff;
+            diff = (same + diff) * (k - 1);
+            same = temp;
+        }
+        
+        return same + diff;
+    }
+};
+```
+
+### 126. Bulb Switcher
+**Описание**: Найти количество включенных лампочек после n раундов переключения.
+**Идея**: Лампочка включена, если у нее нечетное количество делителей (только полные квадраты).
+
+```cpp
+class Solution {
+public:
+    int bulbSwitch(int n) {
+        return sqrt(n);
+    }
+};
+```
+
+### 127. Nim Game
+**Описание**: Определить, можно ли выиграть в игре Ним.
+**Идея**: Проигрышная позиция - когда количество камней кратно 4.
+
+```cpp
+class Solution {
+public:
+    bool canWinNim(int n) {
+        return n % 4 != 0;
+    }
+};
+```
+
+## Matrix
+
+### 128. Rotate Image
+**Описание**: Повернуть изображение (матрицу) на 90 градусов по часовой стрелке.
+**Идея**: Транспонируем матрицу и отражаем по вертикали.
+
+```cpp
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        
+        // Транспонирование
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+        
+        // Отражение по вертикали
+        for (int i = 0; i < n; i++) {
+            reverse(matrix[i].begin(), matrix[i].end());
+        }
+    }
+};
+```
+
+### 129. Set Matrix Zeroes
+**Описание**: Установить нули в всей строке и столбце, если элемент равен нулю.
+**Идея**: Используем первую строку и столбец как маркеры.
+
+```cpp
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        bool firstRowZero = false, firstColZero = false;
+        
+        // Проверяем первую строку
+        for (int j = 0; j < n; j++) {
+            if (matrix[0][j] == 0) {
+                firstRowZero = true;
+                break;
+            }
+        }
+        
+        // Проверяем первый столбец
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == 0) {
+                firstColZero = true;
+                break;
+            }
+        }
+        
+        // Используем маркеры
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+        
+        // Устанавливаем нули
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        
+        // Обрабатываем первую строку
+        if (firstRowZero) {
+            for (int j = 0; j < n; j++) matrix[0][j] = 0;
+        }
+        
+        // Обрабатываем первый столбец
+        if (firstColZero) {
+            for (int i = 0; i < m; i++) matrix[i][0] = 0;
+        }
+    }
+};
+```
+
+### 130. Search a 2D Matrix
+**Описание**: Найти target в отсортированной матрице (каждая строка и столбец отсортированы).
+**Идея**: Начинаем поиск из правого верхнего угла.
+
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if (matrix.empty() || matrix[0].empty()) return false;
+        
+        int m = matrix.size(), n = matrix[0].size();
+        int row = 0, col = n - 1;
+        
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] > target) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+        return false;
+    }
+};
+```
+
+### 131. Search a 2D Matrix II
+**Описание**: Найти target в матрице, где строки и столбцы отсортированы по отдельности.
+**Идея**: Аналогично предыдущей задаче, начинаем из правого верхнего угла.
+
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if (matrix.empty() || matrix[0].empty()) return false;
+        
+        int m = matrix.size(), n = matrix[0].size();
+        int row = 0, col = n - 1;
+        
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] > target) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+        return false;
+    }
+};
+```
+
+### 132. Spiral Matrix
+**Описание**: Вернуть элементы матрицы в спиральном порядке.
+**Идея**: Обходим матрицу по слоям с четырьмя направлениями.
+
+```cpp
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        if (matrix.empty()) return {};
+        
+        int m = matrix.size(), n = matrix[0].size();
+        vector<int> result;
+        
+        int top = 0, bottom = m - 1, left = 0, right = n - 1;
+        
+        while (top <= bottom && left <= right) {
+            // Верхняя строка
+            for (int j = left; j <= right; j++) {
+                result.push_back(matrix[top][j]);
+            }
+            top++;
+            
+            // Правый столбец
+            for (int i = top; i <= bottom; i++) {
+                result.push_back(matrix[i][right]);
+            }
+            right--;
+            
+            if (top <= bottom) {
+                // Нижняя строка
+                for (int j = right; j >= left; j--) {
+                    result.push_back(matrix[bottom][j]);
+                }
+                bottom--;
+            }
+            
+            if (left <= right) {
+                // Левый столбец
+                for (int i = bottom; i >= top; i--) {
+                    result.push_back(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+        
+        return result;
+    }
+};
+```
+
+### 133. Spiral Matrix II
+**Описание**: Заполнить матрицу числами от 1 до n² в спиральном порядке.
+**Идея**: Аналогично предыдущей задаче, но заполняем числами.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> matrix(n, vector<int>(n));
+        
+        int top = 0, bottom = n - 1, left = 0, right = n - 1;
+        int num = 1;
+        
+        while (top <= bottom && left <= right) {
+            // Верхняя строка
+            for (int j = left; j <= right; j++) {
+                matrix[top][j] = num++;
+            }
+            top++;
+            
+            // Правый столбец
+            for (int i = top; i <= bottom; i++) {
+                matrix[i][right] = num++;
+            }
+            right--;
+            
+            if (top <= bottom) {
+                // Нижняя строка
+                for (int j = right; j >= left; j--) {
+                    matrix[bottom][j] = num++;
+                }
+                bottom--;
+            }
+            
+            if (left <= right) {
+                // Левый столбец
+                for (int i = bottom; i >= top; i--) {
+                    matrix[i][left] = num++;
+                }
+                left++;
+            }
+        }
+        
+        return matrix;
+    }
+};
+```
+
+## Design
+
+### 134. LRU Cache
+**Описание**: Реализовать кэш с политикой вытеснения Least Recently Used.
+**Идея**: Используем хэш-таблицу и двусвязный список для быстрого доступа и перемещения.
+
+```cpp
+class LRUCache {
+private:
+    struct Node {
+        int key;
+        int value;
+        Node* prev;
+        Node* next;
+        Node(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}
+    };
+    
+    int capacity;
+    unordered_map<int, Node*> cache;
+    Node* head;
+    Node* tail;
+    
+    void addToHead(Node* node) {
+        node->next = head->next;
+        node->prev = head;
+        head->next->prev = node;
+        head->next = node;
+    }
+    
+    void removeNode(Node* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+    
+    void moveToHead(Node* node) {
+        removeNode(node);
+        addToHead(node);
+    }
+    
+    Node* removeTail() {
+        Node* node = tail->prev;
+        removeNode(node);
+        return node;
+    }
+    
+public:
+    LRUCache(int capacity) : capacity(capacity) {
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if (!cache.count(key)) return -1;
+        
+        Node* node = cache[key];
+        moveToHead(node);
+        return node->value;
+    }
+    
+    void put(int key, int value) {
+        if (cache.count(key)) {
+            Node* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        } else {
+            Node* newNode = new Node(key, value);
+            cache[key] = newNode;
+            addToHead(newNode);
+            
+            if (cache.size() > capacity) {
+                Node* tailNode = removeTail();
+                cache.erase(tailNode->key);
+                delete tailNode;
+            }
+        }
+    }
+};
+```
+

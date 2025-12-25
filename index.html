@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>134 Algorithms - Полная коллекция задач C++</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/vs2015.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0d1117; color: #c9d1d9; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; display: flex; gap: 20px; }
+        
+        /* Sidebar */
+        .sidebar { width: 350px; background: #161b22; border-radius: 10px; padding: 20px; height: calc(100vh - 40px); position: sticky; top: 20px; border: 1px solid #30363d; }
+        .sidebar h1 { color: #58a6ff; margin-bottom: 10px; font-size: 24px; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat { background: #0d1117; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #30363d; }
+        .stat-number { font-size: 24px; font-weight: bold; color: #58a6ff; }
+        .stat-label { font-size: 12px; color: #8b949e; }
+        
+        /* Search */
+        .search { width: 100%; padding: 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: white; margin-bottom: 15px; }
+        
+        /* Categories */
+        .categories { margin-bottom: 20px; }
+        .category { background: #0d1117; padding: 8px 12px; margin-bottom: 5px; border-radius: 6px; border-left: 4px solid #58a6ff; font-size: 14px; }
+        .category-count { float: right; background: #238636; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+        
+        /* Problem List */
+        .problem-list { height: 500px; overflow-y: auto; }
+        .problem-item { padding: 12px; margin-bottom: 8px; background: #0d1117; border-radius: 6px; border: 1px solid #30363d; cursor: pointer; transition: all 0.2s; }
+        .problem-item:hover { background: #1c2128; border-color: #58a6ff; }
+        .problem-item.active { background: #1c2128; border-color: #58a6ff; border-left: 4px solid #58a6ff; }
+        .problem-id { color: #58a6ff; font-weight: bold; display: inline-block; width: 40px; }
+        .problem-title { color: #c9d1d9; }
+        .problem-meta { font-size: 12px; color: #8b949e; margin-top: 5px; }
+        .difficulty { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 10px; }
+        .easy { background: #238636; color: white; }
+        .medium { background: #9e6a03; color: white; }
+        .hard { background: #da3633; color: white; }
+        
+        /* Main Content */
+        .main-content { flex: 1; background: #161b22; border-radius: 10px; padding: 30px; height: calc(100vh - 40px); overflow-y: auto; border: 1px solid #30363d; }
+        .problem-header { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #30363d; }
+        #problem-title { color: #f0f6fc; font-size: 28px; margin-bottom: 10px; }
+        .header-meta { color: #8b949e; font-size: 14px; }
+        .info-box { background: #0d1117; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #30363d; }
+        .info-box h3 { color: #58a6ff; margin-bottom: 10px; }
+        
+        /* Code Section */
+        .code-section { margin-top: 30px; }
+        .code-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .btn { padding: 10px 20px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn:hover { background: #2ea043; }
+        .code-container { background: #0d1117; border-radius: 8px; overflow: hidden; border: 1px solid #30363d; }
+        .code-toolbar { background: #161b22; padding: 15px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; }
+        pre { margin: 0; }
+        code { font-family: 'Monaco', 'Consolas', monospace; font-size: 14px; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; }
+            .main-content { height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h1>🧮 134 Algorithms</h1>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">134</div>
+                    <div class="stat-label">Задач</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Категорий</div>
+                </div>
+            </div>
+            
+            <input type="text" class="search" id="search" placeholder="🔍 Поиск задачи...">
+            
+            <div class="categories">
+                <h3 style="color: #8b949e; margin-bottom: 10px; font-size: 14px;">КАТЕГОРИИ:</h3>
+<div class="category">Arrays <span class="category-count">32</span></div>
+<div class="category">Bit Manipulation <span class="category-count">4</span></div>
+<div class="category">Design <span class="category-count">1</span></div>
+<div class="category">Graphs <span class="category-count">5</span></div>
+<div class="category">Heaps <span class="category-count">2</span></div>
+<div class="category">Linked List <span class="category-count">12</span></div>
+<div class="category">Maths <span class="category-count">1</span></div>
+<div class="category">Maths (продолжение) <span class="category-count">27</span></div>
+<div class="category">Matrix <span class="category-count">6</span></div>
+<div class="category">Strings <span class="category-count">6</span></div>
+<div class="category">Trees <span class="category-count">38</span></div>
+            </div>
+            
+            <div class="problem-list" id="problem-list">
+                <!-- Список задач будет сгенерирован JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="problem-header">
+                <h1 id="problem-title">Выберите задачу</h1>
+                <div class="header-meta">
+                    <span id="problem-id">#000</span> • 
+                    <span id="problem-category">Категория</span> • 
+                    <span id="problem-difficulty" class="difficulty easy">Сложность</span>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h3>📝 Описание задачи</h3>
+                <p id="problem-description">Выберите задачу из списка слева для просмотра описания.</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>💡 Идея решения</h3>
+                <p id="problem-idea">Идея решения появится здесь после выбора задачи.</p>
+            </div>
+            
+            <div class="code-section">
+                <div class="code-header">
+                    <h2 style="color: #c9d1d9;">👨‍💻 Решение на C++</h2>
+                    <button id="copy-code" class="btn">📋 Копировать код</button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-toolbar">
+                        <div id="file-name" style="color: #8b949e; font-family: monospace;">solution.cpp</div>
+                        <div style="color: #8b949e;">C++</div>
+                    </div>
+                    <pre><code id="code" class="language-cpp">// Выберите задачу для просмотра кода</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/cpp.min.js"></script>
+    
+    <script>
+        // ВСЕ ЗАДАЧИ ВСТРОЕНЫ В СТРАНИЦУ
+        const problems = [
+  {
+    "id": 1,
+    "title": "Linked List Cycle",
+    "description": "Определить, содержит ли связный список цикл.",
+    "idea": "Используем алгоритм \"Черепаха и Заяц\" - два указателя, один движется в 2 раза быстрее. Если есть цикл, они встретятся.",
+    "code": "class Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        if (!head) return false;\n        ListNode *slow = head, *fast = head;\n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n            if (slow == fast) return true;\n        }\n        return false;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "001_linked_list_cycle.cpp"
+  },
+  {
+    "id": 2,
+    "title": "Reverse Linked List",
+    "description": "Развернуть односвязный список.",
+    "idea": "Итеративно меняем указатели направления. Храним предыдущий, текущий и следующий узлы.",
+    "code": "class Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        ListNode *prev = nullptr, *curr = head;\n        while (curr) {\n            ListNode *next = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = next;\n        }\n        return prev;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "002_reverse_linked_list.cpp"
+  },
+  {
+    "id": 3,
+    "title": "Delete Node in a Linked List",
+    "description": "Удалить узел (не хвостовой) имея доступ только к этому узлу.",
+    "idea": "Копируем значение следующего узла в текущий, затем пропускаем следующий узел.",
+    "code": "class Solution {\npublic:\n    void deleteNode(ListNode* node) {\n        node->val = node->next->val;\n        node->next = node->next->next;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "003_delete_node_in_a_linked_list.cpp"
+  },
+  {
+    "id": 4,
+    "title": "Merge Two Sorted Lists",
+    "description": "Объединить два отсортированных связных списка в один отсортированный.",
+    "idea": "Сравниваем узлы из обоих списков и строим новый список, выбирая меньший элемент на каждом шаге.",
+    "code": "class Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {\n        ListNode dummy(0);\n        ListNode *tail = &dummy;\n        \n        while (l1 && l2) {\n            if (l1->val < l2->val) {\n                tail->next = l1;\n                l1 = l1->next;\n            } else {\n                tail->next = l2;\n                l2 = l2->next;\n            }\n            tail = tail->next;\n        }\n        tail->next = l1 ? l1 : l2;\n        return dummy.next;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "004_merge_two_sorted_lists.cpp"
+  },
+  {
+    "id": 5,
+    "title": "Intersection of Two Linked Lists",
+    "description": "Найти узел пересечения двух связных списков.",
+    "idea": "Два указателя проходят оба списка. Когда один достигает конца, он переходит к началу другого списка.",
+    "code": "class Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        ListNode *a = headA, *b = headB;\n        while (a != b) {\n            a = a ? a->next : headB;\n            b = b ? b->next : headA;\n        }\n        return a;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "005_intersection_of_two_linked_lists.cpp"
+  },
+  {
+    "id": 6,
+    "title": "Linked List Cycle II",
+    "description": "Найти узел, с которого начинается цикл в связном списке.",
+    "idea": "Сначала находим точку встречи быстрого и медленного указателей, затем перемещаем один указатель в начало и двигаем оба с одинаковой скоростью.",
+    "code": "class Solution {\npublic:\n    ListNode *detectCycle(ListNode *head) {\n        if (!head) return nullptr;\n        ListNode *slow = head, *fast = head;\n        \n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n            if (slow == fast) {\n                slow = head;\n                while (slow != fast) {\n                    slow = slow->next;\n                    fast = fast->next;\n                }\n                return slow;\n            }\n        }\n        return nullptr;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "006_linked_list_cycle_ii.cpp"
+  },
+  {
+    "id": 7,
+    "title": "Palindrome Linked List",
+    "description": "Проверить, является ли связный список палиндромом.",
+    "idea": "Находим середину списка, разворачиваем вторую половину и сравниваем с первой.",
+    "code": "class Solution {\npublic:\n    bool isPalindrome(ListNode* head) {\n        if (!head || !head->next) return true;\n        \n        // Находим середину\n        ListNode *slow = head, *fast = head;\n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        \n        // Разворачиваем вторую половину\n        ListNode *prev = nullptr, *curr = slow;\n        while (curr) {\n            ListNode *next = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = next;\n        }\n        \n        // Сравниваем две половины\n        ListNode *left = head, *right = prev;\n        while (right) {\n            if (left->val != right->val) return false;\n            left = left->next;\n            right = right->next;\n        }\n        return true;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "007_palindrome_linked_list.cpp"
+  },
+  {
+    "id": 8,
+    "title": "Remove Linked List Elements",
+    "description": "Удалить все узлы с заданным значением из связного списка.",
+    "idea": "Используем фиктивный узел для обработки случая, когда нужно удалить голову списка.",
+    "code": "class Solution {\npublic:\n    ListNode* removeElements(ListNode* head, int val) {\n        ListNode dummy(0);\n        dummy.next = head;\n        ListNode *curr = &dummy;\n        \n        while (curr->next) {\n            if (curr->next->val == val) {\n                curr->next = curr->next->next;\n            } else {\n                curr = curr->next;\n            }\n        }\n        return dummy.next;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "008_remove_linked_list_elements.cpp"
+  },
+  {
+    "id": 9,
+    "title": "Remove Duplicates from Sorted List",
+    "description": "Удалить дубликаты из отсортированного связного списка.",
+    "idea": "Проходим по списку и пропускаем узлы с одинаковыми значениями.",
+    "code": "class Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        ListNode *curr = head;\n        while (curr && curr->next) {\n            if (curr->val == curr->next->val) {\n                curr->next = curr->next->next;\n            } else {\n                curr = curr->next;\n            }\n        }\n        return head;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "009_remove_duplicates_from_sorted_list.cpp"
+  },
+  {
+    "id": 10,
+    "title": "Remove Duplicates from Sorted List II",
+    "description": "Удалить все узлы, которые имеют дубликаты, оставив только уникальные элементы.",
+    "idea": "Используем фиктивный узел и отслеживаем предыдущий узел для полного удаления дубликатов.",
+    "code": "class Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        ListNode dummy(0);\n        dummy.next = head;\n        ListNode *prev = &dummy, *curr = head;\n        \n        while (curr) {\n            while (curr->next && curr->val == curr->next->val) {\n                curr = curr->next;\n            }\n            if (prev->next == curr) {\n                prev = prev->next;\n            } else {\n                prev->next = curr->next;\n            }\n            curr = curr->next;\n        }\n        return dummy.next;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "010_remove_duplicates_from_sorted_list_ii.cpp"
+  },
+  {
+    "id": 11,
+    "title": "Swap Nodes in Pairs",
+    "description": "Поменять местами каждые два соседних узла в связном списке.",
+    "idea": "Используем фиктивный узел и меняем пары узлов, обновляя указатели.",
+    "code": "class Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        ListNode dummy(0);\n        dummy.next = head;\n        ListNode *curr = &dummy;\n        \n        while (curr->next && curr->next->next) {\n            ListNode *first = curr->next;\n            ListNode *second = curr->next->next;\n            \n            first->next = second->next;\n            second->next = first;\n            curr->next = second;\n            \n            curr = curr->next->next;\n        }\n        return dummy.next;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "011_swap_nodes_in_pairs.cpp"
+  },
+  {
+    "id": 12,
+    "title": "Remove Nth Node From End of List",
+    "description": "Удалить n-й узел с конца связного списка.",
+    "idea": "Два указателя с разницей в n шагов. Когда первый достигает конца, второй находится перед узлом для удаления.",
+    "code": "class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        ListNode dummy(0);\n        dummy.next = head;\n        ListNode *first = &dummy, *second = &dummy;\n        \n        for (int i = 0; i <= n; i++) {\n            first = first->next;\n        }\n        \n        while (first) {\n            first = first->next;\n            second = second->next;\n        }\n        \n        second->next = second->next->next;\n        return dummy.next;\n    }\n};",
+    "category": "Linked List",
+    "difficulty": "Easy",
+    "filename": "012_remove_nth_node_from_end_of_list.cpp"
+  },
+  {
+    "id": 13,
+    "title": "Binary Tree Preorder Traversal",
+    "description": "Вернуть preorder обход бинарного дерева.",
+    "idea": "Используем стек для имитации рекурсии. Обрабатываем корень, затем правого и левого потомков.",
+    "code": "class Solution {\npublic:\n    vector<int> preorderTraversal(TreeNode* root) {\n        vector<int> result;\n        stack<TreeNode*> st;\n        if (root) st.push(root);\n        \n        while (!st.empty()) {\n            TreeNode* node = st.top();\n            st.pop();\n            result.push_back(node->val);\n            \n            if (node->right) st.push(node->right);\n            if (node->left) st.push(node->left);\n        }\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "013_binary_tree_preorder_traversal.cpp"
+  },
+  {
+    "id": 14,
+    "title": "BST Iterator",
+    "description": "Реализовать итератор для бинарного дерева поиска.",
+    "idea": "Используем стек для хранения левых потомков. При вызове next() возвращаем следующий наименьший элемент.",
+    "code": "class BSTIterator {\n    stack<TreeNode*> st;\n    \n    void pushLeft(TreeNode* node) {\n        while (node) {\n            st.push(node);\n            node = node->left;\n        }\n    }\n    \npublic:\n    BSTIterator(TreeNode* root) {\n        pushLeft(root);\n    }\n    \n    int next() {\n        TreeNode* node = st.top();\n        st.pop();\n        pushLeft(node->right);\n        return node->val;\n    }\n    \n    bool hasNext() {\n        return !st.empty();\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "014_bst_iterator.cpp"
+  },
+  {
+    "id": 15,
+    "title": "Binary Tree Inorder Traversal",
+    "description": "Вернуть inorder обход бинарного дерева.",
+    "idea": "Итеративный обход с использованием стека. Сначала идем до самого левого узла.",
+    "code": "class Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        vector<int> result;\n        stack<TreeNode*> st;\n        TreeNode* curr = root;\n        \n        while (curr || !st.empty()) {\n            while (curr) {\n                st.push(curr);\n                curr = curr->left;\n            }\n            curr = st.top();\n            st.pop();\n            result.push_back(curr->val);\n            curr = curr->right;\n        }\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "015_binary_tree_inorder_traversal.cpp"
+  },
+  {
+    "id": 16,
+    "title": "Symmetric Tree",
+    "description": "Проверить, является ли бинарное дерево симметричным.",
+    "idea": "Рекурсивно сравниваем левое и правое поддеревья зеркально.",
+    "code": "class Solution {\npublic:\n    bool isSymmetric(TreeNode* root) {\n        if (!root) return true;\n        return isMirror(root->left, root->right);\n    }\n    \n    bool isMirror(TreeNode* left, TreeNode* right) {\n        if (!left && !right) return true;\n        if (!left || !right) return false;\n        return (left->val == right->val) &&\n               isMirror(left->left, right->right) &&\n               isMirror(left->right, right->left);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "016_symmetric_tree.cpp"
+  },
+  {
+    "id": 17,
+    "title": "Balanced Binary Tree",
+    "description": "Проверить, является ли бинарное дерево сбалансированным.",
+    "idea": "Рекурсивно проверяем высоты поддеревьев. Если разница больше 1, возвращаем -1.",
+    "code": "class Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        return checkHeight(root) != -1;\n    }\n    \n    int checkHeight(TreeNode* node) {\n        if (!node) return 0;\n        \n        int left = checkHeight(node->left);\n        if (left == -1) return -1;\n        \n        int right = checkHeight(node->right);\n        if (right == -1) return -1;\n        \n        if (abs(left - right) > 1) return -1;\n        return max(left, right) + 1;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "017_balanced_binary_tree.cpp"
+  },
+  {
+    "id": 18,
+    "title": "Closest Binary Search Tree Value",
+    "description": "Найти значение в BST, наиболее близкое к целевому.",
+    "idea": "Используем свойства BST для навигации, обновляя ближайшее значение на каждом шаге.",
+    "code": "class Solution {\npublic:\n    int closestValue(TreeNode* root, double target) {\n        int closest = root->val;\n        while (root) {\n            if (abs(root->val - target) < abs(closest - target)) {\n                closest = root->val;\n            }\n            root = target < root->val ? root->left : root->right;\n        }\n        return closest;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "018_closest_binary_search_tree_value.cpp"
+  },
+  {
+    "id": 19,
+    "title": "Binary Tree Postorder Traversal",
+    "description": "Вернуть postorder обход бинарного дерева.",
+    "idea": "Модифицированный preorder обход (корень-право-лево) с последующим разворотом результата.",
+    "code": "class Solution {\npublic:\n    vector<int> postorderTraversal(TreeNode* root) {\n        vector<int> result;\n        stack<TreeNode*> st;\n        if (root) st.push(root);\n        \n        while (!st.empty()) {\n            TreeNode* node = st.top();\n            st.pop();\n            result.push_back(node->val);\n            \n            if (node->left) st.push(node->left);\n            if (node->right) st.push(node->right);\n        }\n        reverse(result.begin(), result.end());\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "019_binary_tree_postorder_traversal.cpp"
+  },
+  {
+    "id": 20,
+    "title": "Maximum Depth of Binary Tree",
+    "description": "Найти максимальную глубину бинарного дерева.",
+    "idea": "Рекурсивно находим максимальную глубину левого и правого поддеревьев.",
+    "code": "class Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        if (!root) return 0;\n        return max(maxDepth(root->left), maxDepth(root->right)) + 1;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "020_maximum_depth_of_binary_tree.cpp"
+  },
+  {
+    "id": 21,
+    "title": "Invert Binary Tree",
+    "description": "Инвертировать бинарное дерево.",
+    "idea": "Рекурсивно меняем местами левое и правое поддеревья для каждого узла.",
+    "code": "class Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        if (!root) return nullptr;\n        \n        TreeNode* temp = root->left;\n        root->left = invertTree(root->right);\n        root->right = invertTree(temp);\n        \n        return root;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "021_invert_binary_tree.cpp"
+  },
+  {
+    "id": 22,
+    "title": "Same Tree",
+    "description": "Проверить, идентичны ли два бинарных дерева.",
+    "idea": "Рекурсивно сравниваем структуры и значения узлов.",
+    "code": "class Solution {\npublic:\n    bool isSameTree(TreeNode* p, TreeNode* q) {\n        if (!p && !q) return true;\n        if (!p || !q) return false;\n        return (p->val == q->val) &&\n               isSameTree(p->left, q->left) &&\n               isSameTree(p->right, q->right);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "022_same_tree.cpp"
+  },
+  {
+    "id": 23,
+    "title": "Lowest Common Ancestor of BST",
+    "description": "Найти наименьшего общего предка двух узлов в BST.",
+    "idea": "Используем свойства BST - LCA находится между значениями двух узлов.",
+    "code": "class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        while (root) {\n            if (p->val < root->val && q->val < root->val) {\n                root = root->left;\n            } else if (p->val > root->val && q->val > root->val) {\n                root = root->right;\n            } else {\n                return root;\n            }\n        }\n        return nullptr;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "023_lowest_common_ancestor_of_bst.cpp"
+  },
+  {
+    "id": 24,
+    "title": "Lowest Common Ancestor of Binary Tree",
+    "description": "Найти наименьшего общего предка двух узлов в бинарном дереве.",
+    "idea": "Рекурсивный поиск. Если оба узла найдены в разных поддеревьях, текущий узел - LCA.",
+    "code": "class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        if (!root || root == p || root == q) return root;\n        \n        TreeNode* left = lowestCommonAncestor(root->left, p, q);\n        TreeNode* right = lowestCommonAncestor(root->right, p, q);\n        \n        if (left && right) return root;\n        return left ? left : right;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "024_lowest_common_ancestor_of_binary_tree.cpp"
+  },
+  {
+    "id": 25,
+    "title": "Unique Binary Search Trees",
+    "description": "Посчитать количество уникальных BST для n узлов.",
+    "idea": "Числа Каталана. Динамическое программирование: dp[i] = Σ(dp[j-1] * dp[i-j]).",
+    "code": "class Solution {\npublic:\n    int numTrees(int n) {\n        vector<int> dp(n + 1, 0);\n        dp[0] = dp[1] = 1;\n        \n        for (int i = 2; i <= n; i++) {\n            for (int j = 1; j <= i; j++) {\n                dp[i] += dp[j - 1] * dp[i - j];\n            }\n        }\n        return dp[n];\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "025_unique_binary_search_trees.cpp"
+  },
+  {
+    "id": 26,
+    "title": "Unique Binary Search Trees II",
+    "description": "Сгенерировать все уникальные BST для n узлов.",
+    "idea": "Рекурсивная генерация всех возможных BST для каждого корня.",
+    "code": "class Solution {\npublic:\n    vector<TreeNode*> generateTrees(int n) {\n        if (n == 0) return {};\n        return generate(1, n);\n    }\n    \n    vector<TreeNode*> generate(int start, int end) {\n        vector<TreeNode*> trees;\n        if (start > end) {\n            trees.push_back(nullptr);\n            return trees;\n        }\n        \n        for (int i = start; i <= end; i++) {\n            vector<TreeNode*> leftTrees = generate(start, i - 1);\n            vector<TreeNode*> rightTrees = generate(i + 1, end);\n            \n            for (TreeNode* left : leftTrees) {\n                for (TreeNode* right : rightTrees) {\n                    TreeNode* root = new TreeNode(i);\n                    root->left = left;\n                    root->right = right;\n                    trees.push_back(root);\n                }\n            }\n        }\n        return trees;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "026_unique_binary_search_trees_ii.cpp"
+  },
+  {
+    "id": 27,
+    "title": "Path Sum",
+    "description": "Проверить, существует ли путь от корня к листу с заданной суммой.",
+    "idea": "Рекурсивно проверяем сумму, вычитая значение текущего узла.",
+    "code": "class Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        if (!root) return false;\n        if (!root->left && !root->right) return root->val == targetSum;\n        \n        int newSum = targetSum - root->val;\n        return hasPathSum(root->left, newSum) || hasPathSum(root->right, newSum);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "027_path_sum.cpp"
+  },
+  {
+    "id": 28,
+    "title": "Binary Tree Maximum Path Sum",
+    "description": "Найти максимальную сумму пути в бинарном дереве.",
+    "idea": "Для каждого узла вычисляем максимальную сумму через этот узел и обновляем глобальный максимум.",
+    "code": "class Solution {\n    int maxSum;\npublic:\n    int maxPathSum(TreeNode* root) {\n        maxSum = INT_MIN;\n        maxGain(root);\n        return maxSum;\n    }\n    \n    int maxGain(TreeNode* node) {\n        if (!node) return 0;\n        \n        int leftGain = max(maxGain(node->left), 0);\n        int rightGain = max(maxGain(node->right), 0);\n        \n        int priceNewPath = node->val + leftGain + rightGain;\n        maxSum = max(maxSum, priceNewPath);\n        \n        return node->val + max(leftGain, rightGain);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "028_binary_tree_maximum_path_sum.cpp"
+  },
+  {
+    "id": 29,
+    "title": "Binary Tree Level Order Traversal",
+    "description": "Вернуть level order обход бинарного дерева.",
+    "idea": "BFS с использованием очереди. На каждом уровне обрабатываем все узлы.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        vector<vector<int>> result;\n        if (!root) return result;\n        \n        queue<TreeNode*> q;\n        q.push(root);\n        \n        while (!q.empty()) {\n            int size = q.size();\n            vector<int> level;\n            \n            for (int i = 0; i < size; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                level.push_back(node->val);\n                \n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(level);\n        }\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "029_binary_tree_level_order_traversal.cpp"
+  },
+  {
+    "id": 30,
+    "title": "Validate Binary Search Tree",
+    "description": "Проверить, является ли бинарное дерево BST.",
+    "idea": "Рекурсивная проверка с передачей минимального и максимального допустимых значений.",
+    "code": "class Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        return validate(root, LONG_MIN, LONG_MAX);\n    }\n    \n    bool validate(TreeNode* node, long minVal, long maxVal) {\n        if (!node) return true;\n        if (node->val <= minVal || node->val >= maxVal) return false;\n        \n        return validate(node->left, minVal, node->val) &&\n               validate(node->right, node->val, maxVal);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "030_validate_binary_search_tree.cpp"
+  },
+  {
+    "id": 31,
+    "title": "Minimum Depth of Binary Tree",
+    "description": "Найти минимальную глубину бинарного дерева.",
+    "idea": "Рекурсивно находим минимальную глубину, учитывая случай, когда одно из поддеревьев отсутствует.",
+    "code": "class Solution {\npublic:\n    int minDepth(TreeNode* root) {\n        if (!root) return 0;\n        if (!root->left) return minDepth(root->right) + 1;\n        if (!root->right) return minDepth(root->left) + 1;\n        return min(minDepth(root->left), minDepth(root->right)) + 1;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "031_minimum_depth_of_binary_tree.cpp"
+  },
+  {
+    "id": 32,
+    "title": "Convert Sorted Array to Binary Search Tree",
+    "description": "Преобразовать отсортированный массив в сбалансированное BST.",
+    "idea": "Рекурсивно выбираем середину массива как корень и строим левое и правое поддеревья.",
+    "code": "class Solution {\npublic:\n    TreeNode* sortedArrayToBST(vector<int>& nums) {\n        return buildBST(nums, 0, nums.size() - 1);\n    }\n    \n    TreeNode* buildBST(vector<int>& nums, int left, int right) {\n        if (left > right) return nullptr;\n        \n        int mid = left + (right - left) / 2;\n        TreeNode* root = new TreeNode(nums[mid]);\n        root->left = buildBST(nums, left, mid - 1);\n        root->right = buildBST(nums, mid + 1, right);\n        \n        return root;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "032_convert_sorted_array_to_binary_search_tree.cpp"
+  },
+  {
+    "id": 33,
+    "title": "Flatten Binary Tree to Linked List",
+    "description": "Преобразовать бинарное дерево в связный список на месте.",
+    "idea": "Модифицированный preorder обход. Для каждого узла находим самый правый узел в левом поддереве.",
+    "code": "class Solution {\npublic:\n    void flatten(TreeNode* root) {\n        TreeNode* curr = root;\n        while (curr) {\n            if (curr->left) {\n                TreeNode* rightmost = curr->left;\n                while (rightmost->right) {\n                    rightmost = rightmost->right;\n                }\n                rightmost->right = curr->right;\n                curr->right = curr->left;\n                curr->left = nullptr;\n            }\n            curr = curr->right;\n        }\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "033_flatten_binary_tree_to_linked_list.cpp"
+  },
+  {
+    "id": 34,
+    "title": "Construct Binary Tree from Preorder and Inorder",
+    "description": "Построить бинарное дерево из preorder и inorder обходов.",
+    "idea": "Preorder дает корень, inorder позволяет разделить левое и правое поддеревья.",
+    "code": "class Solution {\n    unordered_map<int, int> inorderMap;\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        for (int i = 0; i < inorder.size(); i++) {\n            inorderMap[inorder[i]] = i;\n        }\n        return build(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);\n    }\n    \n    TreeNode* build(vector<int>& preorder, int preStart, int preEnd,\n                   vector<int>& inorder, int inStart, int inEnd) {\n        if (preStart > preEnd || inStart > inEnd) return nullptr;\n        \n        TreeNode* root = new TreeNode(preorder[preStart]);\n        int inRoot = inorderMap[root->val];\n        int numsLeft = inRoot - inStart;\n        \n        root->left = build(preorder, preStart + 1, preStart + numsLeft,\n                          inorder, inStart, inRoot - 1);\n        root->right = build(preorder, preStart + numsLeft + 1, preEnd,\n                           inorder, inRoot + 1, inEnd);\n        return root;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "034_construct_binary_tree_from_preorder_and_inorder.cpp"
+  },
+  {
+    "id": 35,
+    "title": "Binary Tree Paths",
+    "description": "Вернуть все пути от корня к листьям в бинарном дереве.",
+    "idea": "Рекурсивный DFS с накоплением текущего пути.",
+    "code": "class Solution {\npublic:\n    vector<string> binaryTreePaths(TreeNode* root) {\n        vector<string> result;\n        if (root) dfs(root, \"\", result);\n        return result;\n    }\n    \n    void dfs(TreeNode* node, string path, vector<string>& result) {\n        if (!node->left && !node->right) {\n            result.push_back(path + to_string(node->val));\n            return;\n        }\n        \n        if (node->left) dfs(node->left, path + to_string(node->val) + \"->\", result);\n        if (node->right) dfs(node->right, path + to_string(node->val) + \"->\", result);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "035_binary_tree_paths.cpp"
+  },
+  {
+    "id": 36,
+    "title": "Recover Binary Search Tree",
+    "description": "Восстановить BST, в котором два узла поменяны местами.",
+    "idea": "Inorder traversal для нахождения двух неправильно расположенных узлов.",
+    "code": "class Solution {\n    TreeNode *first = nullptr, *second = nullptr, *prev = nullptr;\npublic:\n    void recoverTree(TreeNode* root) {\n        inorder(root);\n        swap(first->val, second->val);\n    }\n    \n    void inorder(TreeNode* node) {\n        if (!node) return;\n        \n        inorder(node->left);\n        \n        if (prev && prev->val > node->val) {\n            if (!first) first = prev;\n            second = node;\n        }\n        prev = node;\n        \n        inorder(node->right);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "036_recover_binary_search_tree.cpp"
+  },
+  {
+    "id": 37,
+    "title": "Path Sum II",
+    "description": "Найти все пути от корня к листу с заданной суммой.",
+    "idea": "Рекурсивный DFS с backtracking для накопления путей.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        vector<vector<int>> result;\n        vector<int> path;\n        dfs(root, targetSum, path, result);\n        return result;\n    }\n    \n    void dfs(TreeNode* node, int sum, vector<int>& path, vector<vector<int>>& result) {\n        if (!node) return;\n        \n        path.push_back(node->val);\n        sum -= node->val;\n        \n        if (!node->left && !node->right && sum == 0) {\n            result.push_back(path);\n        }\n        \n        dfs(node->left, sum, path, result);\n        dfs(node->right, sum, path, result);\n        \n        path.pop_back();\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "037_path_sum_ii.cpp"
+  },
+  {
+    "id": 38,
+    "title": "Binary Tree Level Order Traversal II",
+    "description": "Вернуть level order обход снизу вверх.",
+    "idea": "BFS как обычно, затем разворачиваем результат.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> levelOrderBottom(TreeNode* root) {\n        vector<vector<int>> result;\n        if (!root) return result;\n        \n        queue<TreeNode*> q;\n        q.push(root);\n        \n        while (!q.empty()) {\n            int size = q.size();\n            vector<int> level;\n            \n            for (int i = 0; i < size; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                level.push_back(node->val);\n                \n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(level);\n        }\n        reverse(result.begin(), result.end());\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "038_binary_tree_level_order_traversal_ii.cpp"
+  },
+  {
+    "id": 39,
+    "title": "Kth Smallest Element in BST",
+    "description": "Найти k-й наименьший элемент в BST.",
+    "idea": "Inorder traversal до k-го элемента.",
+    "code": "class Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        stack<TreeNode*> st;\n        TreeNode* curr = root;\n        \n        while (curr || !st.empty()) {\n            while (curr) {\n                st.push(curr);\n                curr = curr->left;\n            }\n            curr = st.top();\n            st.pop();\n            if (--k == 0) return curr->val;\n            curr = curr->right;\n        }\n        return -1;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "039_kth_smallest_element_in_bst.cpp"
+  },
+  {
+    "id": 40,
+    "title": "Construct Binary Tree from Inorder and Postorder",
+    "description": "Построить бинарное дерево из inorder и postorder обходов.",
+    "idea": "Postorder дает корень с конца, inorder позволяет разделить поддеревья.",
+    "code": "class Solution {\n    unordered_map<int, int> inorderMap;\npublic:\n    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {\n        for (int i = 0; i < inorder.size(); i++) {\n            inorderMap[inorder[i]] = i;\n        }\n        return build(inorder, 0, inorder.size() - 1,\n                    postorder, 0, postorder.size() - 1);\n    }\n    \n    TreeNode* build(vector<int>& inorder, int inStart, int inEnd,\n                   vector<int>& postorder, int postStart, int postEnd) {\n        if (inStart > inEnd || postStart > postEnd) return nullptr;\n        \n        TreeNode* root = new TreeNode(postorder[postEnd]);\n        int inRoot = inorderMap[root->val];\n        int numsLeft = inRoot - inStart;\n        \n        root->left = build(inorder, inStart, inRoot - 1,\n                          postorder, postStart, postStart + numsLeft - 1);\n        root->right = build(inorder, inRoot + 1, inEnd,\n                           postorder, postStart + numsLeft, postEnd - 1);\n        return root;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "040_construct_binary_tree_from_inorder_and_postorder.cpp"
+  },
+  {
+    "id": 41,
+    "title": "Binary Tree Right Side View",
+    "description": "Вернуть значения узлов, видимых с правой стороны бинарного дерева.",
+    "idea": "BFS, берем последний элемент каждого уровня.",
+    "code": "class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        vector<int> result;\n        if (!root) return result;\n        \n        queue<TreeNode*> q;\n        q.push(root);\n        \n        while (!q.empty()) {\n            int size = q.size();\n            for (int i = 0; i < size; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                \n                if (i == size - 1) result.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n        }\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "041_binary_tree_right_side_view.cpp"
+  },
+  {
+    "id": 42,
+    "title": "Sum Root to Leaf Numbers",
+    "description": "Найти сумму всех чисел, образованных путями от корня к листьям.",
+    "idea": "Рекурсивное накопление числа при обходе дерева.",
+    "code": "class Solution {\npublic:\n    int sumNumbers(TreeNode* root) {\n        return dfs(root, 0);\n    }\n    \n    int dfs(TreeNode* node, int currentSum) {\n        if (!node) return 0;\n        \n        currentSum = currentSum * 10 + node->val;\n        if (!node->left && !node->right) return currentSum;\n        \n        return dfs(node->left, currentSum) + dfs(node->right, currentSum);\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "042_sum_root_to_leaf_numbers.cpp"
+  },
+  {
+    "id": 43,
+    "title": "Binary Tree Zigzag Level Order Traversal",
+    "description": "Вернуть zigzag level order обход (слева направо, затем справа налево).",
+    "idea": "BFS с чередованием направления заполнения уровня.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {\n        vector<vector<int>> result;\n        if (!root) return result;\n        \n        queue<TreeNode*> q;\n        q.push(root);\n        bool leftToRight = true;\n        \n        while (!q.empty()) {\n            int size = q.size();\n            vector<int> level(size);\n            \n            for (int i = 0; i < size; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                \n                int index = leftToRight ? i : size - 1 - i;\n                level[index] = node->val;\n                \n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(level);\n            leftToRight = !leftToRight;\n        }\n        return result;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "043_binary_tree_zigzag_level_order_traversal.cpp"
+  },
+  {
+    "id": 44,
+    "title": "House Robber III",
+    "description": "Максимизировать сумму ограбления домов, расположенных в виде бинарного дерева.",
+    "idea": "Динамическое программирование на дереве. Для каждого узла считаем два случая: грабим или не грабим.",
+    "code": "class Solution {\npublic:\n    int rob(TreeNode* root) {\n        auto result = dfs(root);\n        return max(result.first, result.second);\n    }\n    \n    pair<int, int> dfs(TreeNode* node) {\n        if (!node) return {0, 0};\n        \n        auto left = dfs(node->left);\n        auto right = dfs(node->right);\n        \n        int rob = node->val + left.second + right.second;\n        int notRob = max(left.first, left.second) + max(right.first, right.second);\n        \n        return {rob, notRob};\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "044_house_robber_iii.cpp"
+  },
+  {
+    "id": 45,
+    "title": "Inorder Successor in BST",
+    "description": "Найти inorder преемника заданного узла в BST.",
+    "idea": "Используем свойства BST для навигации к преемнику.",
+    "code": "class Solution {\npublic:\n    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {\n        TreeNode* successor = nullptr;\n        \n        while (root) {\n            if (p->val < root->val) {\n                successor = root;\n                root = root->left;\n            } else {\n                root = root->right;\n            }\n        }\n        return successor;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "045_inorder_successor_in_bst.cpp"
+  },
+  {
+    "id": 46,
+    "title": "Binary Tree Longest Consecutive Sequence",
+    "description": "Найти длину самой длинной последовательной последовательности в бинарном дереве.",
+    "idea": "Рекурсивный обход с отслеживанием текущей последовательности.",
+    "code": "class Solution {\npublic:\n    int longestConsecutive(TreeNode* root) {\n        return dfs(root, nullptr, 0);\n    }\n    \n    int dfs(TreeNode* node, TreeNode* parent, int length) {\n        if (!node) return length;\n        \n        length = (parent && node->val == parent->val + 1) ? length + 1 : 1;\n        return max(length, max(dfs(node->left, node, length),\n                              dfs(node->right, node, length)));\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "046_binary_tree_longest_consecutive_sequence.cpp"
+  },
+  {
+    "id": 47,
+    "title": "Verify Preorder Sequence in BST",
+    "description": "Проверить, является ли массив корректным preorder обходом BST.",
+    "idea": "Используем стек для проверки BST свойств при preorder обходе.",
+    "code": "class Solution {\npublic:\n    bool verifyPreorder(vector<int>& preorder) {\n        stack<int> st;\n        int lowerBound = INT_MIN;\n        \n        for (int val : preorder) {\n            if (val < lowerBound) return false;\n            \n            while (!st.empty() && val > st.top()) {\n                lowerBound = st.top();\n                st.pop();\n            }\n            st.push(val);\n        }\n        return true;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "047_verify_preorder_sequence_in_bst.cpp"
+  },
+  {
+    "id": 48,
+    "title": "Binary Tree Upside Down",
+    "description": "Перевернуть бинарное дерево вверх ногами.",
+    "idea": "Итеративное изменение указателей для разворота дерева.",
+    "code": "class Solution {\npublic:\n    TreeNode* upsideDownBinaryTree(TreeNode* root) {\n        TreeNode *curr = root, *prev = nullptr, *next = nullptr, *temp = nullptr;\n        \n        while (curr) {\n            next = curr->left;\n            curr->left = temp;\n            temp = curr->right;\n            curr->right = prev;\n            prev = curr;\n            curr = next;\n        }\n        return prev;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "048_binary_tree_upside_down.cpp"
+  },
+  {
+    "id": 49,
+    "title": "Count Univalue Subtrees",
+    "description": "Посчитать количество унивальных поддеревьев (все узлы имеют одинаковое значение).",
+    "idea": "Рекурсивная проверка унивальности для каждого поддерева.",
+    "code": "class Solution {\npublic:\n    int countUnivalSubtrees(TreeNode* root) {\n        int count = 0;\n        isUnival(root, count);\n        return count;\n    }\n    \n    bool isUnival(TreeNode* node, int& count) {\n        if (!node) return true;\n        \n        bool left = isUnival(node->left, count);\n        bool right = isUnival(node->right, count);\n        \n        if (left && right) {\n            if (node->left && node->left->val != node->val) return false;\n            if (node->right && node->right->val != node->val) return false;\n            count++;\n            return true;\n        }\n        return false;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "049_count_univalue_subtrees.cpp"
+  },
+  {
+    "id": 50,
+    "title": "Serialize and Deserialize Binary Tree",
+    "description": "Сериализовать и десериализовать бинарное дерево.",
+    "idea": "Preorder обход с маркерами для null узлов.",
+    "code": "class Codec {\npublic:\n    string serialize(TreeNode* root) {\n        if (!root) return \"#\";\n        return to_string(root->val) + \",\" + serialize(root->left) + \",\" + serialize(root->right);\n    }\n\n    TreeNode* deserialize(string data) {\n        stringstream ss(data);\n        return deserializeHelper(ss);\n    }\n    \n    TreeNode* deserializeHelper(stringstream& ss) {\n        string val;\n        getline(ss, val, ',');\n        if (val == \"#\") return nullptr;\n        \n        TreeNode* root = new TreeNode(stoi(val));\n        root->left = deserializeHelper(ss);\n        root->right = deserializeHelper(ss);\n        return root;\n    }\n};",
+    "category": "Trees",
+    "difficulty": "Medium",
+    "filename": "050_serialize_and_deserialize_binary_tree.cpp"
+  },
+  {
+    "id": 51,
+    "title": "Number of Connected Components in Undirected Graph",
+    "description": "Подсчитать количество связных компонент в неориентированном графе.",
+    "idea": "Используем Union-Find алгоритм для объединения компонент.",
+    "code": "class Solution {\npublic:\n    int countComponents(int n, vector<vector<int>>& edges) {\n        vector<int> parent(n);\n        for (int i = 0; i < n; i++) parent[i] = i;\n        \n        int components = n;\n        for (auto& edge : edges) {\n            int root1 = find(parent, edge[0]);\n            int root2 = find(parent, edge[1]);\n            if (root1 != root2) {\n                parent[root1] = root2;\n                components--;\n            }\n        }\n        return components;\n    }\n    \n    int find(vector<int>& parent, int x) {\n        while (parent[x] != x) {\n            parent[x] = parent[parent[x]];\n            x = parent[x];\n        }\n        return x;\n    }\n};",
+    "category": "Graphs",
+    "difficulty": "Medium",
+    "filename": "051_number_of_connected_components_in_undirected_graph.cpp"
+  },
+  {
+    "id": 52,
+    "title": "Course Schedule",
+    "description": "Проверить, можно ли завершить все курсы с учетом предварительных требований.",
+    "idea": "Проверка ацикличности ориентированного графа с помощью топологической сортировки.",
+    "code": "class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        vector<vector<int>> graph(numCourses);\n        vector<int> indegree(numCourses, 0);\n        \n        for (auto& pre : prerequisites) {\n            graph[pre[1]].push_back(pre[0]);\n            indegree[pre[0]]++;\n        }\n        \n        queue<int> q;\n        for (int i = 0; i < numCourses; i++) {\n            if (indegree[i] == 0) q.push(i);\n        }\n        \n        int count = 0;\n        while (!q.empty()) {\n            int course = q.front();\n            q.pop();\n            count++;\n            \n            for (int neighbor : graph[course]) {\n                if (--indegree[neighbor] == 0) {\n                    q.push(neighbor);\n                }\n            }\n        }\n        return count == numCourses;\n    }\n};",
+    "category": "Graphs",
+    "difficulty": "Medium",
+    "filename": "052_course_schedule.cpp"
+  },
+  {
+    "id": 53,
+    "title": "Graph Valid Tree",
+    "description": "Проверить, образуют ли ребра валидное дерево.",
+    "idea": "Дерево должно быть связным и не иметь циклов, с n-1 ребрами.",
+    "code": "class Solution {\npublic:\n    bool validTree(int n, vector<vector<int>>& edges) {\n        if (edges.size() != n - 1) return false;\n        \n        vector<vector<int>> graph(n);\n        for (auto& edge : edges) {\n            graph[edge[0]].push_back(edge[1]);\n            graph[edge[1]].push_back(edge[0]);\n        }\n        \n        vector<bool> visited(n, false);\n        if (hasCycle(graph, visited, 0, -1)) return false;\n        \n        for (bool v : visited) {\n            if (!v) return false;\n        }\n        return true;\n    }\n    \n    bool hasCycle(vector<vector<int>>& graph, vector<bool>& visited, int node, int parent) {\n        visited[node] = true;\n        for (int neighbor : graph[node]) {\n            if (!visited[neighbor]) {\n                if (hasCycle(graph, visited, neighbor, node)) return true;\n            } else if (neighbor != parent) {\n                return true;\n            }\n        }\n        return false;\n    }\n};",
+    "category": "Graphs",
+    "difficulty": "Medium",
+    "filename": "053_graph_valid_tree.cpp"
+  },
+  {
+    "id": 54,
+    "title": "Course Schedule II",
+    "description": "Найти порядок прохождения курсов с учетом предварительных требований.",
+    "idea": "Топологическая сортировка с возвратом порядка.",
+    "code": "class Solution {\npublic:\n    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {\n        vector<vector<int>> graph(numCourses);\n        vector<int> indegree(numCourses, 0);\n        \n        for (auto& pre : prerequisites) {\n            graph[pre[1]].push_back(pre[0]);\n            indegree[pre[0]]++;\n        }\n        \n        queue<int> q;\n        for (int i = 0; i < numCourses; i++) {\n            if (indegree[i] == 0) q.push(i);\n        }\n        \n        vector<int> result;\n        while (!q.empty()) {\n            int course = q.front();\n            q.pop();\n            result.push_back(course);\n            \n            for (int neighbor : graph[course]) {\n                if (--indegree[neighbor] == 0) {\n                    q.push(neighbor);\n                }\n            }\n        }\n        \n        if (result.size() != numCourses) return {};\n        return result;\n    }\n};",
+    "category": "Graphs",
+    "difficulty": "Medium",
+    "filename": "054_course_schedule_ii.cpp"
+  },
+  {
+    "id": 55,
+    "title": "Number of Islands",
+    "description": "Подсчитать количество островов в двумерной сетке.",
+    "idea": "DFS для поиска связных компонент из '1'.",
+    "code": "class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        if (grid.empty()) return 0;\n        \n        int count = 0;\n        int m = grid.size(), n = grid[0].size();\n        \n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (grid[i][j] == '1') {\n                    count++;\n                    dfs(grid, i, j, m, n);\n                }\n            }\n        }\n        return count;\n    }\n    \n    void dfs(vector<vector<char>>& grid, int i, int j, int m, int n) {\n        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != '1') return;\n        \n        grid[i][j] = '0'; // Помечаем как посещенный\n        \n        dfs(grid, i + 1, j, m, n);\n        dfs(grid, i - 1, j, m, n);\n        dfs(grid, i, j + 1, m, n);\n        dfs(grid, i, j - 1, m, n);\n    }\n};",
+    "category": "Graphs",
+    "difficulty": "Medium",
+    "filename": "055_number_of_islands.cpp"
+  },
+  {
+    "id": 56,
+    "title": "Merge K Sorted Lists",
+    "description": "Объединить k отсортированных связных списков в один отсортированный.",
+    "idea": "Используем минимальную кучу (min-heap) для эффективного выбора наименьшего элемента.",
+    "code": "class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        auto cmp = [](ListNode* a, ListNode* b) { return a->val > b->val; };\n        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);\n        \n        for (ListNode* list : lists) {\n            if (list) pq.push(list);\n        }\n        \n        ListNode dummy(0);\n        ListNode* tail = &dummy;\n        \n        while (!pq.empty()) {\n            ListNode* node = pq.top();\n            pq.pop();\n            tail->next = node;\n            tail = tail->next;\n            \n            if (node->next) pq.push(node->next);\n        }\n        return dummy.next;\n    }\n};",
+    "category": "Heaps",
+    "difficulty": "Medium",
+    "filename": "056_merge_k_sorted_lists.cpp"
+  },
+  {
+    "id": 57,
+    "title": "Kth Largest Element in an Array",
+    "description": "Найти k-й наибольший элемент в массиве.",
+    "idea": "Используем минимальную кучу размера k для отслеживания k наибольших элементов.",
+    "code": "class Solution {\npublic:\n    int findKthLargest(vector<int>& nums, int k) {\n        priority_queue<int, vector<int>, greater<int>> pq;\n        \n        for (int num : nums) {\n            pq.push(num);\n            if (pq.size() > k) {\n                pq.pop();\n            }\n        }\n        return pq.top();\n    }\n};",
+    "category": "Heaps",
+    "difficulty": "Medium",
+    "filename": "057_kth_largest_element_in_an_array.cpp"
+  },
+  {
+    "id": 58,
+    "title": "Two Sum II - Input Array Is Sorted",
+    "description": "Найти индексы двух чисел в отсортированном массиве, дающих в сумме target.",
+    "idea": "Два указателя с начала и конца массива.",
+    "code": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& numbers, int target) {\n        int left = 0, right = numbers.size() - 1;\n        \n        while (left < right) {\n            int sum = numbers[left] + numbers[right];\n            if (sum == target) {\n                return {left + 1, right + 1};\n            } else if (sum < target) {\n                left++;\n            } else {\n                right--;\n            }\n        }\n        return {};\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "058_two_sum_ii___input_array_is_sorted.cpp"
+  },
+  {
+    "id": 59,
+    "title": "Two Sum III - Data Structure Design",
+    "description": "Реализовать структуру данных, поддерживающую добавление чисел и поиск пар с заданной суммой.",
+    "idea": "Используем хэш-таблицу для быстрого поиска.",
+    "code": "class TwoSum {\n    unordered_map<int, int> numCount;\npublic:\n    TwoSum() {}\n    \n    void add(int number) {\n        numCount[number]++;\n    }\n    \n    bool find(int value) {\n        for (auto& [num, count] : numCount) {\n            int complement = value - num;\n            if (complement != num) {\n                if (numCount.count(complement)) return true;\n            } else {\n                if (count > 1) return true;\n            }\n        }\n        return false;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "059_two_sum_iii___data_structure_design.cpp"
+  },
+  {
+    "id": 60,
+    "title": "Contains Duplicate",
+    "description": "Проверить, содержит ли массив дубликаты.",
+    "idea": "Используем множество для отслеживания уникальных элементов.",
+    "code": "class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        unordered_set<int> seen;\n        for (int num : nums) {\n            if (seen.count(num)) return true;\n            seen.insert(num);\n        }\n        return false;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "060_contains_duplicate.cpp"
+  },
+  {
+    "id": 61,
+    "title": "Rotate Array",
+    "description": "Сдвинуть массив вправо на k шагов.",
+    "idea": "Три реверса: весь массив, первые k элементов, остальные элементы.",
+    "code": "class Solution {\npublic:\n    void rotate(vector<int>& nums, int k) {\n        int n = nums.size();\n        k %= n;\n        \n        reverse(nums.begin(), nums.end());\n        reverse(nums.begin(), nums.begin() + k);\n        reverse(nums.begin() + k, nums.end());\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "061_rotate_array.cpp"
+  },
+  {
+    "id": 62,
+    "title": "3Sum Smaller",
+    "description": "Найти количество троек с суммой меньше target.",
+    "idea": "Сортируем массив и используем два указателя для каждой позиции i.",
+    "code": "class Solution {\npublic:\n    int threeSumSmaller(vector<int>& nums, int target) {\n        if (nums.size() < 3) return 0;\n        \n        sort(nums.begin(), nums.end());\n        int count = 0;\n        \n        for (int i = 0; i < nums.size() - 2; i++) {\n            int left = i + 1, right = nums.size() - 1;\n            while (left < right) {\n                int sum = nums[i] + nums[left] + nums[right];\n                if (sum < target) {\n                    count += right - left;\n                    left++;\n                } else {\n                    right--;\n                }\n            }\n        }\n        return count;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "062_3sum_smaller.cpp"
+  },
+  {
+    "id": 63,
+    "title": "3Sum Closest",
+    "description": "Найти тройку с суммой, наиболее близкой к target.",
+    "idea": "Сортируем массив и используем два указателя, отслеживая минимальную разницу.",
+    "code": "class Solution {\npublic:\n    int threeSumClosest(vector<int>& nums, int target) {\n        sort(nums.begin(), nums.end());\n        int closestSum = nums[0] + nums[1] + nums[2];\n        \n        for (int i = 0; i < nums.size() - 2; i++) {\n            int left = i + 1, right = nums.size() - 1;\n            \n            while (left < right) {\n                int sum = nums[i] + nums[left] + nums[right];\n                if (abs(sum - target) < abs(closestSum - target)) {\n                    closestSum = sum;\n                }\n                \n                if (sum < target) {\n                    left++;\n                } else if (sum > target) {\n                    right--;\n                } else {\n                    return sum;\n                }\n            }\n        }\n        return closestSum;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "063_3sum_closest.cpp"
+  },
+  {
+    "id": 64,
+    "title": "3Sum",
+    "description": "Найти все уникальные тройки с нулевой суммой.",
+    "idea": "Сортируем массив и для каждого элемента используем два указателя.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        vector<vector<int>> result;\n        sort(nums.begin(), nums.end());\n        \n        for (int i = 0; i < nums.size(); i++) {\n            if (i > 0 && nums[i] == nums[i - 1]) continue;\n            \n            int left = i + 1, right = nums.size() - 1;\n            while (left < right) {\n                int sum = nums[i] + nums[left] + nums[right];\n                \n                if (sum == 0) {\n                    result.push_back({nums[i], nums[left], nums[right]});\n                    \n                    while (left < right && nums[left] == nums[left + 1]) left++;\n                    while (left < right && nums[right] == nums[right - 1]) right--;\n                    \n                    left++;\n                    right--;\n                } else if (sum < 0) {\n                    left++;\n                } else {\n                    right--;\n                }\n            }\n        }\n        return result;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "064_3sum.cpp"
+  },
+  {
+    "id": 65,
+    "title": "Two Sum",
+    "description": "Найти индексы двух чисел, дающих в сумме target.",
+    "idea": "Используем хэш-таблицу для хранения чисел и их индексов.",
+    "code": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        unordered_map<int, int> numMap;\n        \n        for (int i = 0; i < nums.size(); i++) {\n            int complement = target - nums[i];\n            if (numMap.count(complement)) {\n                return {numMap[complement], i};\n            }\n            numMap[nums[i]] = i;\n        }\n        return {};\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "065_two_sum.cpp"
+  },
+  {
+    "id": 66,
+    "title": "Plus One",
+    "description": "Увеличить число, представленное массивом цифр, на 1.",
+    "idea": "Обрабатываем перенос с конца массива.",
+    "code": "class Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        int n = digits.size();\n        \n        for (int i = n - 1; i >= 0; i--) {\n            if (digits[i] < 9) {\n                digits[i]++;\n                return digits;\n            }\n            digits[i] = 0;\n        }\n        \n        digits.insert(digits.begin(), 1);\n        return digits;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "066_plus_one.cpp"
+  },
+  {
+    "id": 67,
+    "title": "Best Time to Buy and Sell Stock",
+    "description": "Найти максимальную прибыль от одной транзакции покупки/продажи акций.",
+    "idea": "Отслеживаем минимальную цену и максимальную прибыль.",
+    "code": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int minPrice = INT_MAX;\n        int maxProfit = 0;\n        \n        for (int price : prices) {\n            minPrice = min(minPrice, price);\n            maxProfit = max(maxProfit, price - minPrice);\n        }\n        return maxProfit;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "067_best_time_to_buy_and_sell_stock.cpp"
+  },
+  {
+    "id": 68,
+    "title": "Shortest Word Distance",
+    "description": "Найти минимальное расстояние между двумя словами в массиве.",
+    "idea": "Отслеживаем последние позиции обоих слов и вычисляем минимальную разницу.",
+    "code": "class Solution {\npublic:\n    int shortestDistance(vector<string>& words, string word1, string word2) {\n        int pos1 = -1, pos2 = -1;\n        int minDist = INT_MAX;\n        \n        for (int i = 0; i < words.size(); i++) {\n            if (words[i] == word1) {\n                pos1 = i;\n            } else if (words[i] == word2) {\n                pos2 = i;\n            }\n            \n            if (pos1 != -1 && pos2 != -1) {\n                minDist = min(minDist, abs(pos1 - pos2));\n            }\n        }\n        return minDist;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "068_shortest_word_distance.cpp"
+  },
+  {
+    "id": 69,
+    "title": "Move Zeroes",
+    "description": "Переместить все нули в конец массива, сохраняя порядок ненулевых элементов.",
+    "idea": "Два указателя: один для текущей позиции, другой для поиска ненулевых элементов.",
+    "code": "class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        int nonZeroPos = 0;\n        \n        for (int i = 0; i < nums.size(); i++) {\n            if (nums[i] != 0) {\n                swap(nums[nonZeroPos++], nums[i]);\n            }\n        }\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "069_move_zeroes.cpp"
+  },
+  {
+    "id": 70,
+    "title": "Contains Duplicate II",
+    "description": "Проверить, есть ли дубликаты на расстоянии не более k.",
+    "idea": "Используем скользящее окно с хэш-таблицей.",
+    "code": "class Solution {\npublic:\n    bool containsNearbyDuplicate(vector<int>& nums, int k) {\n        unordered_map<int, int> numIndex;\n        \n        for (int i = 0; i < nums.size(); i++) {\n            if (numIndex.count(nums[i]) && i - numIndex[nums[i]] <= k) {\n                return true;\n            }\n            numIndex[nums[i]] = i;\n        }\n        return false;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "070_contains_duplicate_ii.cpp"
+  },
+  {
+    "id": 71,
+    "title": "Majority Element",
+    "description": "Найти элемент, встречающийся более n/2 раз.",
+    "idea": "Алгоритм Бойера-Мура для поиска majority элемента.",
+    "code": "class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        int candidate = nums[0];\n        int count = 1;\n        \n        for (int i = 1; i < nums.size(); i++) {\n            if (count == 0) {\n                candidate = nums[i];\n                count = 1;\n            } else if (nums[i] == candidate) {\n                count++;\n            } else {\n                count--;\n            }\n        }\n        return candidate;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "071_majority_element.cpp"
+  },
+  {
+    "id": 72,
+    "title": "Remove Duplicates from Sorted Array",
+    "description": "Удалить дубликаты из отсортированного массива на месте.",
+    "idea": "Два указателя: один для уникальных элементов, другой для обхода массива.",
+    "code": "class Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        if (nums.empty()) return 0;\n        \n        int uniquePos = 0;\n        for (int i = 1; i < nums.size(); i++) {\n            if (nums[i] != nums[uniquePos]) {\n                nums[++uniquePos] = nums[i];\n            }\n        }\n        return uniquePos + 1;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "072_remove_duplicates_from_sorted_array.cpp"
+  },
+  {
+    "id": 73,
+    "title": "Nested List Weight Sum",
+    "description": "Вычислить взвешенную сумму вложенного списка целых чисел.",
+    "idea": "Рекурсивный DFS с передачей текущей глубины.",
+    "code": "class Solution {\npublic:\n    int depthSum(vector<NestedInteger>& nestedList) {\n        return dfs(nestedList, 1);\n    }\n    \n    int dfs(vector<NestedInteger>& nestedList, int depth) {\n        int sum = 0;\n        for (auto& ni : nestedList) {\n            if (ni.isInteger()) {\n                sum += ni.getInteger() * depth;\n            } else {\n                sum += dfs(ni.getList(), depth + 1);\n            }\n        }\n        return sum;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "073_nested_list_weight_sum.cpp"
+  },
+  {
+    "id": 74,
+    "title": "Nested List Weight Sum II",
+    "description": "Вычислить взвешенную сумму с весами от листьев к корню.",
+    "idea": "Сначала находим максимальную глубину, затем вычисляем сумму с обратными весами.",
+    "code": "class Solution {\npublic:\n    int depthSumInverse(vector<NestedInteger>& nestedList) {\n        int maxDepth = getMaxDepth(nestedList);\n        return dfs(nestedList, maxDepth);\n    }\n    \n    int getMaxDepth(vector<NestedInteger>& nestedList) {\n        int maxDepth = 1;\n        for (auto& ni : nestedList) {\n            if (!ni.isInteger()) {\n                maxDepth = max(maxDepth, 1 + getMaxDepth(ni.getList()));\n            }\n        }\n        return maxDepth;\n    }\n    \n    int dfs(vector<NestedInteger>& nestedList, int depth) {\n        int sum = 0;\n        for (auto& ni : nestedList) {\n            if (ni.isInteger()) {\n                sum += ni.getInteger() * depth;\n            } else {\n                sum += dfs(ni.getList(), depth - 1);\n            }\n        }\n        return sum;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "074_nested_list_weight_sum_ii.cpp"
+  },
+  {
+    "id": 75,
+    "title": "Remove Element",
+    "description": "Удалить все вхождения элемента из массива на месте.",
+    "idea": "Два указателя: один для текущей позиции, другой для обхода массива.",
+    "code": "class Solution {\npublic:\n    int removeElement(vector<int>& nums, int val) {\n        int newPos = 0;\n        for (int i = 0; i < nums.size(); i++) {\n            if (nums[i] != val) {\n                nums[newPos++] = nums[i];\n            }\n        }\n        return newPos;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "075_remove_element.cpp"
+  },
+  {
+    "id": 76,
+    "title": "Intersection of Two Arrays II",
+    "description": "Найти пересечение двух массивов с учетом кратности элементов.",
+    "idea": "Сортируем оба массива и используем два указателя.",
+    "code": "class Solution {\npublic:\n    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {\n        sort(nums1.begin(), nums1.end());\n        sort(nums2.begin(), nums2.end());\n        \n        vector<int> result;\n        int i = 0, j = 0;\n        \n        while (i < nums1.size() && j < nums2.size()) {\n            if (nums1[i] == nums2[j]) {\n                result.push_back(nums1[i]);\n                i++;\n                j++;\n            } else if (nums1[i] < nums2[j]) {\n                i++;\n            } else {\n                j++;\n            }\n        }\n        return result;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "076_intersection_of_two_arrays_ii.cpp"
+  },
+  {
+    "id": 77,
+    "title": "Merge Sorted Arrays",
+    "description": "Объединить два отсортированных массива в первый массив.",
+    "idea": "Заполняем с конца, чтобы не перезаписывать элементы.",
+    "code": "class Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n        int i = m - 1, j = n - 1, k = m + n - 1;\n        \n        while (i >= 0 && j >= 0) {\n            if (nums1[i] > nums2[j]) {\n                nums1[k--] = nums1[i--];\n            } else {\n                nums1[k--] = nums2[j--];\n            }\n        }\n        \n        while (j >= 0) {\n            nums1[k--] = nums2[j--];\n        }\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "077_merge_sorted_arrays.cpp"
+  },
+  {
+    "id": 78,
+    "title": "Reverse Vowels of a String",
+    "description": "Развернуть только гласные в строке.",
+    "idea": "Два указателя с начала и конца, меняем гласные местами.",
+    "code": "class Solution {\npublic:\n    string reverseVowels(string s) {\n        unordered_set<char> vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};\n        int left = 0, right = s.size() - 1;\n        \n        while (left < right) {\n            while (left < right && !vowels.count(s[left])) left++;\n            while (left < right && !vowels.count(s[right])) right--;\n            \n            if (left < right) {\n                swap(s[left], s[right]);\n                left++;\n                right--;\n            }\n        }\n        return s;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "078_reverse_vowels_of_a_string.cpp"
+  },
+  {
+    "id": 79,
+    "title": "Intersection of Two Arrays",
+    "description": "Найти пересечение двух массивов (уникальные элементы).",
+    "idea": "Используем два множества для хранения уникальных элементов.",
+    "code": "class Solution {\npublic:\n    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {\n        unordered_set<int> set1(nums1.begin(), nums1.end());\n        unordered_set<int> result;\n        \n        for (int num : nums2) {\n            if (set1.count(num)) {\n                result.insert(num);\n            }\n        }\n        return vector<int>(result.begin(), result.end());\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "079_intersection_of_two_arrays.cpp"
+  },
+  {
+    "id": 80,
+    "title": "Container With Most Water",
+    "description": "Найти контейнер с максимальной площадью.",
+    "idea": "Два указателя с начала и конца, двигаем тот, который ограничивает высоту.",
+    "code": "class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n        int left = 0, right = height.size() - 1;\n        int maxArea = 0;\n        \n        while (left < right) {\n            int area = min(height[left], height[right]) * (right - left);\n            maxArea = max(maxArea, area);\n            \n            if (height[left] < height[right]) {\n                left++;\n            } else {\n                right--;\n            }\n        }\n        return maxArea;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "080_container_with_most_water.cpp"
+  },
+  {
+    "id": 81,
+    "title": "Product of Array Except Self",
+    "description": "Вычислить массив, где каждый элемент - произведение всех элементов кроме себя.",
+    "idea": "Используем префиксные и постфиксные произведения.",
+    "code": "class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> result(n, 1);\n        \n        // Префиксное произведение\n        int prefix = 1;\n        for (int i = 0; i < n; i++) {\n            result[i] = prefix;\n            prefix *= nums[i];\n        }\n        \n        // Постфиксное произведение\n        int postfix = 1;\n        for (int i = n - 1; i >= 0; i--) {\n            result[i] *= postfix;\n            postfix *= nums[i];\n        }\n        \n        return result;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "081_product_of_array_except_self.cpp"
+  },
+  {
+    "id": 82,
+    "title": "Trapping Rain Water",
+    "description": "Вычислить количество воды, которое может задержаться между столбцами.",
+    "idea": "Для каждого столбца вычисляем min(макс_слева, макс_справа) - высота_столбца.",
+    "code": "class Solution {\npublic:\n    int trap(vector<int>& height) {\n        int n = height.size();\n        if (n == 0) return 0;\n        \n        vector<int> leftMax(n), rightMax(n);\n        \n        leftMax[0] = height[0];\n        for (int i = 1; i < n; i++) {\n            leftMax[i] = max(leftMax[i - 1], height[i]);\n        }\n        \n        rightMax[n - 1] = height[n - 1];\n        for (int i = n - 2; i >= 0; i--) {\n            rightMax[i] = max(rightMax[i + 1], height[i]);\n        }\n        \n        int water = 0;\n        for (int i = 0; i < n; i++) {\n            water += min(leftMax[i], rightMax[i]) - height[i];\n        }\n        return water;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "082_trapping_rain_water.cpp"
+  },
+  {
+    "id": 83,
+    "title": "Maximum Subarray",
+    "description": "Найти подмассив с максимальной суммой.",
+    "idea": "Алгоритм Кадане - отслеживаем текущую сумму и максимальную сумму.",
+    "code": "class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        int maxSum = nums[0];\n        int currentSum = nums[0];\n        \n        for (int i = 1; i < nums.size(); i++) {\n            currentSum = max(nums[i], currentSum + nums[i]);\n            maxSum = max(maxSum, currentSum);\n        }\n        return maxSum;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "083_maximum_subarray.cpp"
+  },
+  {
+    "id": 84,
+    "title": "Best Time to Buy and Sell Stock II",
+    "description": "Максимизировать прибыль от многократных транзакций.",
+    "idea": "Суммируем все возрастающие разницы между соседними днями.",
+    "code": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int profit = 0;\n        for (int i = 1; i < prices.size(); i++) {\n            if (prices[i] > prices[i - 1]) {\n                profit += prices[i] - prices[i - 1];\n            }\n        }\n        return profit;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "084_best_time_to_buy_and_sell_stock_ii.cpp"
+  },
+  {
+    "id": 85,
+    "title": "Find Minimum in Rotated Sorted Array",
+    "description": "Найти минимальный элемент в rotated sorted array.",
+    "idea": "Модифицированный бинарный поиск.",
+    "code": "class Solution {\npublic:\n    int findMin(vector<int>& nums) {\n        int left = 0, right = nums.size() - 1;\n        \n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            \n            if (nums[mid] > nums[right]) {\n                left = mid + 1;\n            } else {\n                right = mid;\n            }\n        }\n        return nums[left];\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "085_find_minimum_in_rotated_sorted_array.cpp"
+  },
+  {
+    "id": 86,
+    "title": "Pascal's Triangle",
+    "description": "Сгенерировать треугольник Паскаля до n-й строки.",
+    "idea": "Каждое число равно сумме двух чисел над ним.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> generate(int numRows) {\n        vector<vector<int>> triangle;\n        \n        for (int i = 0; i < numRows; i++) {\n            vector<int> row(i + 1, 1);\n            \n            for (int j = 1; j < i; j++) {\n                row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];\n            }\n            \n            triangle.push_back(row);\n        }\n        return triangle;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "086_pascal_s_triangle.cpp"
+  },
+  {
+    "id": 87,
+    "title": "Pascal's Triangle II",
+    "description": "Вернуть k-ю строку треугольника Паскаля.",
+    "idea": "Генерируем строку итеративно, используя только O(k) памяти.",
+    "code": "class Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        vector<int> row(rowIndex + 1, 1);\n        \n        for (int i = 1; i <= rowIndex; i++) {\n            for (int j = i - 1; j > 0; j--) {\n                row[j] = row[j] + row[j - 1];\n            }\n        }\n        return row;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "087_pascal_s_triangle_ii.cpp"
+  },
+  {
+    "id": 88,
+    "title": "Summary Ranges",
+    "description": "Суммировать отсортированный массив в диапазоны.",
+    "idea": "Проходим по массиву и формируем диапазоны из последовательных чисел.",
+    "code": "class Solution {\npublic:\n    vector<string> summaryRanges(vector<int>& nums) {\n        vector<string> result;\n        int n = nums.size();\n        \n        for (int i = 0; i < n; i++) {\n            int start = nums[i];\n            \n            while (i + 1 < n && nums[i + 1] == nums[i] + 1) {\n                i++;\n            }\n            \n            if (start == nums[i]) {\n                result.push_back(to_string(start));\n            } else {\n                result.push_back(to_string(start) + \"->\" + to_string(nums[i]));\n            }\n        }\n        return result;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "088_summary_ranges.cpp"
+  },
+  {
+    "id": 89,
+    "title": "Missing Number",
+    "description": "Найти пропущенное число в массиве [0, n].",
+    "idea": "Используем XOR или сумму арифметической прогрессии.",
+    "code": "class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        int n = nums.size();\n        int expectedSum = n * (n + 1) / 2;\n        int actualSum = 0;\n        \n        for (int num : nums) {\n            actualSum += num;\n        }\n        \n        return expectedSum - actualSum;\n    }\n};",
+    "category": "Arrays",
+    "difficulty": "Easy",
+    "filename": "089_missing_number.cpp"
+  },
+  {
+    "id": 90,
+    "title": "Valid Anagram",
+    "description": "Проверить, являются ли строки анаграммами.",
+    "idea": "Считаем частоты символов или сортируем строки.",
+    "code": "class Solution {\npublic:\n    bool isAnagram(string s, string t) {\n        if (s.length() != t.length()) return false;\n        \n        vector<int> count(26, 0);\n        for (char c : s) count[c - 'a']++;\n        for (char c : t) {\n            if (--count[c - 'a'] < 0) return false;\n        }\n        return true;\n    }\n};",
+    "category": "Strings",
+    "difficulty": "Easy",
+    "filename": "090_valid_anagram.cpp"
+  },
+  {
+    "id": 91,
+    "title": "Valid Palindrome",
+    "description": "Проверить, является ли строка палиндромом, игнорируя не-буквенно-цифровые символы.",
+    "idea": "Два указателя с фильтрацией символов.",
+    "code": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        int left = 0, right = s.length() - 1;\n        \n        while (left < right) {\n            while (left < right && !isalnum(s[left])) left++;\n            while (left < right && !isalnum(s[right])) right--;\n            \n            if (tolower(s[left]) != tolower(s[right])) return false;\n            \n            left++;\n            right--;\n        }\n        return true;\n    }\n};",
+    "category": "Strings",
+    "difficulty": "Easy",
+    "filename": "091_valid_palindrome.cpp"
+  },
+  {
+    "id": 92,
+    "title": "Word Pattern",
+    "description": "Проверить, соответствует ли строка шаблону.",
+    "idea": "Используем два хэша для взаимно-однозначного соответствия.",
+    "code": "class Solution {\npublic:\n    bool wordPattern(string pattern, string s) {\n        unordered_map<char, string> charToWord;\n        unordered_map<string, char> wordToChar;\n        \n        stringstream ss(s);\n        string word;\n        int i = 0;\n        \n        while (ss >> word) {\n            if (i >= pattern.length()) return false;\n            \n            char c = pattern[i];\n            \n            if (charToWord.count(c) && charToWord[c] != word) return false;\n            if (wordToChar.count(word) && wordToChar[word] != c) return false;\n            \n            charToWord[c] = word;\n            wordToChar[word] = c;\n            i++;\n        }\n        \n        return i == pattern.length();\n    }\n};",
+    "category": "Strings",
+    "difficulty": "Easy",
+    "filename": "092_word_pattern.cpp"
+  },
+  {
+    "id": 93,
+    "title": "Valid Parentheses",
+    "description": "Проверить валидность скобочной последовательности.",
+    "idea": "Используем стек для отслеживания открывающих скобок.",
+    "code": "class Solution {\npublic:\n    bool isValid(string s) {\n        stack<char> st;\n        unordered_map<char, char> pairs = {\n            {')', '('}, {']', '['}, {'}', '{'}\n        };\n        \n        for (char c : s) {\n            if (pairs.count(c)) {\n                if (st.empty() || st.top() != pairs[c]) return false;\n                st.pop();\n            } else {\n                st.push(c);\n            }\n        }\n        return st.empty();\n    }\n};",
+    "category": "Strings",
+    "difficulty": "Easy",
+    "filename": "093_valid_parentheses.cpp"
+  },
+  {
+    "id": 94,
+    "title": "Isomorphic Strings",
+    "description": "Проверить, являются ли строки изоморфными.",
+    "idea": "Проверяем взаимно-однозначное соответствие символов.",
+    "code": "class Solution {\npublic:\n    bool isIsomorphic(string s, string t) {\n        unordered_map<char, char> sToT;\n        unordered_map<char, char> tToS;\n        \n        for (int i = 0; i < s.length(); i++) {\n            char c1 = s[i], c2 = t[i];\n            \n            if (sToT.count(c1) && sToT[c1] != c2) return false;\n            if (tToS.count(c2) && tToS[c2] != c1) return false;\n            \n            sToT[c1] = c2;\n            tToS[c2] = c1;\n        }\n        return true;\n    }\n};",
+    "category": "Strings",
+    "difficulty": "Easy",
+    "filename": "094_isomorphic_strings.cpp"
+  },
+  {
+    "id": 95,
+    "title": "Reverse String",
+    "description": "Развернуть строку на месте.",
+    "idea": "Два указателя с начала и конца.",
+    "code": "class Solution {\npublic:\n    void reverseString(vector<char>& s) {\n        int left = 0, right = s.size() - 1;\n        while (left < right) {\n            swap(s[left++], s[right--]);\n        }\n    }\n};",
+    "category": "Strings",
+    "difficulty": "Easy",
+    "filename": "095_reverse_string.cpp"
+  },
+  {
+    "id": 96,
+    "title": "Sum of Two Integers",
+    "description": "Сложить два целых числа без использования + и -.",
+    "idea": "Используем побитовые операции XOR для суммы и AND для переноса.",
+    "code": "class Solution {\npublic:\n    int getSum(int a, int b) {\n        while (b != 0) {\n            int carry = a & b;\n            a = a ^ b;\n            b = (unsigned)carry << 1;\n        }\n        return a;\n    }\n};",
+    "category": "Bit Manipulation",
+    "difficulty": "Medium",
+    "filename": "096_sum_of_two_integers.cpp"
+  },
+  {
+    "id": 97,
+    "title": "Single Number",
+    "description": "Найти единственное число, встречающееся один раз в массиве.",
+    "idea": "XOR всех чисел - дубликаты уничтожатся.",
+    "code": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        int result = 0;\n        for (int num : nums) result ^= num;\n        return result;\n    }\n};",
+    "category": "Bit Manipulation",
+    "difficulty": "Medium",
+    "filename": "097_single_number.cpp"
+  },
+  {
+    "id": 98,
+    "title": "Single Number II",
+    "description": "Найти единственное число, встречающееся один раз, остальные - три раза.",
+    "idea": "Считаем количество единиц в каждом бите по модулю 3.",
+    "code": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        int ones = 0, twos = 0;\n        for (int num : nums) {\n            ones = (ones ^ num) & ~twos;\n            twos = (twos ^ num) & ~ones;\n        }\n        return ones;\n    }\n};",
+    "category": "Bit Manipulation",
+    "difficulty": "Medium",
+    "filename": "098_single_number_ii.cpp"
+  },
+  {
+    "id": 99,
+    "title": "Single Number III",
+    "description": "Найти два числа, встречающихся по одному разу.",
+    "idea": "Находим различающий бит и разделяем числа на две группы.",
+    "code": "class Solution {\npublic:\n    vector<int> singleNumber(vector<int>& nums) {\n        long diff = 0;\n        for (int num : nums) diff ^= num;\n        \n        diff &= -diff; // Находим младший установленный бит\n        \n        vector<int> result(2, 0);\n        for (int num : nums) {\n            if (num & diff) {\n                result[0] ^= num;\n            } else {\n                result[1] ^= num;\n            }\n        }\n        return result;\n    }\n};",
+    "category": "Bit Manipulation",
+    "difficulty": "Medium",
+    "filename": "099_single_number_iii.cpp"
+  },
+  {
+    "id": 100,
+    "title": "Reverse Integer",
+    "description": "Развернуть цифры целого числа.",
+    "idea": "Поразрядно извлекаем цифры и проверяем переполнение.",
+    "code": "class Solution {\npublic:\n    int reverse(int x) {\n        int result = 0;\n        \n        while (x != 0) {\n            int digit = x % 10;\n            x /= 10;\n            \n            if (result > INT_MAX/10 || (result == INT_MAX/10 && digit > 7)) return 0;\n            if (result < INT_MIN/10 || (result == INT_MIN/10 && digit < -8)) return 0;\n            \n            result = result * 10 + digit;\n        }\n        return result;\n    }\n};",
+    "category": "Maths",
+    "difficulty": "Medium",
+    "filename": "100_reverse_integer.cpp"
+  },
+  {
+    "id": 101,
+    "title": "Palindrome Number",
+    "description": "Проверить, является ли целое число палиндромом.",
+    "idea": "Разворачиваем половину числа и сравниваем с оставшейся половиной.",
+    "code": "class Solution {\npublic:\n    bool isPalindrome(int x) {\n        if (x < 0 || (x % 10 == 0 && x != 0)) return false;\n        \n        int reversed = 0;\n        while (x > reversed) {\n            reversed = reversed * 10 + x % 10;\n            x /= 10;\n        }\n        \n        return x == reversed || x == reversed / 10;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "101_palindrome_number.cpp"
+  },
+  {
+    "id": 102,
+    "title": "Pow(x, n)",
+    "description": "Вычислить x в степени n.",
+    "idea": "Используем быстрое возведение в степень через двоичное разложение.",
+    "code": "class Solution {\npublic:\n    double myPow(double x, int n) {\n        long long N = n;\n        if (N < 0) {\n            x = 1 / x;\n            N = -N;\n        }\n        \n        double result = 1.0;\n        double current = x;\n        \n        for (long long i = N; i > 0; i /= 2) {\n            if (i % 2 == 1) {\n                result *= current;\n            }\n            current *= current;\n        }\n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "102_pow_x__n_.cpp"
+  },
+  {
+    "id": 103,
+    "title": "Subsets",
+    "description": "Найти все подмножества множества.",
+    "idea": "Используем битовые маски или backtracking.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        vector<vector<int>> result;\n        int n = nums.size();\n        int total = 1 << n;\n        \n        for (int mask = 0; mask < total; mask++) {\n            vector<int> subset;\n            for (int i = 0; i < n; i++) {\n                if (mask & (1 << i)) {\n                    subset.push_back(nums[i]);\n                }\n            }\n            result.push_back(subset);\n        }\n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "103_subsets.cpp"
+  },
+  {
+    "id": 104,
+    "title": "Subsets II",
+    "description": "Найти все уникальные подмножества множества с дубликатами.",
+    "idea": "Сортируем и используем backtracking, пропуская дубликаты.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        vector<vector<int>> result;\n        vector<int> current;\n        backtrack(nums, 0, current, result);\n        return result;\n    }\n    \n    void backtrack(vector<int>& nums, int start, vector<int>& current, vector<vector<int>>& result) {\n        result.push_back(current);\n        \n        for (int i = start; i < nums.size(); i++) {\n            if (i > start && nums[i] == nums[i - 1]) continue;\n            \n            current.push_back(nums[i]);\n            backtrack(nums, i + 1, current, result);\n            current.pop_back();\n        }\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "104_subsets_ii.cpp"
+  },
+  {
+    "id": 105,
+    "title": "Fraction to Recurring Decimal",
+    "description": "Преобразовать дробь в строку с периодической дробью.",
+    "idea": "Используем хэш-таблицу для отслеживания остатков и выявления циклов.",
+    "code": "class Solution {\npublic:\n    string fractionToDecimal(int numerator, int denominator) {\n        if (numerator == 0) return \"0\";\n        \n        string result;\n        // Знак\n        if (numerator < 0 ^ denominator < 0) {\n            result += '-';\n        }\n        \n        long num = labs(numerator);\n        long den = labs(denominator);\n        \n        // Целая часть\n        result += to_string(num / den);\n        long remainder = num % den;\n        if (remainder == 0) return result;\n        \n        // Дробная часть\n        result += '.';\n        unordered_map<long, int> remainderPos;\n        \n        while (remainder != 0) {\n            if (remainderPos.count(remainder)) {\n                result.insert(remainderPos[remainder], \"(\");\n                result += ')';\n                break;\n            }\n            \n            remainderPos[remainder] = result.size();\n            remainder *= 10;\n            result += to_string(remainder / den);\n            remainder %= den;\n        }\n        \n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "105_fraction_to_recurring_decimal.cpp"
+  },
+  {
+    "id": 106,
+    "title": "Excel Sheet Column Number",
+    "description": "Преобразовать название столбца Excel в число.",
+    "idea": "Рассматриваем как число в 26-ричной системе счисления.",
+    "code": "class Solution {\npublic:\n    int titleToNumber(string columnTitle) {\n        int result = 0;\n        for (char c : columnTitle) {\n            result = result * 26 + (c - 'A' + 1);\n        }\n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "106_excel_sheet_column_number.cpp"
+  },
+  {
+    "id": 107,
+    "title": "Excel Sheet Column Title",
+    "description": "Преобразовать число в название столбца Excel.",
+    "idea": "Обратное преобразование из 26-ричной системы с учетом того, что нет нуля.",
+    "code": "class Solution {\npublic:\n    string convertToTitle(int columnNumber) {\n        string result;\n        \n        while (columnNumber > 0) {\n            columnNumber--;\n            result = char('A' + columnNumber % 26) + result;\n            columnNumber /= 26;\n        }\n        \n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "107_excel_sheet_column_title.cpp"
+  },
+  {
+    "id": 108,
+    "title": "Factorial Trailing Zeroes",
+    "description": "Найти количество нулей в конце n!.",
+    "idea": "Считаем количество множителей 5 (так как 2 всегда больше).",
+    "code": "class Solution {\npublic:\n    int trailingZeroes(int n) {\n        int count = 0;\n        while (n > 0) {\n            n /= 5;\n            count += n;\n        }\n        return count;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "108_factorial_trailing_zeroes.cpp"
+  },
+  {
+    "id": 109,
+    "title": "Happy Number",
+    "description": "Проверить, является ли число \"счастливым\".",
+    "idea": "Используем алгоритм Флойда для обнаружения циклов.",
+    "code": "class Solution {\npublic:\n    bool isHappy(int n) {\n        int slow = n, fast = getNext(n);\n        \n        while (fast != 1 && slow != fast) {\n            slow = getNext(slow);\n            fast = getNext(getNext(fast));\n        }\n        \n        return fast == 1;\n    }\n    \n    int getNext(int n) {\n        int sum = 0;\n        while (n > 0) {\n            int digit = n % 10;\n            sum += digit * digit;\n            n /= 10;\n        }\n        return sum;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "109_happy_number.cpp"
+  },
+  {
+    "id": 110,
+    "title": "Count Primes",
+    "description": "Подсчитать количество простых чисел меньше n.",
+    "idea": "Решето Эратосфена.",
+    "code": "class Solution {\npublic:\n    int countPrimes(int n) {\n        if (n <= 2) return 0;\n        \n        vector<bool> isPrime(n, true);\n        isPrime[0] = isPrime[1] = false;\n        \n        for (int i = 2; i * i < n; i++) {\n            if (isPrime[i]) {\n                for (int j = i * i; j < n; j += i) {\n                    isPrime[j] = false;\n                }\n            }\n        }\n        \n        int count = 0;\n        for (int i = 2; i < n; i++) {\n            if (isPrime[i]) count++;\n        }\n        return count;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "110_count_primes.cpp"
+  },
+  {
+    "id": 111,
+    "title": "Plus One",
+    "description": "Увеличить число, представленное массивом цифр, на 1.",
+    "idea": "Обрабатываем перенос с конца массива.",
+    "code": "class Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        int n = digits.size();\n        \n        for (int i = n - 1; i >= 0; i--) {\n            if (digits[i] < 9) {\n                digits[i]++;\n                return digits;\n            }\n            digits[i] = 0;\n        }\n        \n        digits.insert(digits.begin(), 1);\n        return digits;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "111_plus_one.cpp"
+  },
+  {
+    "id": 112,
+    "title": "Divide Two Integers",
+    "description": "Разделить два целых числа без использования умножения, деления и mod.",
+    "idea": "Используем побитовые сдвиги для ускорения деления.",
+    "code": "class Solution {\npublic:\n    int divide(int dividend, int divisor) {\n        if (dividend == INT_MIN && divisor == -1) return INT_MAX;\n        \n        long dvd = labs(dividend), dvs = labs(divisor);\n        int sign = (dividend < 0) ^ (divisor < 0) ? -1 : 1;\n        \n        long result = 0;\n        while (dvd >= dvs) {\n            long temp = dvs, multiple = 1;\n            while (dvd >= (temp << 1)) {\n                temp <<= 1;\n                multiple <<= 1;\n            }\n            dvd -= temp;\n            result += multiple;\n        }\n        \n        return sign * result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "112_divide_two_integers.cpp"
+  },
+  {
+    "id": 113,
+    "title": "Multiply Strings",
+    "description": "Умножить два числа, представленных как строки.",
+    "idea": "Имитируем умножение в столбик.",
+    "code": "class Solution {\npublic:\n    string multiply(string num1, string num2) {\n        if (num1 == \"0\" || num2 == \"0\") return \"0\";\n        \n        int m = num1.size(), n = num2.size();\n        vector<int> result(m + n, 0);\n        \n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                int product = (num1[i] - '0') * (num2[j] - '0');\n                int sum = product + result[i + j + 1];\n                \n                result[i + j + 1] = sum % 10;\n                result[i + j] += sum / 10;\n            }\n        }\n        \n        string strResult;\n        for (int num : result) {\n            if (!(strResult.empty() && num == 0)) {\n                strResult += to_string(num);\n            }\n        }\n        \n        return strResult.empty() ? \"0\" : strResult;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "113_multiply_strings.cpp"
+  },
+  {
+    "id": 114,
+    "title": "Max Points on a Line",
+    "description": "Найти максимальное количество точек на одной прямой.",
+    "idea": "Для каждой точки считаем угловые коэффициенты с другими точками.",
+    "code": "class Solution {\npublic:\n    int maxPoints(vector<vector<int>>& points) {\n        int n = points.size();\n        if (n <= 2) return n;\n        \n        int maxPoints = 1;\n        \n        for (int i = 0; i < n; i++) {\n            unordered_map<string, int> slopeCount;\n            int duplicate = 1;\n            \n            for (int j = i + 1; j < n; j++) {\n                int x1 = points[i][0], y1 = points[i][1];\n                int x2 = points[j][0], y2 = points[j][1];\n                \n                if (x1 == x2 && y1 == y2) {\n                    duplicate++;\n                    continue;\n                }\n                \n                int dx = x2 - x1, dy = y2 - y1;\n                int g = gcd(dx, dy);\n                \n                string slope = to_string(dy / g) + \"/\" + to_string(dx / g);\n                slopeCount[slope]++;\n            }\n            \n            maxPoints = max(maxPoints, duplicate);\n            for (auto& [slope, count] : slopeCount) {\n                maxPoints = max(maxPoints, count + duplicate);\n            }\n        }\n        \n        return maxPoints;\n    }\n    \n    int gcd(int a, int b) {\n        return b == 0 ? a : gcd(b, a % b);\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "114_max_points_on_a_line.cpp"
+  },
+  {
+    "id": 115,
+    "title": "Product of Array Except Self",
+    "description": "Вычислить массив, где каждый элемент - произведение всех элементов кроме себя.",
+    "idea": "Используем префиксные и постфиксные произведения.",
+    "code": "class Solution {\npublic:\n    vector<int> productExceptSelf(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> result(n, 1);\n        \n        // Префиксное произведение\n        int prefix = 1;\n        for (int i = 0; i < n; i++) {\n            result[i] = prefix;\n            prefix *= nums[i];\n        }\n        \n        // Постфиксное произведение\n        int postfix = 1;\n        for (int i = n - 1; i >= 0; i--) {\n            result[i] *= postfix;\n            postfix *= nums[i];\n        }\n        \n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "115_product_of_array_except_self.cpp"
+  },
+  {
+    "id": 116,
+    "title": "Power of Three",
+    "description": "Проверить, является ли число степенью тройки.",
+    "idea": "Используем математическое свойство или цикл деления.",
+    "code": "class Solution {\npublic:\n    bool isPowerOfThree(int n) {\n        if (n <= 0) return false;\n        \n        while (n % 3 == 0) {\n            n /= 3;\n        }\n        \n        return n == 1;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "116_power_of_three.cpp"
+  },
+  {
+    "id": 117,
+    "title": "Integer Break",
+    "description": "Разбить число на сумму натуральных чисел с максимальным произведением.",
+    "idea": "Используем математическое свойство - предпочтительны тройки.",
+    "code": "class Solution {\npublic:\n    int integerBreak(int n) {\n        if (n <= 3) return n - 1;\n        \n        int product = 1;\n        while (n > 4) {\n            product *= 3;\n            n -= 3;\n        }\n        \n        return product * n;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "117_integer_break.cpp"
+  },
+  {
+    "id": 118,
+    "title": "Power of Four",
+    "description": "Проверить, является ли число степенью четверки.",
+    "idea": "Проверяем, что число степень двойки и (num-1) делится на 3.",
+    "code": "class Solution {\npublic:\n    bool isPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && (n - 1) % 3 == 0;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "118_power_of_four.cpp"
+  },
+  {
+    "id": 119,
+    "title": "Add Digits",
+    "description": "Сложить цифры числа до получения одной цифры.",
+    "idea": "Используем математическое свойство цифрового корня.",
+    "code": "class Solution {\npublic:\n    int addDigits(int num) {\n        if (num == 0) return 0;\n        return 1 + (num - 1) % 9;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "119_add_digits.cpp"
+  },
+  {
+    "id": 120,
+    "title": "Ugly Number",
+    "description": "Проверить, является ли число \"уродливым\" (делится только на 2, 3, 5).",
+    "idea": "Последовательно делим на 2, 3, 5 пока возможно.",
+    "code": "class Solution {\npublic:\n    bool isUgly(int n) {\n        if (n <= 0) return false;\n        \n        while (n % 2 == 0) n /= 2;\n        while (n % 3 == 0) n /= 3;\n        while (n % 5 == 0) n /= 5;\n        \n        return n == 1;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "120_ugly_number.cpp"
+  },
+  {
+    "id": 121,
+    "title": "Ugly Number II",
+    "description": "Найти n-е уродливое число.",
+    "idea": "Используем три указателя для генерации уродливых чисел.",
+    "code": "class Solution {\npublic:\n    int nthUglyNumber(int n) {\n        vector<int> ugly(n);\n        ugly[0] = 1;\n        \n        int i2 = 0, i3 = 0, i5 = 0;\n        \n        for (int i = 1; i < n; i++) {\n            int next2 = ugly[i2] * 2;\n            int next3 = ugly[i3] * 3;\n            int next5 = ugly[i5] * 5;\n            \n            int nextUgly = min({next2, next3, next5});\n            ugly[i] = nextUgly;\n            \n            if (nextUgly == next2) i2++;\n            if (nextUgly == next3) i3++;\n            if (nextUgly == next5) i5++;\n        }\n        \n        return ugly[n - 1];\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "121_ugly_number_ii.cpp"
+  },
+  {
+    "id": 122,
+    "title": "Super Ugly Number",
+    "description": "Найти n-е супер-уродливое число (делится только на заданные простые числа).",
+    "idea": "Обобщение предыдущего алгоритма на k указателей.",
+    "code": "class Solution {\npublic:\n    int nthSuperUglyNumber(int n, vector<int>& primes) {\n        vector<int> ugly(n);\n        ugly[0] = 1;\n        \n        int k = primes.size();\n        vector<int> pointers(k, 0);\n        \n        for (int i = 1; i < n; i++) {\n            int minVal = INT_MAX;\n            for (int j = 0; j < k; j++) {\n                minVal = min(minVal, ugly[pointers[j]] * primes[j]);\n            }\n            ugly[i] = minVal;\n            \n            for (int j = 0; j < k; j++) {\n                if (ugly[pointers[j]] * primes[j] == minVal) {\n                    pointers[j]++;\n                }\n            }\n        }\n        \n        return ugly[n - 1];\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "122_super_ugly_number.cpp"
+  },
+  {
+    "id": 123,
+    "title": "Find K Pairs with Smallest Sums",
+    "description": "Найти k пар с наименьшими суммами из двух массивов.",
+    "idea": "Используем минимальную кучу для хранения кандидатов.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {\n        vector<vector<int>> result;\n        if (nums1.empty() || nums2.empty() || k == 0) return result;\n        \n        auto cmp = [&](const pair<int, int>& a, const pair<int, int>& b) {\n            return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second];\n        };\n        \n        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);\n        \n        for (int i = 0; i < min(k, (int)nums1.size()); i++) {\n            pq.push({i, 0});\n        }\n        \n        while (k-- > 0 && !pq.empty()) {\n            auto [i, j] = pq.top();\n            pq.pop();\n            result.push_back({nums1[i], nums2[j]});\n            \n            if (j + 1 < nums2.size()) {\n                pq.push({i, j + 1});\n            }\n        }\n        \n        return result;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "123_find_k_pairs_with_smallest_sums.cpp"
+  },
+  {
+    "id": 124,
+    "title": "Self Crossing",
+    "description": "Проверить, пересекает ли путь сам себя.",
+    "idea": "Анализируем возможные случаи пересечения.",
+    "code": "class Solution {\npublic:\n    bool isSelfCrossing(vector<int>& x) {\n        int n = x.size();\n        if (n <= 3) return false;\n        \n        for (int i = 3; i < n; i++) {\n            // Case 1: Fourth line crosses first line\n            if (x[i] >= x[i - 2] && x[i - 1] <= x[i - 3]) return true;\n            \n            // Case 2: Fifth line meets first line\n            if (i >= 4 && x[i - 1] == x[i - 3] && x[i] + x[i - 4] >= x[i - 2]) return true;\n            \n            // Case 3: Sixth line crosses first line\n            if (i >= 5 && x[i - 2] >= x[i - 4] && \n                x[i] + x[i - 4] >= x[i - 2] && \n                x[i - 1] <= x[i - 3] && \n                x[i - 1] + x[i - 5] >= x[i - 3]) return true;\n        }\n        \n        return false;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "124_self_crossing.cpp"
+  },
+  {
+    "id": 125,
+    "title": "Paint Fence",
+    "description": "Посчитать количество способов покрасить n столбов k цветами без 3+ одинаковых подряд.",
+    "idea": "Динамическое программирование с двумя состояниями.",
+    "code": "class Solution {\npublic:\n    int numWays(int n, int k) {\n        if (n == 0) return 0;\n        if (n == 1) return k;\n        \n        int same = k;     // Последние два столба одинаковые\n        int diff = k * (k - 1); // Последние два столба разные\n        \n        for (int i = 3; i <= n; i++) {\n            int temp = diff;\n            diff = (same + diff) * (k - 1);\n            same = temp;\n        }\n        \n        return same + diff;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "125_paint_fence.cpp"
+  },
+  {
+    "id": 126,
+    "title": "Bulb Switcher",
+    "description": "Найти количество включенных лампочек после n раундов переключения.",
+    "idea": "Лампочка включена, если у нее нечетное количество делителей (только полные квадраты).",
+    "code": "class Solution {\npublic:\n    int bulbSwitch(int n) {\n        return sqrt(n);\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "126_bulb_switcher.cpp"
+  },
+  {
+    "id": 127,
+    "title": "Nim Game",
+    "description": "Определить, можно ли выиграть в игре Ним.",
+    "idea": "Проигрышная позиция - когда количество камней кратно 4.",
+    "code": "class Solution {\npublic:\n    bool canWinNim(int n) {\n        return n % 4 != 0;\n    }\n};",
+    "category": "Maths (продолжение)",
+    "difficulty": "Medium",
+    "filename": "127_nim_game.cpp"
+  },
+  {
+    "id": 128,
+    "title": "Rotate Image",
+    "description": "Повернуть изображение (матрицу) на 90 градусов по часовой стрелке.",
+    "idea": "Транспонируем матрицу и отражаем по вертикали.",
+    "code": "class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        int n = matrix.size();\n        \n        // Транспонирование\n        for (int i = 0; i < n; i++) {\n            for (int j = i + 1; j < n; j++) {\n                swap(matrix[i][j], matrix[j][i]);\n            }\n        }\n        \n        // Отражение по вертикали\n        for (int i = 0; i < n; i++) {\n            reverse(matrix[i].begin(), matrix[i].end());\n        }\n    }\n};",
+    "category": "Matrix",
+    "difficulty": "Medium",
+    "filename": "128_rotate_image.cpp"
+  },
+  {
+    "id": 129,
+    "title": "Set Matrix Zeroes",
+    "description": "Установить нули в всей строке и столбце, если элемент равен нулю.",
+    "idea": "Используем первую строку и столбец как маркеры.",
+    "code": "class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        int m = matrix.size(), n = matrix[0].size();\n        bool firstRowZero = false, firstColZero = false;\n        \n        // Проверяем первую строку\n        for (int j = 0; j < n; j++) {\n            if (matrix[0][j] == 0) {\n                firstRowZero = true;\n                break;\n            }\n        }\n        \n        // Проверяем первый столбец\n        for (int i = 0; i < m; i++) {\n            if (matrix[i][0] == 0) {\n                firstColZero = true;\n                break;\n            }\n        }\n        \n        // Используем маркеры\n        for (int i = 1; i < m; i++) {\n            for (int j = 1; j < n; j++) {\n                if (matrix[i][j] == 0) {\n                    matrix[i][0] = 0;\n                    matrix[0][j] = 0;\n                }\n            }\n        }\n        \n        // Устанавливаем нули\n        for (int i = 1; i < m; i++) {\n            for (int j = 1; j < n; j++) {\n                if (matrix[i][0] == 0 || matrix[0][j] == 0) {\n                    matrix[i][j] = 0;\n                }\n            }\n        }\n        \n        // Обрабатываем первую строку\n        if (firstRowZero) {\n            for (int j = 0; j < n; j++) matrix[0][j] = 0;\n        }\n        \n        // Обрабатываем первый столбец\n        if (firstColZero) {\n            for (int i = 0; i < m; i++) matrix[i][0] = 0;\n        }\n    }\n};",
+    "category": "Matrix",
+    "difficulty": "Medium",
+    "filename": "129_set_matrix_zeroes.cpp"
+  },
+  {
+    "id": 130,
+    "title": "Search a 2D Matrix",
+    "description": "Найти target в отсортированной матрице (каждая строка и столбец отсортированы).",
+    "idea": "Начинаем поиск из правого верхнего угла.",
+    "code": "class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        if (matrix.empty() || matrix[0].empty()) return false;\n        \n        int m = matrix.size(), n = matrix[0].size();\n        int row = 0, col = n - 1;\n        \n        while (row < m && col >= 0) {\n            if (matrix[row][col] == target) {\n                return true;\n            } else if (matrix[row][col] > target) {\n                col--;\n            } else {\n                row++;\n            }\n        }\n        return false;\n    }\n};",
+    "category": "Matrix",
+    "difficulty": "Medium",
+    "filename": "130_search_a_2d_matrix.cpp"
+  },
+  {
+    "id": 131,
+    "title": "Search a 2D Matrix II",
+    "description": "Найти target в матрице, где строки и столбцы отсортированы по отдельности.",
+    "idea": "Аналогично предыдущей задаче, начинаем из правого верхнего угла.",
+    "code": "class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        if (matrix.empty() || matrix[0].empty()) return false;\n        \n        int m = matrix.size(), n = matrix[0].size();\n        int row = 0, col = n - 1;\n        \n        while (row < m && col >= 0) {\n            if (matrix[row][col] == target) {\n                return true;\n            } else if (matrix[row][col] > target) {\n                col--;\n            } else {\n                row++;\n            }\n        }\n        return false;\n    }\n};",
+    "category": "Matrix",
+    "difficulty": "Medium",
+    "filename": "131_search_a_2d_matrix_ii.cpp"
+  },
+  {
+    "id": 132,
+    "title": "Spiral Matrix",
+    "description": "Вернуть элементы матрицы в спиральном порядке.",
+    "idea": "Обходим матрицу по слоям с четырьмя направлениями.",
+    "code": "class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        if (matrix.empty()) return {};\n        \n        int m = matrix.size(), n = matrix[0].size();\n        vector<int> result;\n        \n        int top = 0, bottom = m - 1, left = 0, right = n - 1;\n        \n        while (top <= bottom && left <= right) {\n            // Верхняя строка\n            for (int j = left; j <= right; j++) {\n                result.push_back(matrix[top][j]);\n            }\n            top++;\n            \n            // Правый столбец\n            for (int i = top; i <= bottom; i++) {\n                result.push_back(matrix[i][right]);\n            }\n            right--;\n            \n            if (top <= bottom) {\n                // Нижняя строка\n                for (int j = right; j >= left; j--) {\n                    result.push_back(matrix[bottom][j]);\n                }\n                bottom--;\n            }\n            \n            if (left <= right) {\n                // Левый столбец\n                for (int i = bottom; i >= top; i--) {\n                    result.push_back(matrix[i][left]);\n                }\n                left++;\n            }\n        }\n        \n        return result;\n    }\n};",
+    "category": "Matrix",
+    "difficulty": "Medium",
+    "filename": "132_spiral_matrix.cpp"
+  },
+  {
+    "id": 133,
+    "title": "Spiral Matrix II",
+    "description": "Заполнить матрицу числами от 1 до n² в спиральном порядке.",
+    "idea": "Аналогично предыдущей задаче, но заполняем числами.",
+    "code": "class Solution {\npublic:\n    vector<vector<int>> generateMatrix(int n) {\n        vector<vector<int>> matrix(n, vector<int>(n));\n        \n        int top = 0, bottom = n - 1, left = 0, right = n - 1;\n        int num = 1;\n        \n        while (top <= bottom && left <= right) {\n            // Верхняя строка\n            for (int j = left; j <= right; j++) {\n                matrix[top][j] = num++;\n            }\n            top++;\n            \n            // Правый столбец\n            for (int i = top; i <= bottom; i++) {\n                matrix[i][right] = num++;\n            }\n            right--;\n            \n            if (top <= bottom) {\n                // Нижняя строка\n                for (int j = right; j >= left; j--) {\n                    matrix[bottom][j] = num++;\n                }\n                bottom--;\n            }\n            \n            if (left <= right) {\n                // Левый столбец\n                for (int i = bottom; i >= top; i--) {\n                    matrix[i][left] = num++;\n                }\n                left++;\n            }\n        }\n        \n        return matrix;\n    }\n};",
+    "category": "Matrix",
+    "difficulty": "Medium",
+    "filename": "133_spiral_matrix_ii.cpp"
+  },
+  {
+    "id": 134,
+    "title": "LRU Cache",
+    "description": "Реализовать кэш с политикой вытеснения Least Recently Used.",
+    "idea": "Используем хэш-таблицу и двусвязный список для быстрого доступа и перемещения.",
+    "code": "class LRUCache {\nprivate:\n    struct Node {\n        int key;\n        int value;\n        Node* prev;\n        Node* next;\n        Node(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}\n    };\n    \n    int capacity;\n    unordered_map<int, Node*> cache;\n    Node* head;\n    Node* tail;\n    \n    void addToHead(Node* node) {\n        node->next = head->next;\n        node->prev = head;\n        head->next->prev = node;\n        head->next = node;\n    }\n    \n    void removeNode(Node* node) {\n        node->prev->next = node->next;\n        node->next->prev = node->prev;\n    }\n    \n    void moveToHead(Node* node) {\n        removeNode(node);\n        addToHead(node);\n    }\n    \n    Node* removeTail() {\n        Node* node = tail->prev;\n        removeNode(node);\n        return node;\n    }\n    \npublic:\n    LRUCache(int capacity) : capacity(capacity) {\n        head = new Node(-1, -1);\n        tail = new Node(-1, -1);\n        head->next = tail;\n        tail->prev = head;\n    }\n    \n    int get(int key) {\n        if (!cache.count(key)) return -1;\n        \n        Node* node = cache[key];\n        moveToHead(node);\n        return node->value;\n    }\n    \n    void put(int key, int value) {\n        if (cache.count(key)) {\n            Node* node = cache[key];\n            node->value = value;\n            moveToHead(node);\n        } else {\n            Node* newNode = new Node(key, value);\n            cache[key] = newNode;\n            addToHead(newNode);\n            \n            if (cache.size() > capacity) {\n                Node* tailNode = removeTail();\n                cache.erase(tailNode->key);\n                delete tailNode;\n            }\n        }\n    }\n};",
+    "category": "Design",
+    "difficulty": "Hard",
+    "filename": "134_lru_cache.cpp"
+  }
+];
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Рендерим список задач
+            renderProblemList();
+            
+            // Загружаем первую задачу
+            if (problems.length > 0) {
+                loadProblem(problems[0]);
+                document.querySelector('.problem-item').classList.add('active');
+            }
+            
+            // Поиск
+            document.getElementById('search').addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase();
+                document.querySelectorAll('.problem-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(term) ? 'flex' : 'none';
+                });
+            });
+            
+            // Копирование кода
+            document.getElementById('copy-code').addEventListener('click', function() {
+                const code = document.getElementById('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const original = this.textContent;
+                    this.textContent = '✓ Скопировано!';
+                    setTimeout(() => this.textContent = original, 2000);
+                });
+            });
+        });
+        
+        // Рендеринг списка задач
+        function renderProblemList() {
+            const container = document.getElementById('problem-list');
+            container.innerHTML = '';
+            
+            problems.forEach(problem => {
+                const div = document.createElement('div');
+                div.className = 'problem-item';
+                div.style.display = 'flex';
+                div.style.alignItems = 'center';
+                div.innerHTML = `
+                    <div style="flex: 0 0 40px;">
+                        <span class="problem-id">${problem.id.toString().padStart(3, '0')}</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="problem-title">${problem.title}</div>
+                        <div class="problem-meta">
+                            ${problem.category}
+                            <span class="difficulty ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
+                        </div>
+                    </div>
+                `;
+                
+                div.addEventListener('click', () => {
+                    document.querySelectorAll('.problem-item').forEach(i => i.classList.remove('active'));
+                    div.classList.add('active');
+                    loadProblem(problem);
+                });
+                
+                container.appendChild(div);
+            });
+        }
+        
+        // Загрузка задачи
+        function loadProblem(problem) {
+            // Обновляем заголовок
+            document.getElementById('problem-title').textContent = problem.title;
+            document.getElementById('problem-id').textContent = `#${problem.id.toString().padStart(3, '0')}`;
+            document.getElementById('problem-category').textContent = problem.category;
+            
+            // Обновляем сложность
+            const diffElement = document.getElementById('problem-difficulty');
+            diffElement.textContent = problem.difficulty;
+            diffElement.className = 'difficulty ' + problem.difficulty.toLowerCase();
+            
+            // Обновляем описание и идею
+            document.getElementById('problem-description').textContent = problem.description;
+            document.getElementById('problem-idea').textContent = problem.idea;
+            
+            // Обновляем код
+            const codeElement = document.getElementById('code');
+            codeElement.textContent = problem.code;
+            
+            // Обновляем имя файла
+            document.getElementById('file-name').textContent = problem.filename;
+            
+            // Подсвечиваем синтаксис
+            hljs.highlightElement(codeElement);
+            
+            // Прокручиваем к началу
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
